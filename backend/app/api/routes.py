@@ -29,8 +29,28 @@ async def health_check() -> HealthResponse:
     settings = get_settings()
     logger.info("Health check endpoint accessed")
     
+    handlers = {
+        "text": analyze_text,
+        "image": analyze_image,
+    }
+    
+    models_status = {}
+    is_healthy = True
+    
+    for content_type in settings.AVAILABLE_MODELS.keys():
+        handler = handlers.get(content_type)
+        
+        if handler is not None and callable(handler):
+            models_status[content_type] = "ready"
+        else:
+            models_status[content_type] = "error_not_callable"
+            is_healthy = False
+            logger.error(f"Krytyczny brak! Handler dla typu '{content_type}' nie jest callable.")
+
+    overall_status = "ok" if is_healthy else "degraded"
+    
     return HealthResponse(
-        status="ok",
+        status=overall_status,
         service="Deepfake Detection Service",
         version=settings.APP_VERSION,
         available_models=settings.AVAILABLE_MODELS,
@@ -86,7 +106,6 @@ async def analyze(request: AnalysisRequest) -> AnalysisResponse:
             
             analysis_result = await analyze_image(image_bytes)
 
-    # 4. Globalna obsługa błędów
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except DeepfakeDetectionError as e:
@@ -101,6 +120,6 @@ async def analyze(request: AnalysisRequest) -> AnalysisResponse:
         is_deepfake=analysis_result["is_deepfake"],
         confidence=analysis_result["confidence"],
         analysis_time=analysis_result["analysis_time"],
-        model_used=model,
+        used_model=model,
         content_type=content_type,
     )

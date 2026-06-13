@@ -81,7 +81,7 @@ Content-Type: application/json
   "is_deepfake": true,
   "confidence": 0.847,
   "analysis_time": 1.234,
-  "model_used": "mock"
+  "used_model": "mock"
 }
 ```
 

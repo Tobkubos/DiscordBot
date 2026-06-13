@@ -148,7 +148,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 					`### Wyniki Analizy (${data.content_type.toUpperCase()})\n` +
 					`${statusEmoji}\n\n` +
 					`* **Pewność modelu:** \`${confidencePercent}%\`\n` +
-					`* **Użyty model:** \`${data.model_used}\`\n` +
+					`* **Użyty model:** \`${data.used_model}\`\n` +
 					`* **Czas przetwarzania:** \`${timeSec} sekund\`\n`;
 
 				await interaction.editReply({
