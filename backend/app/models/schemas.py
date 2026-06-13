@@ -38,13 +38,18 @@ AnalysisRequest = Union[
     ImageAnalysisRequest
 ]
 
-
+class ModelDetail(BaseModel):
+    model: str
+    is_deepfake: bool
+    confidence: float
+    
 class AnalysisResponse(BaseModel):
     is_deepfake: bool = Field(..., description="Whether the content is detected as a deepfake")
     confidence: float = Field(..., ge=0.0, le=1.0, description="Confidence score between 0.0 and 1.0")
     analysis_time: float = Field(..., description="Time taken for analysis in seconds")
     used_model: str = Field(..., description="The detector model that was used")
     content_type: str = Field(..., description="Type of content analyzed (text/image/video/file)")
+    details: Optional[List[ModelDetail]] = None
     
     class Config:
         json_schema_extra = {
@@ -53,7 +58,10 @@ class AnalysisResponse(BaseModel):
                 "confidence": 0.847,
                 "analysis_time": 1.234,
                 "used_model": "mock",
-                "content_type": "image"
+                "content_type": "image",
+                "details": [
+                    {"model": "mock", "is_deepfake": True, "confidence": 0.847}
+                ]
             }
         }
 
@@ -91,3 +99,4 @@ class GuildConfigSchema(BaseModel):
     active_text_model: Optional[str] = "none"
     active_image_model: Optional[str] = "none"
     log_channel_id: Optional[str] = None
+    multi_model_workflow: Optional[bool] = False

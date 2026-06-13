@@ -82,6 +82,7 @@ async function fetchGuildConfig(guildId) {
 			const data = await response.json();
 			return {
 				logChannelId: data.log_channel_id,
+				multiModelWorkflow: data.multi_model_workflow || false,
 				models: {
 					text: data.active_text_model || "none",
 					image: data.active_image_model || "none"
@@ -93,6 +94,7 @@ async function fetchGuildConfig(guildId) {
 	}
 	return {
 		logChannelId: null,
+		multiModelWorkflow: false,
 		models: {}
 	};
 }
@@ -147,15 +149,19 @@ function generateSetupView(tempConfig, availableModels) {
 		.setTimestamp()
 		.setFooter({ text: "Wybierz opcje i kliknij Zapisz ustawienia" });
 
-	embed.addFields({ 
-		name: "📂 Kanał logów (Raporty)", 
-		value: tempConfig.logChannelId ? `<#${tempConfig.logChannelId}>` : "*Wysyłanie tylko do konsoli*", 
-		inline: false 
+	embed.addFields({
+		name: "🔗 Tryb wielomodelowy (Multi-Model Workflow)",
+		value: tempConfig.multiModelWorkflow 
+			? "🟢 **Włączony** (zostaną użyte wszystkie dostępne modele, indywidualny wybór jest zablokowany)" 
+			: "🔴 **Wyłączony** (będzie używany tylko model wybrany poniżej)",
+		inline: false
 	});
 
-	// Dynamicznie dodajemy pola dla każdego formatu zwróconego przez FastAPI
 	for (const [contentType, models] of Object.entries(availableModels)) {
-		const currentSelected = tempConfig.models[contentType] || models[0] || "Brak";
+		const currentSelected = tempConfig.multiModelWorkflow 
+			? "Wszystkie (Multi-Model Workflow)" 
+			: (tempConfig.models[contentType] || models[0] || "Brak");
+
 		embed.addFields({
 			name: `⚙️ Model dla formatu: ${contentType.toUpperCase()}`,
 			value: `\`${currentSelected}\``,
@@ -172,9 +178,8 @@ function generateSetupView(tempConfig, availableModels) {
 		new ActionRowBuilder().addComponents(channelSelect)
 	];
 
-	// Dynamicznie generujemy menu rozwijane dla każdego formatu danych (tekst, obraz, wideo itp.)
 	for (const [contentType, models] of Object.entries(availableModels)) {
-		if (components.length >= 4) break; // Limit Discorda (max 5 rzędów komponentów na wiadomość)
+		if (components.length >= 4) break;
 
 		const currentSelected = tempConfig.models[contentType] || models[0];
 
@@ -187,12 +192,19 @@ function generateSetupView(tempConfig, availableModels) {
 		const modelSelect = new StringSelectMenuBuilder()
 			.setCustomId(`setup_model_${contentType}`)
 			.setPlaceholder(`Wybierz model dla ${contentType}`)
-			.addOptions(selectOptions);
+			.addOptions(selectOptions)
+			// WYszarzenie i zablokowanie wyboru, gdy włączony jest Multi-Model Workflow
+			.setDisabled(tempConfig.multiModelWorkflow);
 
 		components.push(new ActionRowBuilder().addComponents(modelSelect));
 	}
 
 	const buttonsRow = new ActionRowBuilder().addComponents(
+		new ButtonBuilder()
+			.setCustomId("setup_toggle_multimodel")
+			.setLabel(tempConfig.multiModelWorkflow ? "Tryb Wielomodelowy: WŁ" : "Tryb Wielomodelowy: WYŁ")
+			.setStyle(tempConfig.multiModelWorkflow ? ButtonStyle.Primary : ButtonStyle.Secondary)
+			.setEmoji(tempConfig.multiModelWorkflow ? "🟢" : "⚫"),
 		new ButtonBuilder()
 			.setCustomId("setup_save")
 			.setLabel("Zapisz ustawienia")
@@ -278,21 +290,45 @@ async function handleAnalysis(interaction, userContent, targetMessage = null, ex
 
 		const embedColor = data.is_deepfake ? 0xFF0000 : 0x00FF00;
 		const verdictText = data.is_deepfake ? "⚠️ Wykryto potencjalny Deepfake!" : "✅ Zawartość wydaje się oryginalna";
-		const progressBar = getProgressBar(data.confidence, data.is_deepfake);
 		const confidencePercent = (data.confidence * 100).toFixed(2);
 
 		const embed = new EmbedBuilder()
 			.setColor(embedColor)
 			.setTitle("🛡️ Wynik Analizy Treści")
 			.setDescription(`**Werdykt:** ${verdictText}`)
-			.addFields(
-				{ name: "Pewność modelu", value: `\`${confidencePercent}%\` \n${progressBar}` },
-				{ name: "Czas przetwarzania", value: `\`${data.analysis_time.toFixed(3)}s\``, inline: true },
-				{ name: "Użyty model", value: `\`${data.used_model}\``, inline: true },
-				{ name: "Format danych", value: `\`${data.content_type.toUpperCase()}\``, inline: true }
-			)
 			.setTimestamp()
 			.setFooter({ text: "Deepfake Detection Service", iconURL: client.user.displayAvatarURL() });
+
+		// DYNAMICZNE RENDEROWANIE EMBEDA: Multi-Model vs Single-Model
+		if (data.details && data.details.length > 0) {
+			// Widok dla Multi-Modelu: ładnie listujemy każdy model
+			embed.addFields({ name: "📊 Średnia pewność systemu", value: `\`${confidencePercent}%\``, inline: false });
+			
+			for (const detail of data.details) {
+				const detailBar = getProgressBar(detail.confidence, detail.is_deepfake);
+				const statusText = detail.is_deepfake ? "🟥 FAKE" : "🟩 REAL";
+				const pct = (detail.confidence * 100).toFixed(1);
+				
+				embed.addFields({
+					name: `🤖 Model: ${detail.model.split("/").pop()}`, // skracamy ścieżkę modelu
+					value: `Werdykt: **${statusText}** (Pewność: \`${pct}%\`)\n${detailBar}`,
+					inline: false
+				});
+			}
+		} else {
+			// Standardowy widok dla pojedynczego modelu
+			const progressBar = getProgressBar(data.confidence, data.is_deepfake);
+			embed.addFields(
+				{ name: "Pewność modelu", value: `\`${confidencePercent}%\` \n${progressBar}` },
+				{ name: "Użyty model", value: `\`${data.used_model}\``, inline: true }
+			);
+		}
+
+		// Dodatkowe pola wspólne
+		embed.addFields(
+			{ name: "Czas przetwarzania", value: `\`${data.analysis_time.toFixed(3)}s\``, inline: true },
+			{ name: "Format danych", value: `\`${data.content_type.toUpperCase()}\``, inline: true }
+		);
 
 		const buttonRow = new ActionRowBuilder().addComponents(
 			new ButtonBuilder()
@@ -354,6 +390,10 @@ client.on(Events.InteractionCreate, async (interaction) => {
 				return interaction.editReply({
 					content: "❌ **Błąd konfiguracji:** Nie udało się nawiązać połączenia z backendem (FastAPI). Uruchom swój backend w Pythonie i spróbuj ponownie!"
 				});
+			}
+
+			if (currentConfig.multiModelWorkflow === undefined) {
+				currentConfig.multiModelWorkflow = false;
 			}
 
 			for (const [contentType, models] of Object.entries(availableModels)) {
@@ -445,7 +485,8 @@ client.on(Events.InteractionCreate, async (interaction) => {
 						body: JSON.stringify({
 							active_text_model: tempSession.config.models?.text || "none",
 							active_image_model: tempSession.config.models?.image || "none",
-							log_channel_id: tempSession.config.logChannelId || null
+							log_channel_id: tempSession.config.logChannelId || null,
+							multi_model_workflow: tempSession.config.multiModelWorkflow || false
 						})
 					});
 
@@ -560,6 +601,14 @@ client.on(Events.InteractionCreate, async (interaction) => {
 					.setDescription(`Użytkownik **${interaction.user.tag}** (ID: \`${interaction.user.id}\`) potwierdził poprawność raportu.`);
 				
 				await sendLogToDiscord(interaction.guild, logEmbed);
+			}
+		}
+
+		if (interaction.customId === "setup_toggle_multimodel") {
+			const tempSession = activeSetupSessions.get(guildId);
+			if (tempSession) {
+				tempSession.config.multiModelWorkflow = !tempSession.config.multiModelWorkflow;
+				await interaction.update(generateSetupView(tempSession.config, tempSession.availableModels));
 			}
 		}
 	}

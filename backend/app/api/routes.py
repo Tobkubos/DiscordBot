@@ -99,7 +99,7 @@ async def save_discord_guild_setup(guild_id: str, payload: GuildConfigSchema):
     return {
         "status": "success",
         "message": f"Konfiguracja dla serwera {guild_id} została zapisana.",
-        "config": config_dict
+        "config": config_dict,
     }
 
 @router.get("/guilds/{guild_id}/config", tags=["Setup"])
@@ -111,7 +111,8 @@ async def get_discord_guild_config(guild_id: str):
     return {
         "active_text_model": guild_config.get("active_text_model", "none"),
         "active_image_model": guild_config.get("active_image_model", "none"),
-        "log_channel_id": guild_config.get("log_channel_id", None)
+        "log_channel_id": guild_config.get("log_channel_id", None),
+        "multi_model_workflow": guild_config.get("multi_model_workflow", False)
     }
 
 async def _execute_analysis(payload: AnalysisRequest, guild_id: str, settings) -> dict:
@@ -222,4 +223,5 @@ async def analyze(request: Request, payload: AnalysisRequest) -> AnalysisRespons
         analysis_time=analysis_result["analysis_time"],
         used_model=used_model,
         content_type=content_type,
+        details=analysis_result.get("details"),
     )
