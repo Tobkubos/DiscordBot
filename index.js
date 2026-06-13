@@ -32,13 +32,6 @@ const client = new Client({
 
 const API_URL = process.env.API_URL || "http://127.0.0.1:8000";
 
-// Domyślne modele zapasowe (używane gdyby backend był wyłączony podczas konfiguracji)
-const FALLBACK_MODELS = {
-	text: ["yaya36095/xlm-roberta-text-detector", "mock"],
-	image: ["capcheck/ai-image-detection", "mock"]
-};
-
-// Pamięć podręczna przechowuje konfigurację oraz pobrane dynamicznie modele
 const activeSetupSessions = new Map();
 
 client.once(Events.ClientReady, async () => {
@@ -68,27 +61,20 @@ client.once(Events.ClientReady, async () => {
 	}
 });
 
-// Funkcja pobierająca aktualne modele bezpośrednio z FastAPI w czasie rzeczywistym
+// Pobieranie modeli bezpośrednio z FastAPI
 async function fetchAvailableModels() {
 	try {
 		const response = await fetch(API_URL);
 		if (response.ok) {
 			const data = await response.json();
 			if (data.available_models) {
-				const textModels = data.available_models.text || [];
-				const imageModels = data.available_models.image || [];
-
-				// Upewniamy się, że zawsze mamy opcję testową "mock"
-				if (!textModels.includes("mock")) textModels.push("mock");
-				if (!imageModels.includes("mock")) imageModels.push("mock");
-
-				return { text: textModels, image: imageModels };
+				return data.available_models;
 			}
 		}
 	} catch (err) {
-		console.warn("Nie udało się pobrać modeli z API (użyto modeli zapasowych):", err.message);
+		console.error("Błąd połączenia z FastAPI:", err.message);
 	}
-	return FALLBACK_MODELS;
+	return null;
 }
 
 function preparePayload(input) {
@@ -142,60 +128,59 @@ function getProgressBar(confidence, isDeepfake) {
 	return blockEmoji.repeat(filledBlocks) + "⬛".repeat(emptyBlocks);
 }
 
-// ZMIANA: Funkcja przyjmuje teraz pobrane dynamicznie modele jako drugi parametr
+// CAŁKOWICIE DYNAMICZNY GENERATOR WIDOKU SETUPU
 function generateSetupView(tempConfig, availableModels) {
 	const embed = new EmbedBuilder()
 		.setColor(0x5865F2)
 		.setTitle("⚙️ Konfiguracja Systemu Detekcji")
-		.setDescription("Wybierz kanał do wysyłania logów oraz aktywne modele analizy z menu poniżej.")
-		.addFields(
-			{ 
-				name: "📂 Kanał logów (Raporty)", 
-				value: tempConfig.logChannelId ? `<#${tempConfig.logChannelId}>` : "*Wysyłanie tylko do konsoli*", 
-				inline: false 
-			},
-			{ 
-				name: "📝 Model tekstowy", 
-				value: `\`${tempConfig.textModel}\``, 
-				inline: true 
-			},
-			{ 
-				name: "🖼️ Model obrazów", 
-				value: `\`${tempConfig.imageModel}\``, 
-				inline: true 
-			}
-		)
-		.setFooter({ text: "Wybierz opcje i kliknij Zapisz ustawienia" })
-		.setTimestamp();
+		.setDescription("Wybierz kanał do wysyłania logów oraz aktywne modele dla poszczególnych formatów danych.")
+		.setTimestamp()
+		.setFooter({ text: "Wybierz opcje i kliknij Zapisz ustawienia" });
+
+	embed.addFields({ 
+		name: "📂 Kanał logów (Raporty)", 
+		value: tempConfig.logChannelId ? `<#${tempConfig.logChannelId}>` : "*Wysyłanie tylko do konsoli*", 
+		inline: false 
+	});
+
+	// Dynamicznie dodajemy pola dla każdego formatu zwróconego przez FastAPI
+	for (const [contentType, models] of Object.entries(availableModels)) {
+		const currentSelected = tempConfig.models[contentType] || models[0] || "Brak";
+		embed.addFields({
+			name: `⚙️ Model dla formatu: ${contentType.toUpperCase()}`,
+			value: `\`${currentSelected}\``,
+			inline: true
+		});
+	}
 
 	const channelSelect = new ChannelSelectMenuBuilder()
 		.setCustomId("setup_log_channel")
 		.setPlaceholder("Wybierz kanał dla raportów")
 		.addChannelTypes(ChannelType.GuildText);
 
-	// DYNAMICZNE mapowanie modeli tekstowych z API
-	const textOptions = availableModels.text.map(model => ({
-		label: model === "mock" ? "Mock (Model testowy)" : model,
-		value: model,
-		default: tempConfig.textModel === model
-	}));
+	const components = [
+		new ActionRowBuilder().addComponents(channelSelect)
+	];
 
-	const textModelSelect = new StringSelectMenuBuilder()
-		.setCustomId("setup_text_model")
-		.setPlaceholder("Wybierz model tekstu")
-		.addOptions(textOptions);
+	// Dynamicznie generujemy menu rozwijane dla każdego formatu danych (tekst, obraz, wideo itp.)
+	for (const [contentType, models] of Object.entries(availableModels)) {
+		if (components.length >= 4) break; // Limit Discorda (max 5 rzędów komponentów na wiadomość)
 
-	// DYNAMICZNE mapowanie modeli graficznych z API
-	const imageOptions = availableModels.image.map(model => ({
-		label: model === "mock" ? "Mock (Model testowy)" : model,
-		value: model,
-		default: tempConfig.imageModel === model
-	}));
+		const currentSelected = tempConfig.models[contentType] || models[0];
 
-	const imageModelSelect = new StringSelectMenuBuilder()
-		.setCustomId("setup_image_model")
-		.setPlaceholder("Wybierz model obrazów")
-		.addOptions(imageOptions);
+		const selectOptions = models.map(model => ({
+			label: model,
+			value: model,
+			default: currentSelected === model
+		}));
+
+		const modelSelect = new StringSelectMenuBuilder()
+			.setCustomId(`setup_model_${contentType}`)
+			.setPlaceholder(`Wybierz model dla ${contentType}`)
+			.addOptions(selectOptions);
+
+		components.push(new ActionRowBuilder().addComponents(modelSelect));
+	}
 
 	const buttonsRow = new ActionRowBuilder().addComponents(
 		new ButtonBuilder()
@@ -210,14 +195,11 @@ function generateSetupView(tempConfig, availableModels) {
 			.setEmoji("❌")
 	);
 
+	components.push(buttonsRow);
+
 	return {
 		embeds: [embed],
-		components: [
-			new ActionRowBuilder().addComponents(channelSelect),
-			new ActionRowBuilder().addComponents(textModelSelect),
-			new ActionRowBuilder().addComponents(imageModelSelect),
-			buttonsRow
-		]
+		components: components
 	};
 }
 
@@ -243,13 +225,13 @@ async function handleAnalysis(interaction, userContent, targetMessage = null) {
 	try {
 		const { type, payload } = preparePayload(userContent);
 		
-		if (type === "text") {
-			payload.model = serverConfig.textModel;
-		} else if (type === "image") {
-			payload.model = serverConfig.imageModel;
+		// DYNAMICZNE POBIERANIE MODELU Z PLIKU KONFIGURACYJNEGO DLA DANEGO FORMATU (np. text, image, video)
+		const chosenModel = serverConfig.models[type];
+		if (chosenModel) {
+			payload.model = chosenModel;
 		}
 
-		console.log(`Wysyłanie zapytania typu: ${type} do API z modelem: ${payload.model}...`);
+		console.log(`Wysyłanie zapytania typu: ${type} do API z modelem: ${payload.model || "domyślny"}...`);
 
 		const response = await fetch(`${API_URL}/analyze`, {
 			method: "POST",
@@ -355,18 +337,30 @@ client.on(Events.InteractionCreate, async (interaction) => {
 			await interaction.showModal(modal);
 		}
 
-		// ZMIANA: Pobieranie modeli z API na żywo przed pokazaniem setupu
 		if (interaction.commandName === "setup") {
 			const guildId = interaction.guildId;
 			const currentConfig = loadConfig(guildId);
 
-			// Informujemy Discord, że pobieramy konfigurację z API
 			await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
 
 			// Pobieramy aktywne modele bezpośrednio z FastAPI
 			const availableModels = await fetchAvailableModels();
 
-			// Zapisujemy w sesji zarówno konfigurację, jak i pobrane modele
+			// Jeśli backend nie działa, natychmiast przerywamy i wyświetlamy błąd
+			if (!availableModels || Object.keys(availableModels).length === 0) {
+				return interaction.editReply({
+					content: "❌ **Błąd konfiguracji:** Nie udało się nawiązać połączenia z backendem (FastAPI). Uruchom swój backend w Pythonie i spróbuj ponownie!"
+				});
+			}
+
+			// Inicjalizujemy domyślne modele w konfiguracji, jeśli nie były wcześniej ustawione
+			for (const [contentType, models] of Object.entries(availableModels)) {
+				if (!currentConfig.models[contentType] && models.length > 0) {
+					currentConfig.models[contentType] = models[0];
+				}
+			}
+
+			// Zapisujemy sesję z konfiguracją oraz pobranymi modelami
 			activeSetupSessions.set(guildId, { 
 				config: { ...currentConfig }, 
 				availableModels 
@@ -377,7 +371,6 @@ client.on(Events.InteractionCreate, async (interaction) => {
 		}
 	}
 
-	// OBSŁUGA ZMIANY KANAŁU LOGÓW
 	if (interaction.isChannelSelectMenu()) {
 		if (interaction.customId === "setup_log_channel") {
 			const guildId = interaction.guildId;
@@ -389,18 +382,18 @@ client.on(Events.InteractionCreate, async (interaction) => {
 		}
 	}
 
-	// OBSŁUGA ZMIANY MODELI
+	// OBSŁUGA DYNAMICZNYCH MENU ROZWIJANYCH DLA MODELI
 	if (interaction.isStringSelectMenu()) {
 		const guildId = interaction.guildId;
 		const tempSession = activeSetupSessions.get(guildId);
 		
 		if (tempSession) {
-			if (interaction.customId === "setup_text_model") {
-				tempSession.config.textModel = interaction.values[0];
-			} else if (interaction.customId === "setup_image_model") {
-				tempSession.config.imageModel = interaction.values[0];
+			// Sprawdzamy czy zmieniany jest model (szukamy przedrostka setup_model_)
+			if (interaction.customId.startsWith("setup_model_")) {
+				const contentType = interaction.customId.replace("setup_model_", "");
+				tempSession.config.models[contentType] = interaction.values[0];
+				await interaction.update(generateSetupView(tempSession.config, tempSession.availableModels));
 			}
-			await interaction.update(generateSetupView(tempSession.config, tempSession.availableModels));
 		}
 	}
 
