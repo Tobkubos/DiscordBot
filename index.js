@@ -53,6 +53,10 @@ client.once(Events.ClientReady, async () => {
 			{
 				name: "Wykryj deepfake",
 				type: ApplicationCommandType.Message
+			},
+			{
+				name: "Weryfikacja faktów", // <--- TA LINIA
+				type: ApplicationCommandType.Message
 			}
 		]);
 		console.log("Pomyślnie zarejestrowano komendy (/detect, /setup oraz menu kontekstowe)");
@@ -306,6 +310,8 @@ async function handleAnalysis(interaction, userContent, targetMessage = null, ex
 	}
 }
 
+//funkcja kupczaka
+
 client.on(Events.InteractionCreate, async (interaction) => {
 	
 	if (interaction.isChatInputCommand()) {
@@ -410,8 +416,23 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
 			await handleAnalysis(interaction, contentToAnalyze, targetMessage, explicitContentType);
 		}
-	}
+					if (interaction.commandName === "Weryfikacja faktów") {
+			const targetMessage = interaction.targetMessage;
+			const contentToVerify = targetMessage.content;
 
+			if (!contentToVerify || contentToVerify.trim().length < 10) {
+				return interaction.reply({
+					content: "❌ Wiadomość musi mieć przynajmniej 10 znaków tekstu, aby można było ją zweryfikować.",
+					flags: [MessageFlags.Ephemeral]
+				});
+			}
+
+			await handleFactCheck(interaction, contentToVerify);
+		}
+	
+	}
+	//koniec funkcji kupczaka
+	
 	if (interaction.isModalSubmit()) {
 		if (interaction.customId === "detectModal") {
 			const userContent = interaction.fields.getTextInputValue("detectInput");
