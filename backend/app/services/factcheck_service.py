@@ -80,23 +80,22 @@ async def analyze_with_gemini_grounding(statement: str) -> Dict[str, Any]:
         
     genai.configure(api_key=api_key)
     
+    # Zmieniamy prompt na standardowy tekst zamiast JSON-a, aby uwolnić grounding_chunks w API Google
     prompt = f"""Jesteś zaawansowanym asystentem do weryfikacji faktów (fact-checking).
-Przeanalizuj poniższe stwierdzenie, korzystając z wyszukiwarki Google (masz do niej dostęp jako narzędzie), aby zweryfikować jego prawdziwość w czasie rzeczywistym.
+Przeanalizuj poniższe stwierdzenie, korzystając z wyszukiwarki Google, aby zweryfikować jego prawdziwość w czasie rzeczywistym.
 
 STWIERDZENIE DO WERYFIKACJI:
 "{statement}"
 
-Twoja odpowiedź musi być wyłącznie poprawnym obiektem JSON (bez bloków kodu typu ```json, bez dodatkowego tekstu na początku ani na końcu). 
-Format JSON:
-{{
-  "verdict": "PRAWDA" lub "FAŁSZ" lub "SPORNE",
-  "explanation": "Zwięzłe (2-4 zdania), merytoryczne i obiektywne uzasadnienie werdyktu w języku polskim, wyjaśniające co mówią fakty."
-}}
+Twoja odpowiedź musi ściśle odpowiadać poniższemu szablonowi (nie dodawaj żadnych innych komentarzy ani wstępów):
 
-Wskazówki do werdyktu:
-- "PRAWDA": Najnowsze fakty i wiarygodne źródła w pełni potwierdzają to stwierdzenie.
-- "FAŁSZ": Fakty jednoznacznie zaprzeczają temu stwierdzeniu.
-- "SPORNE": Informacje w sieci są sprzeczne, jest to kwestia opinii lub brak jednoznacznych dowodów.
+VERDICT: [Wpisz PRAWDA, FAŁSZ lub SPORNE]
+EXPLANATION: [Wpisz zwięzłe (2-4 zdania), merytoryczne i obiektywne uzasadnienie werdyktu w języku polskim, wyjaśniające co mówią najnowsze fakty.]
+
+Zasady oceny:
+- VERDICT: PRAWDA (wiarygodne źródła w pełni potwierdzają to stwierdzenie)
+- VERDICT: FAŁSZ (fakty jednoznacznie zaprzeczają temu stwierdzeniu)
+- VERDICT: SPORNE (informacje są sprzeczne, opinie podzielone lub brak jednoznacznych dowodów)
 """
 
     try:
@@ -119,13 +118,18 @@ Wskazówki do werdyktu:
         raw_text = response.text.strip()
         logger.info(f"Surowa odpowiedź Gemini: {raw_text}")
         
-        if raw_text.startswith("```"):
-            match = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", raw_text, re.DOTALL)
-            if match:
-                raw_text = match.group(1)
-                
-        result_json = json.loads(raw_text)
-        
+        # Parsowanie werdyktu za pomocą Regex
+        verdict = "SPORNE"
+        verdict_match = re.search(r"VERDICT:\s*(PRAWDA|FAŁSZ|SPORNE)", raw_text, re.IGNORECASE)
+        if verdict_match:
+            verdict = verdict_match.group(1).upper()
+            
+        # Parsowanie uzasadnienia za pomocą Regex (pobiera wszystko po EXPLANATION:)
+        explanation = "Nie udało się wygenerować uzasadnienia."
+        explanation_match = re.search(r"EXPLANATION:\s*(.*)", raw_text, re.DOTALL | re.IGNORECASE)
+        if explanation_match:
+            explanation = explanation_match.group(1).strip()
+            
         sources = []
         candidate = response.candidates[0]
         metadata = getattr(candidate, "grounding_metadata", None)
@@ -147,9 +151,9 @@ Wskazówki do werdyktu:
                     })
                     
         return {
-            "verdict": result_json.get("verdict", "SPORNE"),
-            "explanation": result_json.get("explanation", "Brak uzasadnienia."),
-            "confidence": 0.95 if result_json.get("verdict") in ["PRAWDA", "FAŁSZ"] else 0.5,
+            "verdict": verdict,
+            "explanation": explanation,
+            "confidence": 0.95 if verdict in ["PRAWDA", "FAŁSZ"] else 0.5,
             "sources": sources
         }
         
