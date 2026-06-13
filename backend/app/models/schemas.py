@@ -5,6 +5,7 @@ from typing import Union, Literal, Optional, Dict, List
 class TextAnalysisRequest(BaseModel):
     content_type: Literal["text"]
     text: str = Field(..., description="Text content to analyze for deepfake detection")
+    guild_id: str = Field(..., description="ID serwera Discord, z którego pochodzi żądanie")
     
     class Config:
         json_schema_extra = {
@@ -18,6 +19,7 @@ class TextAnalysisRequest(BaseModel):
 class ImageAnalysisRequest(BaseModel):
     content_type: Literal["image"]
     image_url: HttpUrl = Field(..., description="URL of the image to analyze")
+    guild_id: str = Field(..., description="ID serwera Discord, z którego pochodzi żądanie")
     
     class Config:
         json_schema_extra = {
@@ -28,37 +30,10 @@ class ImageAnalysisRequest(BaseModel):
         }
 
 
-class VideoAnalysisRequest(BaseModel):
-    content_type: Literal["video"]
-    video_url: HttpUrl = Field(..., description="URL of the video to analyze")
-    
-    class Config:
-        json_schema_extra = {
-            "example": {
-                "content_type": "video",
-                "video_url": "https://example.com/video.mp4"
-            }
-        }
-
-
-class FileAnalysisRequest(BaseModel):
-    content_type: Literal["file"]
-    file_url: HttpUrl = Field(..., description="URL of the file to analyze")
-    
-    class Config:
-        json_schema_extra = {
-            "example": {
-                "content_type": "file",
-                "file_url": "https://example.com/video.mp4"
-            }
-        }
-
 
 AnalysisRequest = Union[
     TextAnalysisRequest,
-    ImageAnalysisRequest,
-    VideoAnalysisRequest,
-    FileAnalysisRequest,
+    ImageAnalysisRequest
 ]
 
 
