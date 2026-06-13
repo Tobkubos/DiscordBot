@@ -18,7 +18,7 @@ class QueueService:
     def __init__(self):
         """Initialize the queue service."""
         self.settings = get_settings()
-        self.redis_client = Optional[redis.Redis] = None
+        self.redis_client = None
         
         if self.settings.REDIS_ENABLED:
             self._initialize_redis()
