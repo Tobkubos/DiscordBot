@@ -20,8 +20,6 @@ import {
   ChannelType
 } from "discord.js";
 
-import { loadConfig, saveConfig } from "./configManager.js";
-
 const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds,
@@ -75,6 +73,28 @@ async function fetchAvailableModels() {
 		console.error("Błąd połączenia z FastAPI:", err.message);
 	}
 	return null;
+}
+
+async function fetchGuildConfig(guildId) {
+	try {
+		const response = await fetch(`${API_URL}/guilds/${guildId}/config`);
+		if (response.ok) {
+			const data = await response.json();
+			return {
+				logChannelId: data.log_channel_id,
+				models: {
+					text: data.active_text_model || "none",
+					image: data.active_image_model || "none"
+				}
+			};
+		}
+	} catch (err) {
+		console.error(`[CONFIG ERROR] Błąd pobierania konfiguracji dla gildii ${guildId}:`, err.message);
+	}
+	return {
+		logChannelId: null,
+		models: {}
+	};
 }
 
 function preparePayload(input, explicitContentType = null) {
@@ -194,7 +214,7 @@ function generateSetupView(tempConfig, availableModels) {
 }
 
 async function sendLogToDiscord(guild, embedToSend) {
-	const config = loadConfig(guild.id);
+	const config = await fetchGuildConfig(guild.id);
 	if (!config.logChannelId) return;
 
 	try {
@@ -214,12 +234,7 @@ async function handleAnalysis(interaction, userContent, targetMessage = null, ex
 
 	try {
 		const { type, payload } = preparePayload(userContent, explicitContentType);
-		
-		// DYNAMICZNE POBIERANIE MODELU Z PLIKU KONFIGURACYJNEGO DLA DANEGO FORMATU (np. text, image, video)
-		const chosenModel = serverConfig.models[type];
-		if (chosenModel) {
-			payload.model = chosenModel;
-		}
+		payload.guild_id = interaction.guildId;
 
 		console.log(`Wysyłanie zapytania typu: ${type} do API z modelem: ${payload.model || "domyślny"}...`);
 
@@ -329,28 +344,25 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
 		if (interaction.commandName === "setup") {
 			const guildId = interaction.guildId;
-			const currentConfig = loadConfig(guildId);
-
+            
 			await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
 
-			// Pobieramy aktywne modele bezpośrednio z FastAPI
+			// Pobieramy konfigurację bezpośrednio z FastAPI
+			const currentConfig = await fetchGuildConfig(guildId);
 			const availableModels = await fetchAvailableModels();
 
-			// Jeśli backend nie działa, natychmiast przerywamy i wyświetlamy błąd
 			if (!availableModels || Object.keys(availableModels).length === 0) {
 				return interaction.editReply({
 					content: "❌ **Błąd konfiguracji:** Nie udało się nawiązać połączenia z backendem (FastAPI). Uruchom swój backend w Pythonie i spróbuj ponownie!"
 				});
 			}
 
-			// Inicjalizujemy domyślne modele w konfiguracji, jeśli nie były wcześniej ustawione
 			for (const [contentType, models] of Object.entries(availableModels)) {
 				if (!currentConfig.models[contentType] && models.length > 0) {
 					currentConfig.models[contentType] = models[0];
 				}
 			}
 
-			// Zapisujemy sesję z konfiguracją oraz pobranymi modelami
 			activeSetupSessions.set(guildId, { 
 				config: { ...currentConfig }, 
 				availableModels 
@@ -432,8 +444,9 @@ client.on(Events.InteractionCreate, async (interaction) => {
 							"Content-Type": "application/json"
 						},
 						body: JSON.stringify({
-							active_text_model: tempSession.config.active_text_model || "none",
-							log_channel_id: tempSession.config.log_channel_id || null
+							active_text_model: tempSession.config.models?.text || "none",
+							active_image_model: tempSession.config.models?.image || "none",
+							log_channel_id: tempSession.config.logChannelId || null
 						})
 					});
 
