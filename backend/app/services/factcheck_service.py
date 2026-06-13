@@ -5,6 +5,8 @@ import os
 from pathlib import Path
 from typing import Dict, Any, List
 import google.generativeai as genai
+# Import narzędzia do bezpiecznego dekodowania obiektów Google Protobuf
+from google.protobuf.json_format import MessageToDict
 
 logger = logging.getLogger(__name__)
 
@@ -63,7 +65,6 @@ async def analyze_with_gemini_grounding(statement: str) -> Dict[str, Any]:
     Analizuje stwierdzenie, automatycznie przeszukując internet za pomocą 
     wbudowanego w Gemini narzędzia Google Search Grounding.
     """
-    # Upewniamy się, że środowisko jest załadowane
     load_env_fallback()
     
     api_key = os.getenv("GEMINI_API_KEY")
@@ -129,12 +130,19 @@ Wskazówki do werdyktu:
         candidate = response.candidates[0]
         metadata = getattr(candidate, "grounding_metadata", None)
         
-        if metadata and getattr(metadata, "grounding_chunks", None):
-            for chunk in metadata.grounding_chunks:
-                if chunk.web:
+        if metadata:
+            # Konwertujemy skomplikowany obiekt Google Protobuf na zwykły słownik Pythona, 
+            # zachowując oryginalne nazwy pól (snake_case)
+            metadata_dict = MessageToDict(metadata._pb, preserving_proto_field_name=True)
+            logger.info(f"Zdekodowane metadane wyszukiwania: {metadata_dict}")
+            
+            chunks = metadata_dict.get("grounding_chunks", [])
+            for chunk in chunks:
+                web = chunk.get("web", {})
+                if web:
                     sources.append({
-                        "title": chunk.web.title,
-                        "url": chunk.web.uri,
+                        "title": web.get("title", "Źródło bez tytułu"),
+                        "url": web.get("uri", ""),
                         "snippet": "Źródło zweryfikowane bezpośrednio przez wyszukiwarkę Google."
                     })
                     
