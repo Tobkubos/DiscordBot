@@ -3,10 +3,10 @@ import path from "path";
 
 const filePath = path.resolve("./guildConfigs.json");
 
+// Domyślne ustawienia (teraz modele są zapisywane dynamicznie w obiekcie)
 export const DEFAULT_CONFIG = {
 	logChannelId: null,
-	textModel: "yaya36095/xlm-roberta-text-detector",
-	imageModel: "capcheck/ai-image-detection"
+	models: {} 
 };
 
 export function loadConfig(guildId) {
@@ -15,7 +15,13 @@ export function loadConfig(guildId) {
 	}
 	try {
 		const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-		return data[guildId] || { ...DEFAULT_CONFIG };
+		const config = data[guildId] || { ...DEFAULT_CONFIG };
+		
+		// Upewniamy się, że obiekt "models" zawsze istnieje
+		if (!config.models) {
+			config.models = {};
+		}
+		return config;
 	} catch (err) {
 		console.error("Błąd podczas odczytu konfiguracji:", err);
 		return { ...DEFAULT_CONFIG };

@@ -1,0 +1,9 @@
+{
+  "1515307986963267595": {
+    "logChannelId": "1515373138937123007",
+    "models": {
+      "text": "yaya36095/xlm-roberta-text-detector",
+      "image": "capcheck/ai-image-detection"
+    }
+  }
+}
