@@ -225,3 +225,6 @@ async def analyze(request: Request, payload: AnalysisRequest) -> AnalysisRespons
         content_type=content_type,
         details=analysis_result.get("details"),
     )
+
+from app.api.factcheck_router import router as factcheck_router
+router.include_router(factcheck_router) #kupczak tu był 
