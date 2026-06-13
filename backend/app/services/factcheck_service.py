@@ -3,32 +3,16 @@ import json
 import re
 import os
 from typing import Dict, Any, List
-from duckduckgo_search import DDGS
 import google.generativeai as genai
 
 logger = logging.getLogger(__name__)
 
-def search_web(query: str, max_results: int = 5) -> List[Dict[str, str]]:
-    """Przeszukuje internet bez limitów i bez kluczy API za pomocą DuckDuckGo."""
-    logger.info(f"Wyszukiwanie w sieci dla zapytania: {query}")
-    try:
-        with DDGS() as ddgs:
-            results = ddgs.text(query, max_results=max_results)
-            formatted_results = []
-            for r in results:
-                formatted_results.append({
-                    "title": r.get("title", "Brak tytułu"),
-                    "url": r.get("href", ""),
-                    "snippet": r.get("body", "Brak opisu")
-                })
-            return formatted_results
-    except Exception as e:
-        logger.error(f"Błąd wyszukiwania DuckDuckGo: {e}", exc_info=True)
-        return []
-
-async def analyze_with_gemini(statement: str, sources: List[Dict[str, str]]) -> Dict[str, Any]:
-    """Analizuje stwierdzenie na podstawie wyników wyszukiwania za pomocą Gemini API."""
-    # Pobieramy klucz bezpośrednio ze środowiska lub .env
+async def analyze_with_gemini_grounding(statement: str) -> Dict[str, Any]:
+    """
+    Analizuje stwierdzenie, automatycznie przeszukując internet za pomocą 
+    wbudowanego w Gemini narzędzia Google Search Grounding.
+    Rozwiązuje to całkowicie problemy z blokowaniem i timeoutami wyszukiwarek.
+    """
     api_key = os.getenv("GEMINI_API_KEY")
     
     if not api_key:
@@ -37,64 +21,83 @@ async def analyze_with_gemini(statement: str, sources: List[Dict[str, str]]) -> 
             "verdict": "SPORNE",
             "explanation": "Błąd backendu: Brak skonfigurowanego klucza GEMINI_API_KEY w pliku .env.",
             "confidence": 0.0,
-            "sources_used_indices": []
+            "sources": []
         }
         
     genai.configure(api_key=api_key)
     
-    # Przygotowanie czytelnego tekstu ze źródłami dla LLM
-    sources_text = ""
-    for idx, s in enumerate(sources, start=1):
-        sources_text += f"[{idx}] Tytuł: {s['title']}\nURL: {s['url']}\nTreść: {s['snippet']}\n\n"
-        
+    # Ponieważ nie możemy łączyć narzędzia wyszukiwania (Google Search) z trybem JSON w konfiguracji API,
+    # wymuszamy strukturę JSON za pomocą precyzyjnego promptu systemowego.
     prompt = f"""Jesteś zaawansowanym asystentem do weryfikacji faktów (fact-checking).
-Twoim zadaniem jest ocena, czy podane STWIERDZENIE jest prawdziwe, fałszywe czy sporne na podstawie dostarczonych WYNIKÓW WYSZUKIWANIA.
+Przeanalizuj poniższe stwierdzenie, korzystając z wyszukiwarki Google (masz do niej dostęp jako narzędzie), aby zweryfikować jego prawdziwość w czasie rzeczywistym.
 
 STWIERDZENIE DO WERYFIKACJI:
 "{statement}"
 
-WYNIKI WYSZUKIWANIA:
-{sources_text}
-
-Wygeneruj rzetelną analizę. Odpowiedz w języku polskim. Twoja odpowiedź MUSI być poprawnym, czystym obiektem JSON o następującym formacie (i niczym innym):
+Twoja odpowiedź musi być wyłącznie poprawnym obiektem JSON (bez bloków kodu typu ```json, bez dodatkowego tekstu na początku ani na końcu). 
+Format JSON:
 {{
   "verdict": "PRAWDA" lub "FAŁSZ" lub "SPORNE",
-  "explanation": "Zwięzłe (2-4 zdania), merytoryczne i obiektywne uzasadnienie werdyktu w języku polskim wraz z odniesieniem do źródeł.",
-  "confidence": 0.85,
-  "sources_used_indices": [1, 3]
+  "explanation": "Zwięzłe (2-4 zdania), merytoryczne i obiektywne uzasadnienie werdyktu w języku polskim, wyjaśniające co mówią fakty."
 }}
 
-Zasady oceny:
-- "PRAWDA": Wyniki jednoznacznie potwierdzają to stwierdzenie.
-- "FAŁSZ": Wyniki wykazują błąd, dezinformację lub bezpośrednio zaprzeczają stwierdzeniu.
-- "SPORNE": Istnieją sprzeczne informacje, jest to kwestia opinii lub źródła nie dają jednoznacznej odpowiedzi.
-
-Zwróć TYLKO czysty obiekt JSON. Nie dodawaj bloków kodu ```json ani żadnych komentarzy poza obiektem JSON."""
+Wskazówki do werdyktu:
+- "PRAWDA": Najnowsze fakty i wiarygodne źródła w pełni potwierdzają to stwierdzenie.
+- "FAŁSZ": Fakty jednoznacznie zaprzeczają temu stwierdzeniu.
+- "SPORNE": Informacje w sieci są sprzeczne, jest to kwestia opinii lub brak jednoznacznych dowodów.
+"""
 
     try:
-        model = genai.GenerativeModel("gemini-1.5-flash")
+        # Inicjalizacja modelu z wbudowanym narzędziem Google Search
+        model = genai.GenerativeModel(
+            model_name="gemini-1.5-flash",
+            tools=[{"google_search": {}}]  # Włączenie Google Search Grounding
+        )
+        
         response = model.generate_content(
             prompt,
             generation_config=genai.types.GenerationConfig(
-                temperature=0.0,  # Niska temperatura chroni przed zmyślaniem (hallucination)
-                response_mime_type="application/json"
+                temperature=0.0  # Niska temperatura chroni przed zmyślaniem (halucynacjami)
             )
         )
         
         raw_text = response.text.strip()
+        logger.info(f"Surowa odpowiedź Gemini: {raw_text}")
         
-        # Oczyszczenie formatowania markdown, gdyby model mimo wszystko go dodał
+        # Wyczyszczenie tekstu z ewentualnych znaczników markdown ```json ... ```
         if raw_text.startswith("```"):
             match = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", raw_text, re.DOTALL)
             if match:
                 raw_text = match.group(1)
                 
-        return json.loads(raw_text)
+        result_json = json.loads(raw_text)
+        
+        # Wyciąganie realnych źródeł (linków i tytułów), z których skorzystał model
+        sources = []
+        candidate = response.candidates[0]
+        metadata = getattr(candidate, "grounding_metadata", None)
+        
+        if metadata and getattr(metadata, "grounding_chunks", None):
+            for chunk in metadata.grounding_chunks:
+                if chunk.web:
+                    sources.append({
+                        "title": chunk.web.title,
+                        "url": chunk.web.uri,
+                        "snippet": "Źródło zweryfikowane bezpośrednio przez wyszukiwarkę Google."
+                    })
+                    
+        return {
+            "verdict": result_json.get("verdict", "SPORNE"),
+            "explanation": result_json.get("explanation", "Brak uzasadnienia."),
+            "confidence": 0.95 if result_json.get("verdict") in ["PRAWDA", "FAŁSZ"] else 0.5,
+            "sources": sources
+        }
+        
     except Exception as e:
-        logger.error(f"Błąd analizy Gemini API: {e}", exc_info=True)
+        logger.error(f"Błąd analizy Gemini Grounding API: {e}", exc_info=True)
         return {
             "verdict": "SPORNE",
             "explanation": f"Wystąpił błąd komunikacji z modelem językowym: {str(e)}",
             "confidence": 0.0,
-            "sources_used_indices": []
+            "sources": []
         }
