@@ -346,6 +346,7 @@ async function handleAnalysis(
 	try {
 		const { type, payload } = preparePayload(userContent, explicitContentType);
 		payload.guild_id = interaction.guildId;
+		payload.user_id = interaction.user.id;
 
 		console.log(
 			`Wysyłanie zapytania typu: ${type} do API z modelem: ${payload.model || "domyślny"}...`,

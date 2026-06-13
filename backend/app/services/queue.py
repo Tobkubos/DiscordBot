@@ -1,6 +1,7 @@
 import logging
 from typing import Optional, Any, Dict
 import json
+import redis.asyncio as redis
 
 from app.core.config import get_settings
 
@@ -23,11 +24,17 @@ class QueueService:
             self._initialize_redis()
     
     def _initialize_redis(self):
-        """Initialize Redis connection (future implementation)."""
-        # This will be implemented when Redis support is added
-        logger.info(
-            f"Redis queue service initialized: {self.settings.REDIS_URL}"
-        )
+        
+        try:
+            self.redis_client = redis.from_url(
+                self.settings.REDIS_URL, decode_responses=True
+            )
+            logger.info(
+                f"Redis queue service initialized successfully: {self.settings.REDIS_URL}"
+            )
+        except Exception as e:
+            logger.error(f"Failed to initialize Redis client: {e}")
+            self.redis_client = None
     
     async def enqueue_analysis(
         self,
@@ -36,15 +43,7 @@ class QueueService:
         task_id: str,
     ) -> bool:
         """
-        Enqueue an analysis task.
-        
-        Args:
-            file_url: URL of the file to analyze
-            model: Detector model to use
-            task_id: Unique task identifier
-            
-        Returns:
-            True if successful, False otherwise
+        Enqueue an analysis task (future background worker implementation).
         """
         task_data = {
             "task_id": task_id,
@@ -54,33 +53,24 @@ class QueueService:
         
         logger.info(f"Enqueuing analysis task: {task_id}")
         
-        if self.settings.REDIS_ENABLED:
-            # Future: Push to Redis queue
-            # await self.redis_client.lpush(
-            #     self.settings.REDIS_QUEUE_NAME,
-            #     json.dumps(task_data)
-            # )
-            pass
+        if self.settings.REDIS_ENABLED and self.redis_client:
+            await self.redis_client.lpush(
+                self.settings.REDIS_QUEUE_NAME,
+                json.dumps(task_data)
+            )
+            return True
         
-        return True
+        return False
     
     async def get_task_result(self, task_id: str) -> Optional[Dict[str, Any]]:
         """
         Get analysis result for a task.
-        
-        Args:
-            task_id: Task identifier
-            
-        Returns:
-            Analysis result or None if not found
         """
         logger.info(f"Retrieving result for task: {task_id}")
         
-        if self.settings.REDIS_ENABLED:
-            # Future: Get from Redis
-            # result = await self.redis_client.get(f"result:{task_id}")
-            # return json.loads(result) if result else None
-            pass
+        if self.settings.REDIS_ENABLED and self.redis_client:
+            result = await self.redis_client.get(f"result:{task_id}")
+            return json.loads(result) if result else None
         
         return None
 
