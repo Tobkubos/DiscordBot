@@ -1,23 +1,23 @@
 ﻿import dotenv from "dotenv";
 dotenv.config();
 
-import { 
-  Client, 
-  GatewayIntentBits, 
-  Events, 
-  ModalBuilder, 
-  TextInputBuilder, 
-  TextInputStyle, 
-  ActionRowBuilder,
-  MessageFlags,
-  ApplicationCommandType,
-  EmbedBuilder,
-  ButtonBuilder,
-  ButtonStyle,
-  PermissionFlagsBits,
-  ChannelSelectMenuBuilder,
-  StringSelectMenuBuilder,
-  ChannelType
+import {
+	Client,
+	GatewayIntentBits,
+	Events,
+	ModalBuilder,
+	TextInputBuilder,
+	TextInputStyle,
+	ActionRowBuilder,
+	MessageFlags,
+	ApplicationCommandType,
+	EmbedBuilder,
+	ButtonBuilder,
+	ButtonStyle,
+	PermissionFlagsBits,
+	ChannelSelectMenuBuilder,
+	StringSelectMenuBuilder,
+	ChannelType,
 } from "discord.js";
 
 const client = new Client({
@@ -40,24 +40,28 @@ client.once(Events.ClientReady, async () => {
 			{
 				name: "detect",
 				description: "Otwiera okienko do wklejenia linku lub tekstu do analizy",
-				type: ApplicationCommandType.ChatInput
+				type: ApplicationCommandType.ChatInput,
 			},
 			{
 				name: "setup",
-				description: "Ustawienia kanału logów i modeli analizy (Wymaga Administratora)",
-				default_member_permissions: PermissionFlagsBits.Administrator.toString(),
-				type: ApplicationCommandType.ChatInput
+				description:
+					"Ustawienia kanału logów i modeli analizy (Wymaga Administratora)",
+				default_member_permissions:
+					PermissionFlagsBits.Administrator.toString(),
+				type: ApplicationCommandType.ChatInput,
 			},
 			{
 				name: "Wykryj deepfake",
-				type: ApplicationCommandType.Message
+				type: ApplicationCommandType.Message,
 			},
 			{
 				name: "Weryfikacja faktów", // <--- TA LINIA
-				type: ApplicationCommandType.Message
-			}
+				type: ApplicationCommandType.Message,
+			},
 		]);
-		console.log("Pomyślnie zarejestrowano komendy (/detect, /setup oraz menu kontekstowe)");
+		console.log(
+			"Pomyślnie zarejestrowano komendy (/detect, /setup oraz menu kontekstowe)",
+		);
 	} catch (error) {
 		console.error("Błąd podczas rejestracji komend:", error);
 	}
@@ -88,16 +92,19 @@ async function fetchGuildConfig(guildId) {
 				logChannelId: data.log_channel_id,
 				models: {
 					text: data.active_text_model || "none",
-					image: data.active_image_model || "none"
-				}
+					image: data.active_image_model || "none",
+				},
 			};
 		}
 	} catch (err) {
-		console.error(`[CONFIG ERROR] Błąd pobierania konfiguracji dla gildii ${guildId}:`, err.message);
+		console.error(
+			`[CONFIG ERROR] Błąd pobierania konfiguracji dla gildii ${guildId}:`,
+			err.message,
+		);
 	}
 	return {
 		logChannelId: null,
-		models: {}
+		models: {},
 	};
 }
 
@@ -106,37 +113,58 @@ function preparePayload(input, explicitContentType = null) {
 
 	if (explicitContentType) {
 		if (explicitContentType.startsWith("image/")) {
-			return { type: "image", payload: { image_url: trimmed, content_type: "image" } };
+			return {
+				type: "image",
+				payload: { image_url: trimmed, content_type: "image" },
+			};
 		} else if (explicitContentType.startsWith("video/")) {
-			return { type: "video", payload: { video_url: trimmed, content_type: "video" } };
+			return {
+				type: "video",
+				payload: { video_url: trimmed, content_type: "video" },
+			};
 		} else {
-			return { type: "file", payload: { file_url: trimmed, content_type: "file" } };
+			return {
+				type: "file",
+				payload: { file_url: trimmed, content_type: "file" },
+			};
 		}
 	}
 
 	const isUrl = trimmed.startsWith("http://") || trimmed.startsWith("https://");
 
 	if (isUrl) {
-		const cleanUrl = trimmed.toLowerCase().split('?')[0]; 
-		
+		const cleanUrl = trimmed.toLowerCase().split("?")[0];
+
 		if (cleanUrl.match(/\.(png|jpg|jpeg|webp|gif)$/)) {
-			return { type: "image", payload: { image_url: trimmed, content_type: "image" } };
+			return {
+				type: "image",
+				payload: { image_url: trimmed, content_type: "image" },
+			};
 		} else if (cleanUrl.match(/\.(mp4|webm|mov|avi)$/)) {
-			return { type: "video", payload: { video_url: trimmed, content_type: "video" } };
+			return {
+				type: "video",
+				payload: { video_url: trimmed, content_type: "video" },
+			};
 		} else {
-			return { type: "file", payload: { file_url: trimmed, content_type: "file" } };
+			return {
+				type: "file",
+				payload: { file_url: trimmed, content_type: "file" },
+			};
 		}
 	}
 
-	return { 
-		type: "text", 
-		payload: { text: trimmed, content_type: "text" } 
+	return {
+		type: "text",
+		payload: { text: trimmed, content_type: "text" },
 	};
 }
 
 function getProgressBar(confidence, isDeepfake) {
 	const totalBlocks = 10;
-	const filledBlocks = Math.min(totalBlocks, Math.max(0, Math.round(confidence * totalBlocks)));
+	const filledBlocks = Math.min(
+		totalBlocks,
+		Math.max(0, Math.round(confidence * totalBlocks)),
+	);
 	const emptyBlocks = totalBlocks - filledBlocks;
 	const blockEmoji = isDeepfake ? "🟥" : "🟩";
 	return blockEmoji.repeat(filledBlocks) + "⬛".repeat(emptyBlocks);
@@ -145,25 +173,30 @@ function getProgressBar(confidence, isDeepfake) {
 // CAŁKOWICIE DYNAMICZNY GENERATOR WIDOKU SETUPU
 function generateSetupView(tempConfig, availableModels) {
 	const embed = new EmbedBuilder()
-		.setColor(0x5865F2)
+		.setColor(0x5865f2)
 		.setTitle("⚙️ Konfiguracja Systemu Detekcji")
-		.setDescription("Wybierz kanał do wysyłania logów oraz aktywne modele dla poszczególnych formatów danych.")
+		.setDescription(
+			"Wybierz kanał do wysyłania logów oraz aktywne modele dla poszczególnych formatów danych.",
+		)
 		.setTimestamp()
 		.setFooter({ text: "Wybierz opcje i kliknij Zapisz ustawienia" });
 
-	embed.addFields({ 
-		name: "📂 Kanał logów (Raporty)", 
-		value: tempConfig.logChannelId ? `<#${tempConfig.logChannelId}>` : "*Wysyłanie tylko do konsoli*", 
-		inline: false 
+	embed.addFields({
+		name: "📂 Kanał logów (Raporty)",
+		value: tempConfig.logChannelId
+			? `<#${tempConfig.logChannelId}>`
+			: "*Wysyłanie tylko do konsoli*",
+		inline: false,
 	});
 
 	// Dynamicznie dodajemy pola dla każdego formatu zwróconego przez FastAPI
 	for (const [contentType, models] of Object.entries(availableModels)) {
-		const currentSelected = tempConfig.models[contentType] || models[0] || "Brak";
+		const currentSelected =
+			tempConfig.models[contentType] || models[0] || "Brak";
 		embed.addFields({
 			name: `⚙️ Model dla formatu: ${contentType.toUpperCase()}`,
 			value: `\`${currentSelected}\``,
-			inline: true
+			inline: true,
 		});
 	}
 
@@ -172,9 +205,7 @@ function generateSetupView(tempConfig, availableModels) {
 		.setPlaceholder("Wybierz kanał dla raportów")
 		.addChannelTypes(ChannelType.GuildText);
 
-	const components = [
-		new ActionRowBuilder().addComponents(channelSelect)
-	];
+	const components = [new ActionRowBuilder().addComponents(channelSelect)];
 
 	// Dynamicznie generujemy menu rozwijane dla każdego formatu danych (tekst, obraz, wideo itp.)
 	for (const [contentType, models] of Object.entries(availableModels)) {
@@ -182,10 +213,10 @@ function generateSetupView(tempConfig, availableModels) {
 
 		const currentSelected = tempConfig.models[contentType] || models[0];
 
-		const selectOptions = models.map(model => ({
+		const selectOptions = models.map((model) => ({
 			label: model,
 			value: model,
-			default: currentSelected === model
+			default: currentSelected === model,
 		}));
 
 		const modelSelect = new StringSelectMenuBuilder()
@@ -206,14 +237,14 @@ function generateSetupView(tempConfig, availableModels) {
 			.setCustomId("setup_cancel")
 			.setLabel("Anuluj")
 			.setStyle(ButtonStyle.Danger)
-			.setEmoji("❌")
+			.setEmoji("❌"),
 	);
 
 	components.push(buttonsRow);
 
 	return {
 		embeds: [embed],
-		components: components
+		components: components,
 	};
 }
 
@@ -227,18 +258,98 @@ async function sendLogToDiscord(guild, embedToSend) {
 			await channel.send({ embeds: [embedToSend] });
 		}
 	} catch (err) {
-		console.warn(`Nie można wysłać logu na kanał ${config.logChannelId}:`, err.message);
+		console.warn(
+			`Nie można wysłać logu na kanał ${config.logChannelId}:`,
+			err.message,
+		);
 	}
 }
 
-async function handleAnalysis(interaction, userContent, targetMessage = null, explicitContentType = null) {
+async function handleFactCheck(interaction, statement) {
+	await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
+
+	try {
+		console.log(`Wysyłanie zapytania do weryfikacji faktów: "${statement.slice(0, 30)}..."`);
+
+		const response = await fetch(`${API_URL}/factcheck`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ statement: statement }),
+		});
+
+		if (!response.ok) {
+			const errorData = await response.json().catch(() => ({}));
+			throw new Error(errorData.detail || `Błąd API (Status ${response.status})`);
+		}
+
+		const data = await response.json();
+
+		let embedColor = 0xFFAA00; // Żółty domyślnie (SPORNE)
+		let verdictEmoji = "⚖️";
+
+		if (data.verdict === "PRAWDA") {
+			embedColor = 0x00FF00; // Zielony
+			verdictEmoji = "✅";
+		} else if (data.verdict === "FAŁSZ") {
+			embedColor = 0xFF0000; // Czerwony
+			verdictEmoji = "❌";
+		}
+
+		const embed = new EmbedBuilder()
+			.setColor(embedColor)
+			.setTitle(`${verdictEmoji} Wynik Weryfikacji Faktów`)
+			.setDescription(`**Badane stwierdzenie:**\n*"${statement}"*\n\n**Werdykt:** \`${data.verdict}\``)
+			.addFields(
+				{ name: "📝 Analiza merytoryczna", value: data.explanation },
+				{ name: "🎯 Pewność analizy", value: `\`${(data.confidence * 100).toFixed(0)}%\``, inline: true }
+			)
+			.setTimestamp()
+			.setFooter({ text: "System Fact-checkingowy", iconURL: client.user.displayAvatarURL() });
+
+		// Formatowanie źródeł
+		if (data.sources && data.sources.length > 0) {
+			const sourcesText = data.sources
+				.map((src, idx) => `**[${idx + 1}]** [${src.title}](${src.url})\n*${src.snippet.slice(0, 150)}...*`)
+				.join("\n\n");
+
+			// Discord ma limit 1024 znaków na jedno pole w Embedzie, zabezpieczamy się przed jego przekroczeniem
+			const truncatedSources = sourcesText.length > 1024 ? sourcesText.slice(0, 1000) + "..." : sourcesText;
+
+			embed.addFields({ name: "🔗 Wykorzystane źródła internetowe", value: truncatedSources });
+		} else {
+			embed.addFields({ name: "🔗 Wykorzystane źródła internetowe", value: "Brak bezpośrednich źródeł." });
+		}
+
+		await interaction.editReply({
+			embeds: [embed]
+		});
+
+	} catch (error) {
+		console.error("Błąd podczas weryfikacji faktów:", error);
+		await interaction.editReply({
+			content: `❌ Nie udało się przeprowadzić weryfikacji faktów.\n\n**Szczegóły błędu:**\n${error.message}`,
+		});
+	}
+}
+
+
+async function handleAnalysis(
+	interaction,
+	userContent,
+	targetMessage = null,
+	explicitContentType = null,
+) {
 	await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
 
 	try {
 		const { type, payload } = preparePayload(userContent, explicitContentType);
 		payload.guild_id = interaction.guildId;
 
-		console.log(`Wysyłanie zapytania typu: ${type} do API z modelem: ${payload.model || "domyślny"}...`);
+		console.log(
+			`Wysyłanie zapytania typu: ${type} do API z modelem: ${payload.model || "domyślny"}...`,
+		);
 
 		const response = await fetch(`${API_URL}/analyze`, {
 			method: "POST",
@@ -250,13 +361,16 @@ async function handleAnalysis(interaction, userContent, targetMessage = null, ex
 
 		if (!response.ok) {
 			const errorData = await response.json().catch(() => ({}));
-			console.error("Szczegóły błędu z FastAPI:", JSON.stringify(errorData, null, 2));
-			
+			console.error(
+				"Szczegóły błędu z FastAPI:",
+				JSON.stringify(errorData, null, 2),
+			);
+
 			let errorMsg = `Błąd serwera API (Status ${response.status})`;
 			if (errorData.detail) {
 				if (Array.isArray(errorData.detail)) {
 					errorMsg = errorData.detail
-						.map(err => `• Pole \`${err.loc.join(".")}\`: ${err.msg}`)
+						.map((err) => `• Pole \`${err.loc.join(".")}\`: ${err.msg}`)
 						.join("\n");
 				} else {
 					errorMsg = errorData.detail;
@@ -270,17 +384,22 @@ async function handleAnalysis(interaction, userContent, targetMessage = null, ex
 		if (targetMessage) {
 			try {
 				if (data.is_deepfake) {
-					await targetMessage.react('⚠️');
+					await targetMessage.react("⚠️");
 				} else {
-					await targetMessage.react('✅');
+					await targetMessage.react("✅");
 				}
 			} catch (reactError) {
-				console.warn("Nie udało się dodać reakcji do wiadomości:", reactError.message);
+				console.warn(
+					"Nie udało się dodać reakcji do wiadomości:",
+					reactError.message,
+				);
 			}
 		}
 
-		const embedColor = data.is_deepfake ? 0xFF0000 : 0x00FF00;
-		const verdictText = data.is_deepfake ? "⚠️ Wykryto potencjalny Deepfake!" : "✅ Zawartość wydaje się oryginalna";
+		const embedColor = data.is_deepfake ? 0xff0000 : 0x00ff00;
+		const verdictText = data.is_deepfake
+			? "⚠️ Wykryto potencjalny Deepfake!"
+			: "✅ Zawartość wydaje się oryginalna";
 		const progressBar = getProgressBar(data.confidence, data.is_deepfake);
 		const confidencePercent = (data.confidence * 100).toFixed(2);
 
@@ -289,13 +408,27 @@ async function handleAnalysis(interaction, userContent, targetMessage = null, ex
 			.setTitle("🛡️ Wynik Analizy Treści")
 			.setDescription(`**Werdykt:** ${verdictText}`)
 			.addFields(
-				{ name: "Pewność modelu", value: `\`${confidencePercent}%\` \n${progressBar}` },
-				{ name: "Czas przetwarzania", value: `\`${data.analysis_time.toFixed(3)}s\``, inline: true },
+				{
+					name: "Pewność modelu",
+					value: `\`${confidencePercent}%\` \n${progressBar}`,
+				},
+				{
+					name: "Czas przetwarzania",
+					value: `\`${data.analysis_time.toFixed(3)}s\``,
+					inline: true,
+				},
 				{ name: "Użyty model", value: `\`${data.used_model}\``, inline: true },
-				{ name: "Format danych", value: `\`${data.content_type.toUpperCase()}\``, inline: true }
+				{
+					name: "Format danych",
+					value: `\`${data.content_type.toUpperCase()}\``,
+					inline: true,
+				},
 			)
 			.setTimestamp()
-			.setFooter({ text: "Deepfake Detection Service", iconURL: client.user.displayAvatarURL() });
+			.setFooter({
+				text: "Deepfake Detection Service",
+				iconURL: client.user.displayAvatarURL(),
+			});
 
 		const buttonRow = new ActionRowBuilder().addComponents(
 			new ButtonBuilder()
@@ -307,14 +440,13 @@ async function handleAnalysis(interaction, userContent, targetMessage = null, ex
 				.setCustomId("reportError")
 				.setLabel("Zgłoś błąd analizy")
 				.setStyle(ButtonStyle.Danger)
-				.setEmoji("⚠️")
+				.setEmoji("⚠️"),
 		);
 
 		await interaction.editReply({
 			embeds: [embed],
-			components: [buttonRow]
+			components: [buttonRow],
 		});
-
 	} catch (error) {
 		console.error("Błąd podczas analizy:", error);
 		await interaction.editReply({
@@ -326,7 +458,6 @@ async function handleAnalysis(interaction, userContent, targetMessage = null, ex
 //funkcja kupczaka
 
 client.on(Events.InteractionCreate, async (interaction) => {
-	
 	if (interaction.isChatInputCommand()) {
 		if (interaction.commandName === "detect") {
 			const modal = new ModalBuilder()
@@ -348,7 +479,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
 		if (interaction.commandName === "setup") {
 			const guildId = interaction.guildId;
-            
+
 			await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
 
 			// Pobieramy konfigurację bezpośrednio z FastAPI
@@ -357,7 +488,8 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
 			if (!availableModels || Object.keys(availableModels).length === 0) {
 				return interaction.editReply({
-					content: "❌ **Błąd konfiguracji:** Nie udało się nawiązać połączenia z backendem (FastAPI). Uruchom swój backend w Pythonie i spróbuj ponownie!"
+					content:
+						"❌ **Błąd konfiguracji:** Nie udało się nawiązać połączenia z backendem (FastAPI). Uruchom swój backend w Pythonie i spróbuj ponownie!",
 				});
 			}
 
@@ -367,9 +499,9 @@ client.on(Events.InteractionCreate, async (interaction) => {
 				}
 			}
 
-			activeSetupSessions.set(guildId, { 
-				config: { ...currentConfig }, 
-				availableModels 
+			activeSetupSessions.set(guildId, {
+				config: { ...currentConfig },
+				availableModels,
 			});
 
 			const setupView = generateSetupView(currentConfig, availableModels);
@@ -383,7 +515,9 @@ client.on(Events.InteractionCreate, async (interaction) => {
 			const tempSession = activeSetupSessions.get(guildId);
 			if (tempSession) {
 				tempSession.config.logChannelId = interaction.values[0];
-				await interaction.update(generateSetupView(tempSession.config, tempSession.availableModels));
+				await interaction.update(
+					generateSetupView(tempSession.config, tempSession.availableModels),
+				);
 			}
 		}
 	}
@@ -392,13 +526,15 @@ client.on(Events.InteractionCreate, async (interaction) => {
 	if (interaction.isStringSelectMenu()) {
 		const guildId = interaction.guildId;
 		const tempSession = activeSetupSessions.get(guildId);
-		
+
 		if (tempSession) {
 			// Sprawdzamy czy zmieniany jest model (szukamy przedrostka setup_model_)
 			if (interaction.customId.startsWith("setup_model_")) {
 				const contentType = interaction.customId.replace("setup_model_", "");
 				tempSession.config.models[contentType] = interaction.values[0];
-				await interaction.update(generateSetupView(tempSession.config, tempSession.availableModels));
+				await interaction.update(
+					generateSetupView(tempSession.config, tempSession.availableModels),
+				);
 			}
 		}
 	}
@@ -406,12 +542,12 @@ client.on(Events.InteractionCreate, async (interaction) => {
 	if (interaction.isMessageContextMenuCommand()) {
 		if (interaction.commandName === "Wykryj deepfake") {
 			const targetMessage = interaction.targetMessage;
-			
+
 			let contentToAnalyze = targetMessage.content;
 			let explicitContentType = null;
 
 			const attachment = targetMessage.attachments.first();
-			
+
 			if (attachment) {
 				contentToAnalyze = attachment.url;
 				explicitContentType = attachment.contentType;
@@ -419,30 +555,36 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
 			if (!contentToAnalyze || contentToAnalyze.trim().length === 0) {
 				return interaction.reply({
-					content: "❌ Ta wiadomość nie zawiera tekstu ani załączników do analizy.",
-					flags: [MessageFlags.Ephemeral]
+					content:
+						"❌ Ta wiadomość nie zawiera tekstu ani załączników do analizy.",
+					flags: [MessageFlags.Ephemeral],
 				});
 			}
 
-			await handleAnalysis(interaction, contentToAnalyze, targetMessage, explicitContentType);
+			await handleAnalysis(
+				interaction,
+				contentToAnalyze,
+				targetMessage,
+				explicitContentType,
+			);
 		}
-					if (interaction.commandName === "Weryfikacja faktów") {
+		if (interaction.commandName === "Weryfikacja faktów") {
 			const targetMessage = interaction.targetMessage;
 			const contentToVerify = targetMessage.content;
 
 			if (!contentToVerify || contentToVerify.trim().length < 10) {
 				return interaction.reply({
-					content: "❌ Wiadomość musi mieć przynajmniej 10 znaków tekstu, aby można było ją zweryfikować.",
-					flags: [MessageFlags.Ephemeral]
+					content:
+						"❌ Wiadomość musi mieć przynajmniej 10 znaków tekstu, aby można było ją zweryfikować.",
+					flags: [MessageFlags.Ephemeral],
 				});
 			}
 
 			await handleFactCheck(interaction, contentToVerify);
 		}
-	
 	}
 	//koniec funkcji kupczaka
-	
+
 	if (interaction.isModalSubmit()) {
 		if (interaction.customId === "detectModal") {
 			const userContent = interaction.fields.getTextInputValue("detectInput");
@@ -460,13 +602,13 @@ client.on(Events.InteractionCreate, async (interaction) => {
 					const response = await fetch(`${API_URL}/guilds/${guildId}/setup`, {
 						method: "POST",
 						headers: {
-							"Content-Type": "application/json"
+							"Content-Type": "application/json",
 						},
 						body: JSON.stringify({
 							active_text_model: tempSession.config.models?.text || "none",
 							active_image_model: tempSession.config.models?.image || "none",
-							log_channel_id: tempSession.config.logChannelId || null
-						})
+							log_channel_id: tempSession.config.logChannelId || null,
+						}),
 					});
 
 					if (!response.ok) {
@@ -476,16 +618,17 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
 					activeSetupSessions.delete(guildId);
 					await interaction.update({
-						content: "✅ **Ustawienia zostały pomyślnie zapisane na backendzie!**",
+						content:
+							"✅ **Ustawienia zostały pomyślnie zapisane na backendzie!**",
 						embeds: [],
-						components: []
+						components: [],
 					});
 				} catch (error) {
 					console.error("[SETUP ERROR]", error);
 					await interaction.update({
 						content: `❌ **Wystąpił błąd podczas zapisywania konfiguracji:** ${error.message}`,
 						embeds: [],
-						components: []
+						components: [],
 					});
 				}
 			}
@@ -496,7 +639,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 			await interaction.update({
 				content: "❌ **Konfiguracja została anulowana.**",
 				embeds: [],
-				components: []
+				components: [],
 			});
 		}
 
@@ -513,30 +656,35 @@ client.on(Events.InteractionCreate, async (interaction) => {
 					.setLabel("Zgłoś błąd analizy")
 					.setStyle(ButtonStyle.Danger)
 					.setEmoji("⚠️")
-					.setDisabled(true)
+					.setDisabled(true),
 			);
 
 			// 2 UPDATE BUTTONS
 			await interaction.update({
-				embeds: [interaction.message.embeds[0]], 
-				components: [disabledRow]
+				embeds: [interaction.message.embeds[0]],
+				components: [disabledRow],
 			});
 
 			// 3 CONFIRMATION
 			await interaction.followUp({
-				content: "✅ **Dziękujemy!** Twoje zgłoszenie błędu zostało zarejestrowane.",
-				flags: [MessageFlags.Ephemeral]
+				content:
+					"✅ **Dziękujemy!** Twoje zgłoszenie błędu zostało zarejestrowane.",
+				flags: [MessageFlags.Ephemeral],
 			});
 
-			console.log(`[RAPORT BŁĘDU] Użytkownik ${interaction.user.tag} (ID: ${interaction.user.id}) zgłosił błąd klasyfikacji.`);
+			console.log(
+				`[RAPORT BŁĘDU] Użytkownik ${interaction.user.tag} (ID: ${interaction.user.id}) zgłosił błąd klasyfikacji.`,
+			);
 
 			const originalEmbed = interaction.message.embeds[0];
 			if (originalEmbed) {
 				const logEmbed = EmbedBuilder.from(originalEmbed)
-					.setColor(0xFFAA00)
+					.setColor(0xffaa00)
 					.setTitle("⚠️ Zgłoszenie błędu analizy")
-					.setDescription(`Użytkownik **${interaction.user.tag}** (ID: \`${interaction.user.id}\`) zgłosił błąd analizy w poniższym raporcie.`);
-				
+					.setDescription(
+						`Użytkownik **${interaction.user.tag}** (ID: \`${interaction.user.id}\`) zgłosił błąd analizy w poniższym raporcie.`,
+					);
+
 				await sendLogToDiscord(interaction.guild, logEmbed);
 			}
 		}
@@ -555,30 +703,35 @@ client.on(Events.InteractionCreate, async (interaction) => {
 					.setLabel("Zgłoś błąd analizy")
 					.setStyle(ButtonStyle.Danger)
 					.setEmoji("⚠️")
-					.setDisabled(true)
+					.setDisabled(true),
 			);
 
 			// 2 DISABLE BUTTONS
 			await interaction.update({
-				embeds: [interaction.message.embeds[0]], 
-				components: [disabledRow]
+				embeds: [interaction.message.embeds[0]],
+				components: [disabledRow],
 			});
 
 			// 3 CONFIRMATION
 			await interaction.followUp({
-				content: "✅ **Dziękujemy!** Twoje potwierdzenie zostało pomyślnie zapisane.",
-				flags: [MessageFlags.Ephemeral]
+				content:
+					"✅ **Dziękujemy!** Twoje potwierdzenie zostało pomyślnie zapisane.",
+				flags: [MessageFlags.Ephemeral],
 			});
 
-			console.log(`[POTWIERDZENIE] Użytkownik ${interaction.user.tag} (ID: ${interaction.user.id}) potwierdził poprawną klasyfikację.`);
+			console.log(
+				`[POTWIERDZENIE] Użytkownik ${interaction.user.tag} (ID: ${interaction.user.id}) potwierdził poprawną klasyfikację.`,
+			);
 
 			const originalEmbed = interaction.message.embeds[0];
 			if (originalEmbed) {
 				const logEmbed = EmbedBuilder.from(originalEmbed)
-					.setColor(0x00AAFF)
+					.setColor(0x00aaff)
 					.setTitle("✅ Potwierdzona poprawność analizy")
-					.setDescription(`Użytkownik **${interaction.user.tag}** (ID: \`${interaction.user.id}\`) potwierdził poprawność raportu.`);
-				
+					.setDescription(
+						`Użytkownik **${interaction.user.tag}** (ID: \`${interaction.user.id}\`) potwierdził poprawność raportu.`,
+					);
+
 				await sendLogToDiscord(interaction.guild, logEmbed);
 			}
 		}
