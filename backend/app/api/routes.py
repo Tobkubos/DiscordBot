@@ -1,5 +1,3 @@
-"""API route handlers."""
-
 import logging
 from fastapi import APIRouter, HTTPException
 
@@ -8,8 +6,14 @@ from app.models.schemas import (
     AnalysisResponse,
     ErrorResponse,
     HealthResponse,
+    TextAnalysisRequest,
+    ImageAnalysisRequest,
+    VideoAnalysisRequest,
+    FileAnalysisRequest,
 )
 from app.services.download import download_file
+from app.services.text_analyzer import analyze_text
+from app.services.image_analyzer import analyze_image
 from app.services.detector import get_detector
 from app.core.config import get_settings
 from app.utils.exceptions import DeepfakeDetectionError
@@ -26,22 +30,18 @@ router = APIRouter()
     summary="Health check endpoint",
 )
 async def health_check() -> HealthResponse:
-    """
-    Health check endpoint to verify service is running.
-    
-    Returns:
-        Service status and version information
-    """
     settings = get_settings()
     logger.info("Health check endpoint accessed")
     
-    available_models = ["mock"]  # Add more as you implement them
+    available_models = ["mock"]
+    supported_types = ["text", "image", "video", "file"]
     
     return HealthResponse(
         status="ok",
         service="Deepfake Detection Service",
         version=settings.APP_VERSION,
         available_models=available_models,
+        supported_types=supported_types,
     )
 
 
@@ -54,75 +54,121 @@ async def health_check() -> HealthResponse:
         500: {"model": ErrorResponse, "description": "Internal server error"},
     },
     tags=["Analysis"],
-    summary="Analyze file for deepfake detection",
+    summary="Analyze content for deepfake detection",
 )
 async def analyze(request: AnalysisRequest) -> AnalysisResponse:
-    """
-    Analyze a file for deepfake detection.
-    
-    Args:
-        request: AnalysisRequest containing file_url and optional model selection
-        
-    Returns:
-        AnalysisResponse with detection results
-        
-    Raises:
-        HTTPException: For various error conditions during processing
-    """
     settings = get_settings()
-    detector_model = request.model or settings.DEFAULT_DETECTOR_MODEL
+    detector_model = None
     
-    logger.info(
-        f"Received analysis request for URL: {request.file_url} "
-        f"using model: {detector_model}"
-    )
-    
-    
-    try:
+    if isinstance(request, TextAnalysisRequest):
+        detector_model = request.model or settings.DEFAULT_DETECTOR_MODEL
+        logger.info(f"Received text analysis request, length: {len(request.text)} chars, model: {detector_model}")
+        
         try:
             detector = get_detector(detector_model)
         except ValueError as e:
             logger.error(f"Invalid detector model: {str(e)}")
-            raise HTTPException(
-                status_code=400,
-                detail=str(e),
-            )
+            raise HTTPException(status_code=400, detail=str(e))
         
-        file_bytes = await download_file(str(request.file_url))
+        text_bytes = request.text.encode('utf-8')
+        analysis_result = await detector.detect(text_bytes)
         
-        if not file_bytes:
-            logger.error("File download returned empty bytes")
-            raise HTTPException(
-                status_code=500,
-                detail="Failed to download and process file",
-            )
-        
-        analysis_result = await detector.detect(file_bytes)
-        
-        logger.info(
-            f"Analysis request completed successfully. "
-            f"File URL: {request.file_url}, Model: {detector_model}, "
-            f"Result: {analysis_result}"
-        )
+        logger.info(f"Text analysis completed. Result: {analysis_result}")
         
         return AnalysisResponse(
             is_deepfake=analysis_result["is_deepfake"],
             confidence=analysis_result["confidence"],
             analysis_time=analysis_result["analysis_time"],
             model_used=detector_model,
+            content_type="text",
         )
+    
+    elif isinstance(request, ImageAnalysisRequest):
+        detector_model = request.model or settings.DEFAULT_DETECTOR_MODEL
+        logger.info(f"Received image analysis request for URL: {request.image_url}, model: {detector_model}")
         
-    except HTTPException:
-        raise
-    except DeepfakeDetectionError as e:
-        logger.error(f"Detection error: {e.message}")
-        raise HTTPException(
-            status_code=e.status_code,
-            detail=e.message,
+        try:
+            detector = get_detector(detector_model)
+        except ValueError as e:
+            logger.error(f"Invalid detector model: {str(e)}")
+            raise HTTPException(status_code=400, detail=str(e))
+        
+        try:
+            image_bytes = await download_file(str(request.image_url))
+            if not image_bytes:
+                raise HTTPException(status_code=500, detail="Failed to download image")
+        except DeepfakeDetectionError as e:
+            raise HTTPException(status_code=e.status_code, detail=e.message)
+        
+        analysis_result = await detector.detect(image_bytes)
+        
+        logger.info(f"Image analysis completed. Result: {analysis_result}")
+        
+        return AnalysisResponse(
+            is_deepfake=analysis_result["is_deepfake"],
+            confidence=analysis_result["confidence"],
+            analysis_time=analysis_result["analysis_time"],
+            model_used=detector_model,
+            content_type="image",
         )
-    except Exception as e:
-        logger.error(f"Unexpected error during analysis: {str(e)}", exc_info=True)
-        raise HTTPException(
-            status_code=500,
-            detail="An unexpected error occurred during analysis. Please try again later.",
+    
+    elif isinstance(request, VideoAnalysisRequest):
+        detector_model = request.model or settings.DEFAULT_DETECTOR_MODEL
+        logger.info(f"Received video analysis request for URL: {request.video_url}, model: {detector_model}")
+        
+        try:
+            detector = get_detector(detector_model)
+        except ValueError as e:
+            logger.error(f"Invalid detector model: {str(e)}")
+            raise HTTPException(status_code=400, detail=str(e))
+        
+        try:
+            video_bytes = await download_file(str(request.video_url))
+            if not video_bytes:
+                raise HTTPException(status_code=500, detail="Failed to download video")
+        except DeepfakeDetectionError as e:
+            raise HTTPException(status_code=e.status_code, detail=e.message)
+        
+        analysis_result = await detector.detect(video_bytes)
+        
+        logger.info(f"Video analysis completed. Result: {analysis_result}")
+        
+        return AnalysisResponse(
+            is_deepfake=analysis_result["is_deepfake"],
+            confidence=analysis_result["confidence"],
+            analysis_time=analysis_result["analysis_time"],
+            model_used=detector_model,
+            content_type="video",
         )
+    
+    elif isinstance(request, FileAnalysisRequest):
+        detector_model = request.model or settings.DEFAULT_DETECTOR_MODEL
+        logger.info(f"Received file analysis request for URL: {request.file_url}, model: {detector_model}")
+        
+        try:
+            detector = get_detector(detector_model)
+        except ValueError as e:
+            logger.error(f"Invalid detector model: {str(e)}")
+            raise HTTPException(status_code=400, detail=str(e))
+        
+        try:
+            file_bytes = await download_file(str(request.file_url))
+            if not file_bytes:
+                raise HTTPException(status_code=500, detail="Failed to download file")
+        except DeepfakeDetectionError as e:
+            raise HTTPException(status_code=e.status_code, detail=e.message)
+        
+        analysis_result = await detector.detect(file_bytes)
+        
+        logger.info(f"File analysis completed. Result: {analysis_result}")
+        
+        return AnalysisResponse(
+            is_deepfake=analysis_result["is_deepfake"],
+            confidence=analysis_result["confidence"],
+            analysis_time=analysis_result["analysis_time"],
+            model_used=detector_model,
+            content_type="file",
+        )
+    
+    else:
+        raise HTTPException(status_code=400, detail="Unsupported content type")
