@@ -51,3 +51,9 @@ class UnsupportedModelError(DeepfakeDetectionError):
     def __init__(self, model_name: str):
         message = f"Detector model '{model_name}' is not supported"
         super().__init__(message, 400)
+        
+class SetupRequiredError(Exception):
+    """Wyjątek zgłaszany, gdy bot nie został jeszcze skonfigurowany na danym serwerze."""
+    
+    def __init__(self, message: str = "Setup required"):
+        super().__init__(message, 500)
