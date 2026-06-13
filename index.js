@@ -302,7 +302,7 @@ async function handleAnalysis(interaction, userContent, targetMessage = null) {
 			.addFields(
 				{ name: "Pewność modelu", value: `\`${confidencePercent}%\` \n${progressBar}` },
 				{ name: "Czas przetwarzania", value: `\`${data.analysis_time.toFixed(3)}s\``, inline: true },
-				{ name: "Użyty model", value: `\`${data.model_used}\``, inline: true },
+				{ name: "Użyty model", value: `\`${data.used_model}\``, inline: true },
 				{ name: "Format danych", value: `\`${data.content_type.toUpperCase()}\``, inline: true }
 			)
 			.setTimestamp()
