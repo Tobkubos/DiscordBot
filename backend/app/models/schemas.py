@@ -87,5 +87,5 @@ class HealthResponse(BaseModel):
     
 class GuildConfigSchema(BaseModel):
     active_text_model: Optional[str] = "none"
-    # Tutaj możesz dodać inne parametry, które bot zbiera w sesji setup (np. log_channel_id)
+    active_image_model: Optional[str] = "none"
     log_channel_id: Optional[str] = None
