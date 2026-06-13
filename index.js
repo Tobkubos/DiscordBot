@@ -414,30 +414,12 @@ async function handleAnalysis(
 			.setColor(embedColor)
 			.setTitle("🛡️ Wynik Analizy Treści")
 			.setDescription(`**Werdykt:** ${verdictText}`)
-			.addFields(
-				{
-					name: "Pewność modelu",
-					value: `\`${confidencePercent}%\` \n${progressBar}`,
-				},
-				{
-					name: "Czas przetwarzania",
-					value: `\`${data.analysis_time.toFixed(3)}s\``,
-					inline: true,
-				},
-				{ name: "Użyty model", value: `\`${data.used_model}\``, inline: true },
-				{
-					name: "Format danych",
-					value: `\`${data.content_type.toUpperCase()}\``,
-					inline: true,
-				},
-			)
 			.setTimestamp()
 			.setFooter({
 				text: "Deepfake Detection Service",
 				iconURL: client.user.displayAvatarURL(),
 			});
 
-		// DYNAMICZNE RENDEROWANIE EMBEDA: Multi-Model vs Single-Model
 		if (data.details && data.details.length > 0) {
 			// Widok dla Multi-Modelu: ładnie listujemy każdy model
 			embed.addFields({ name: "📊 Średnia pewność systemu", value: `\`${confidencePercent}%\``, inline: false });
@@ -454,7 +436,7 @@ async function handleAnalysis(
 				});
 			}
 		} else {
-			// Standardowy widok dla pojedynczego modelu
+			// Standardowy widok dla pojedynczego modelu (progressBar jest bezpiecznie zdefiniowany tutaj)
 			const progressBar = getProgressBar(data.confidence, data.is_deepfake);
 			embed.addFields(
 				{ name: "Pewność modelu", value: `\`${confidencePercent}%\` \n${progressBar}` },
@@ -462,7 +444,7 @@ async function handleAnalysis(
 			);
 		}
 
-		// Dodatkowe pola wspólne
+		// 3. Dodatkowe pola wspólne (dodawane tylko raz na samym końcu)
 		embed.addFields(
 			{ name: "Czas przetwarzania", value: `\`${data.analysis_time.toFixed(3)}s\``, inline: true },
 			{ name: "Format danych", value: `\`${data.content_type.toUpperCase()}\``, inline: true }
