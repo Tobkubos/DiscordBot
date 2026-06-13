@@ -12,3 +12,6 @@ protobuf
 Pillow
 groq==0.13.1
 duckduckgo-search==7.3.0
+slowapi
+pytest==7.4.3
+pytest-asyncio==0.21.1

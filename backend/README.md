@@ -41,25 +41,6 @@ Once the server is running, interactive API documentation is available at:
 - Swagger UI: `http://127.0.0.1:8000/docs`
 - ReDoc: `http://127.0.0.1:8000/redoc`
 
-## 🔌 API Endpoints
-
-### Health Check
-```bash
-GET /
-```
-
-Returns service status and available models.
-
-**Response:**
-```json
-{
-  "status": "ok",
-  "service": "Deepfake Detection Service",
-  "version": "1.0.0",
-  "available_models": ["mock"]
-}
-```
-
 ### Analyze File
 ```bash
 POST /analyze
@@ -81,7 +62,7 @@ Content-Type: application/json
   "is_deepfake": true,
   "confidence": 0.847,
   "analysis_time": 1.234,
-  "model_used": "mock"
+  "used_model": "mock"
 }
 ```
 
