@@ -18,11 +18,7 @@ class Settings:
     # File handling
     DOWNLOAD_TIMEOUT: int = int(os.getenv("DOWNLOAD_TIMEOUT", "30"))
     MAX_FILE_SIZE: int = int(os.getenv("MAX_FILE_SIZE", str(100 * 1024 * 1024)))  # 100 MB
-    
-    # ML Model configuration
-    DEFAULT_DETECTOR_MODEL: str = os.getenv("DEFAULT_DETECTOR_MODEL", "mock")
-    # Supported models: "mock", "deepseek", "openai", etc. (easy to add more)
-    
+ 
     # Redis configuration (for future queuing)
     REDIS_ENABLED: bool = os.getenv("REDIS_ENABLED", "False").lower() == "true"
     REDIS_URL: str = os.getenv("REDIS_URL", "redis://localhost:6379")

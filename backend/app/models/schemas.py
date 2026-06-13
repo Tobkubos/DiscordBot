@@ -66,7 +66,7 @@ class AnalysisResponse(BaseModel):
     is_deepfake: bool = Field(..., description="Whether the content is detected as a deepfake")
     confidence: float = Field(..., ge=0.0, le=1.0, description="Confidence score between 0.0 and 1.0")
     analysis_time: float = Field(..., description="Time taken for analysis in seconds")
-    model_used: str = Field(..., description="The detector model that was used")
+    used_model: str = Field(..., description="The detector model that was used")
     content_type: str = Field(..., description="Type of content analyzed (text/image/video/file)")
     
     class Config:
@@ -75,7 +75,7 @@ class AnalysisResponse(BaseModel):
                 "is_deepfake": True,
                 "confidence": 0.847,
                 "analysis_time": 1.234,
-                "model_used": "mock",
+                "used_model": "mock",
                 "content_type": "image"
             }
         }
