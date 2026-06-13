@@ -101,7 +101,7 @@ Wskazówki do werdyktu:
     try:
         model = genai.GenerativeModel(
             model_name="gemini-1.5-flash",
-            tools=[{"google_search": {}}]
+            tools="google_search_retrieval"
         )
         
         response = model.generate_content(
