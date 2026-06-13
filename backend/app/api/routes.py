@@ -1,5 +1,6 @@
 import logging
 from fastapi import APIRouter, HTTPException, Request, status
+from slowapi.errors import RateLimitExceeded
 
 from app.models.schemas import (
     AnalysisRequest,
@@ -120,9 +121,14 @@ async def get_discord_guild_config(guild_id: str):
     tags=["Analysis"],
     summary="Analyze content for deepfake detection",
 )
-@limiter.limit("1/5seconds")
 async def analyze(request: Request, payload: AnalysisRequest) -> AnalysisResponse:
     guild_id = payload.guild_id
+    
+    try:
+        limiter.try_increment(f"analyze:{guild_id}", "1/5seconds")
+    except RateLimitExceeded:
+        raise HTTPException(status_code=429, detail="Rate limit exceeded for this guild")
+    
     
     if isinstance(payload, TextAnalysisRequest):
         content_type = "text"
