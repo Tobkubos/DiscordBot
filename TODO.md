@@ -1,0 +1,2 @@
+Bezpieczeństwo (SSRF - Server-Side Request Forgery): Twój backend pobiera pliki z dowolnego przekazanego adresu URL. Złośliwy użytkownik mógłby podać URL wskazujący na wewnętrzne zasoby Twojej sieci (np. http://localhost:8080/admin). Warto zaimplementować w download_file walidację, która pozwala na pobieranie plików wyłącznie z zaufanych domen (np. tylko z *.discordapp.com i *.media.discordapp.net).
+
