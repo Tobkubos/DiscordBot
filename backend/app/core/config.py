@@ -30,8 +30,10 @@ class Settings:
     
     AVAILABLE_MODELS = {
         "text": ["yaya36095/xlm-roberta-text-detector",
-                 "almanach/xlmr-chatgptdetect-noisy"],
-        "image": ["capcheck/ai-image-detection"],
+                 "almanach/xlmr-chatgptdetect-noisy",
+                 "bibbbu/multilingual-ai-human-detector_xlm-roberta-base"],
+        "image": ["capcheck/ai-image-detection",
+                  "Hemg/Deepfake-image"],
     }
 
     MAX_CONTENT_SIZES = {
