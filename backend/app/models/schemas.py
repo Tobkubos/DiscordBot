@@ -1,18 +1,16 @@
 from pydantic import BaseModel, HttpUrl, Field
-from typing import Optional, Union, Literal
+from typing import Union, Literal, Optional
 
 
 class TextAnalysisRequest(BaseModel):
     content_type: Literal["text"]
     text: str = Field(..., description="Text content to analyze for deepfake detection")
-    model: Optional[str] = Field(None, description="Detector model to use")
     
     class Config:
         json_schema_extra = {
             "example": {
                 "content_type": "text",
-                "text": "Some text that might be AI-generated",
-                "model": "mock"
+                "text": "Some text that might be AI-generated"
             }
         }
 
@@ -20,14 +18,12 @@ class TextAnalysisRequest(BaseModel):
 class ImageAnalysisRequest(BaseModel):
     content_type: Literal["image"]
     image_url: HttpUrl = Field(..., description="URL of the image to analyze")
-    model: Optional[str] = Field(None, description="Detector model to use")
     
     class Config:
         json_schema_extra = {
             "example": {
                 "content_type": "image",
-                "image_url": "https://example.com/image.jpg",
-                "model": "mock"
+                "image_url": "https://example.com/image.jpg"
             }
         }
 
@@ -35,14 +31,12 @@ class ImageAnalysisRequest(BaseModel):
 class VideoAnalysisRequest(BaseModel):
     content_type: Literal["video"]
     video_url: HttpUrl = Field(..., description="URL of the video to analyze")
-    model: Optional[str] = Field(None, description="Detector model to use")
     
     class Config:
         json_schema_extra = {
             "example": {
                 "content_type": "video",
-                "video_url": "https://example.com/video.mp4",
-                "model": "mock"
+                "video_url": "https://example.com/video.mp4"
             }
         }
 
@@ -50,14 +44,12 @@ class VideoAnalysisRequest(BaseModel):
 class FileAnalysisRequest(BaseModel):
     content_type: Literal["file"]
     file_url: HttpUrl = Field(..., description="URL of the file to analyze")
-    model: Optional[str] = Field(None, description="Detector model to use")
     
     class Config:
         json_schema_extra = {
             "example": {
                 "content_type": "file",
-                "file_url": "https://example.com/video.mp4",
-                "model": "mock"
+                "file_url": "https://example.com/video.mp4"
             }
         }
 
@@ -108,5 +100,5 @@ class HealthResponse(BaseModel):
     status: str = Field(..., description="Service status")
     service: str = Field(..., description="Service name")
     version: str = Field(..., description="Service version")
-    available_models: list = Field(..., description="Available detector models")
+    available_models: dict = Field(..., description="Available detector models per content type")
     supported_types: list = Field(..., description="Supported content types")

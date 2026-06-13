@@ -1,26 +1,51 @@
 import logging
 import time
 from typing import Dict, Any
+from transformers import pipeline
 
 logger = logging.getLogger(__name__)
 
+_text_classifier = None
+
+def _load_model():
+    global _text_classifier
+    if _text_classifier is None:
+        logger.info("Loading XLM-RoBERTa text detector model...")
+        _text_classifier = pipeline(
+            "text-classification",
+            model="yaya36095/xlm-roberta-text-detector",
+            device=-1
+        )
+        logger.info("Text detector model loaded successfully")
+    return _text_classifier
 
 async def analyze_text(text: str) -> Dict[str, Any]:
+    if len(text) > 5000:
+        raise ValueError("Text content exceeds maximum length of 5000 characters")
+    
+    if len(text) < 10:
+        raise ValueError("Text content must be at least 10 characters")
+    
     start_time = time.time()
     
     logger.info(f"Starting text analysis, length: {len(text)} chars")
     
-    text_hash = hash(text) % 100
-    is_deepfake = text_hash > 50
-    confidence = (text_hash % 100) / 100.0
+    classifier = _load_model()
+    result = classifier(text)
+    
+    label = result[0]["label"]
+    score = result[0]["score"]
+    
+    is_deepfake = label.lower() == "fake"
+    confidence = score
     
     analysis_time = time.time() - start_time
     
-    result = {
+    response = {
         "is_deepfake": is_deepfake,
         "confidence": round(confidence, 3),
         "analysis_time": round(analysis_time, 3),
     }
     
-    logger.info(f"Text analysis completed. Result: {result}")
-    return result
+    logger.info(f"Text analysis completed. Result: {response}")
+    return response
