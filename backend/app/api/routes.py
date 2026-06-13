@@ -67,6 +67,7 @@ async def save_discord_guild_setup(guild_id: str, payload: GuildConfigSchema):
     # Walidacja modeli z pliku ustawień
     settings = get_settings()
     allowed_text_models = settings.AVAILABLE_MODELS.get("text", [])
+    allowed_image_models = settings.AVAILABLE_MODELS.get("image", [])
     
     # Walidujemy tylko wtedy, gdy model nie jest ustawiony na "none"
     if payload.active_text_model and payload.active_text_model.lower() != "none":
@@ -74,6 +75,13 @@ async def save_discord_guild_setup(guild_id: str, payload: GuildConfigSchema):
             raise HTTPException(
                 status_code=400,
                 detail=f"Model '{payload.active_text_model}' nie jest dozwolony. Wybierz z: {allowed_text_models}"
+            )
+            
+    if payload.active_image_model and payload.active_image_model.lower() != "none":
+        if payload.active_image_model not in allowed_image_models:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Model '{payload.active_image_model}' nie jest dozwolony. Wybierz z: {allowed_image_models}"
             )
             
     # Zapis konfiguracji przez config_manager
