@@ -108,5 +108,5 @@ class HealthResponse(BaseModel):
     status: str = Field(..., description="Service status")
     service: str = Field(..., description="Service name")
     version: str = Field(..., description="Service version")
-    available_models: list = Field(..., description="Available detector models")
+    available_models: dict = Field(..., description="Available detector models per content type")
     supported_types: list = Field(..., description="Supported content types")
