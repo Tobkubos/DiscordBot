@@ -2,17 +2,54 @@ import logging
 import json
 import re
 import os
+from pathlib import Path
 from typing import Dict, Any, List
 import google.generativeai as genai
 
 logger = logging.getLogger(__name__)
 
+def load_env_fallback():
+    """
+    Ręcznie wczytuje plik .env do os.environ.
+    Szuka pliku w kilku prawdopodobnych miejscach, zależnie od tego, skąd uruchomiono serwer.
+    """
+    if os.getenv("GEMINI_API_KEY"):
+        return  # Klucz już jest wczytany, nie musimy nic robić
+
+    # Sprawdzamy potencjalne ścieżki do pliku .env
+    possible_paths = [
+        Path(".env"),                                      # Bieżący folder roboczy
+        Path("backend/.env"),                              # Folder backend (jeśli uruchomiono z głównego)
+        Path(__file__).resolve().parent.parent.parent / ".env"  # Ścieżka relatywna do tego pliku serwisu
+    ]
+
+    for path in possible_paths:
+        if path.exists():
+            logger.info(f"Wczytywanie pliku .env z lokalizacji: {path.resolve()}")
+            try:
+                with open(path, "r", encoding="utf-8") as f:
+                    for line in f:
+                        line = line.strip()
+                        if line and not line.startswith("#") and "=" in line:
+                            key, val = line.split("=", 1)
+                            # Oczyszczamy klucz i wartość z cudzysłowów oraz spacji
+                            os.environ[key.strip()] = val.strip().strip("'\"")
+                return
+            except Exception as e:
+                logger.warning(f"Nie udało się odczytać pliku {path}: {e}")
+
+# Uruchamiamy wczytywanie środowiska przy imporcie tego serwisu
+load_env_fallback()
+
+
 async def analyze_with_gemini_grounding(statement: str) -> Dict[str, Any]:
     """
     Analizuje stwierdzenie, automatycznie przeszukując internet za pomocą 
     wbudowanego w Gemini narzędzia Google Search Grounding.
-    Rozwiązuje to całkowicie problemy z blokowaniem i timeoutami wyszukiwarek.
     """
+    # Upewniamy się, że środowisko jest załadowane
+    load_env_fallback()
+    
     api_key = os.getenv("GEMINI_API_KEY")
     
     if not api_key:
@@ -26,8 +63,6 @@ async def analyze_with_gemini_grounding(statement: str) -> Dict[str, Any]:
         
     genai.configure(api_key=api_key)
     
-    # Ponieważ nie możemy łączyć narzędzia wyszukiwania (Google Search) z trybem JSON w konfiguracji API,
-    # wymuszamy strukturę JSON za pomocą precyzyjnego promptu systemowego.
     prompt = f"""Jesteś zaawansowanym asystentem do weryfikacji faktów (fact-checking).
 Przeanalizuj poniższe stwierdzenie, korzystając z wyszukiwarki Google (masz do niej dostęp jako narzędzie), aby zweryfikować jego prawdziwość w czasie rzeczywistym.
 
@@ -48,23 +83,21 @@ Wskazówki do werdyktu:
 """
 
     try:
-        # Inicjalizacja modelu z wbudowanym narzędziem Google Search
         model = genai.GenerativeModel(
             model_name="gemini-1.5-flash",
-            tools=[{"google_search": {}}]  # Włączenie Google Search Grounding
+            tools=[{"google_search": {}}]
         )
         
         response = model.generate_content(
             prompt,
             generation_config=genai.types.GenerationConfig(
-                temperature=0.0  # Niska temperatura chroni przed zmyślaniem (halucynacjami)
+                temperature=0.0
             )
         )
         
         raw_text = response.text.strip()
         logger.info(f"Surowa odpowiedź Gemini: {raw_text}")
         
-        # Wyczyszczenie tekstu z ewentualnych znaczników markdown ```json ... ```
         if raw_text.startswith("```"):
             match = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", raw_text, re.DOTALL)
             if match:
@@ -72,7 +105,6 @@ Wskazówki do werdyktu:
                 
         result_json = json.loads(raw_text)
         
-        # Wyciąganie realnych źródeł (linków i tytułów), z których skorzystał model
         sources = []
         candidate = response.candidates[0]
         metadata = getattr(candidate, "grounding_metadata", None)
