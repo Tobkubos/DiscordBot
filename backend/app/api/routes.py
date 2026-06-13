@@ -86,14 +86,13 @@ async def analyze(request: AnalysisRequest) -> AnalysisResponse:
                 detail="Text content must be at least 10 characters"
             )
         
-        model = request.model or "yaya36095/xlm-roberta-text-detector"
-        
-        if model not in AVAILABLE_MODELS["text"]:
+        if not AVAILABLE_MODELS["text"]:
             raise HTTPException(
                 status_code=400,
-                detail=f"Model '{model}' is not available for text analysis. Available models: {AVAILABLE_MODELS['text']}"
+                detail="No model available for text analysis"
             )
         
+        model = AVAILABLE_MODELS["text"][0]
         logger.info(f"Received text analysis request, length: {len(request.text)} chars, model: {model}")
         
         try:
@@ -116,20 +115,14 @@ async def analyze(request: AnalysisRequest) -> AnalysisResponse:
     
     elif isinstance(request, ImageAnalysisRequest):
         content_type = "image"
-        model = request.model
         
-        if not model:
+        if not AVAILABLE_MODELS["image"]:
             raise HTTPException(
                 status_code=400,
-                detail=f"No model available for image analysis. Available models: {AVAILABLE_MODELS['image']}"
+                detail="No model available for image analysis"
             )
         
-        if model not in AVAILABLE_MODELS["image"]:
-            raise HTTPException(
-                status_code=400,
-                detail=f"Model '{model}' is not available for image analysis. Available models: {AVAILABLE_MODELS['image']}"
-            )
-        
+        model = AVAILABLE_MODELS["image"][0]
         logger.info(f"Received image analysis request for URL: {request.image_url}, model: {model}")
         
         try:
@@ -160,20 +153,14 @@ async def analyze(request: AnalysisRequest) -> AnalysisResponse:
     
     elif isinstance(request, VideoAnalysisRequest):
         content_type = "video"
-        model = request.model
         
-        if not model:
+        if not AVAILABLE_MODELS["video"]:
             raise HTTPException(
                 status_code=400,
-                detail=f"No model available for video analysis. Available models: {AVAILABLE_MODELS['video']}"
+                detail="No model available for video analysis"
             )
         
-        if model not in AVAILABLE_MODELS["video"]:
-            raise HTTPException(
-                status_code=400,
-                detail=f"Model '{model}' is not available for video analysis. Available models: {AVAILABLE_MODELS['video']}"
-            )
-        
+        model = AVAILABLE_MODELS["video"][0]
         logger.info(f"Received video analysis request for URL: {request.video_url}, model: {model}")
         
         try:
@@ -204,20 +191,14 @@ async def analyze(request: AnalysisRequest) -> AnalysisResponse:
     
     elif isinstance(request, FileAnalysisRequest):
         content_type = "file"
-        model = request.model
         
-        if not model:
+        if not AVAILABLE_MODELS["file"]:
             raise HTTPException(
                 status_code=400,
-                detail=f"No model available for file analysis. Available models: {AVAILABLE_MODELS['file']}"
+                detail="No model available for file analysis"
             )
         
-        if model not in AVAILABLE_MODELS["file"]:
-            raise HTTPException(
-                status_code=400,
-                detail=f"Model '{model}' is not available for file analysis. Available models: {AVAILABLE_MODELS['file']}"
-            )
-        
+        model = AVAILABLE_MODELS["file"][0]
         logger.info(f"Received file analysis request for URL: {request.file_url}, model: {model}")
         
         try:
