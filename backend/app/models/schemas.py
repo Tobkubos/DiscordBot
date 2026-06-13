@@ -1,5 +1,5 @@
 from pydantic import BaseModel, HttpUrl, Field
-from typing import Union, Literal, Optional
+from typing import Union, Literal, Optional, Dict, List
 
 
 class TextAnalysisRequest(BaseModel):
@@ -100,5 +100,17 @@ class HealthResponse(BaseModel):
     status: str = Field(..., description="Service status")
     service: str = Field(..., description="Service name")
     version: str = Field(..., description="Service version")
-    available_models: dict = Field(..., description="Available detector models per content type")
-    supported_types: list = Field(..., description="Supported content types")
+    available_models: Dict[str, List[str]] = Field(
+        ..., description="Lista dostępnych modeli pogrupowana według typów"
+    )
+    supported_types: List[str] = Field(
+        ..., description="Obsługiwane typy danych"
+    )
+    models_status: Dict[str, str] = Field(
+        ..., description="Status gotowości handlerów dla poszczególnych typów"
+    )
+    
+class GuildConfigSchema(BaseModel):
+    active_text_model: Optional[str] = "none"
+    # Tutaj możesz dodać inne parametry, które bot zbiera w sesji setup (np. log_channel_id)
+    log_channel_id: Optional[str] = None

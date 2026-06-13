@@ -425,13 +425,37 @@ client.on(Events.InteractionCreate, async (interaction) => {
 		if (interaction.customId === "setup_save") {
 			const tempSession = activeSetupSessions.get(guildId);
 			if (tempSession) {
-				saveConfig(guildId, tempSession.config);
-				activeSetupSessions.delete(guildId);
-				await interaction.update({
-					content: "✅ **Ustawienia zostały pomyślnie zapisane!**",
-					embeds: [],
-					components: []
-				});
+				try {
+					const response = await fetch(`http://backend-api-url/guilds/${guildId}/setup`, {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json"
+						},
+						body: JSON.stringify({
+							active_text_model: tempSession.config.active_text_model || "none",
+							log_channel_id: tempSession.config.log_channel_id || null
+						})
+					});
+
+					if (!response.ok) {
+						const errData = await response.json();
+						throw new Error(errData.detail || "Błąd zapisu na backendzie");
+					}
+
+					activeSetupSessions.delete(guildId);
+					await interaction.update({
+						content: "✅ **Ustawienia zostały pomyślnie zapisane na backendzie!**",
+						embeds: [],
+						components: []
+					});
+				} catch (error) {
+					console.error("[SETUP ERROR]", error);
+					await interaction.update({
+						content: `❌ **Wystąpił błąd podczas zapisywania konfiguracji:** ${error.message}`,
+						embeds: [],
+						components: []
+					});
+				}
 			}
 		}
 

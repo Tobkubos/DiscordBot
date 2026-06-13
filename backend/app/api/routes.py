@@ -5,6 +5,7 @@ from app.models.schemas import (
     AnalysisRequest,
     AnalysisResponse,
     ErrorResponse,
+    GuildConfigSchema,
     HealthResponse,
     TextAnalysisRequest,
     ImageAnalysisRequest,
@@ -13,8 +14,9 @@ from app.services.download import download_file
 from app.services.text_analyzer import analyze_text
 from app.services.image_analyzer import analyze_image
 from app.core.config import get_settings
-from app.utils.exceptions import DeepfakeDetectionError
+from app.utils.exceptions import DeepfakeDetectionError, SetupRequiredError
 from app.core.limiter import limiter
+from app.config_manager import save_guild_config
 
 logger = logging.getLogger(__name__)
 
@@ -56,7 +58,34 @@ async def health_check() -> HealthResponse:
         version=settings.APP_VERSION,
         available_models=settings.AVAILABLE_MODELS,
         supported_types=list(settings.AVAILABLE_MODELS.keys()),
+        models_status=models_status,
     )
+
+# Endpoint do zapisywania konfiguracji (wywoływany przez bota)
+@router.post("/guilds/{guild_id}/setup", tags=["Setup"])
+async def save_discord_guild_setup(guild_id: str, payload: GuildConfigSchema):
+    # Walidacja modeli z pliku ustawień
+    settings = get_settings()
+    allowed_text_models = settings.AVAILABLE_MODELS.get("text", [])
+    
+    # Walidujemy tylko wtedy, gdy model nie jest ustawiony na "none"
+    if payload.active_text_model and payload.active_text_model.lower() != "none":
+        if payload.active_text_model not in allowed_text_models:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Model '{payload.active_text_model}' nie jest dozwolony. Wybierz z: {allowed_text_models}"
+            )
+            
+    # Zapis konfiguracji przez config_manager
+    config_dict = payload.dict()
+    save_guild_config(guild_id, config_dict)
+    
+    logger.info(f"Zapisano nową konfigurację dla serwera Discord {guild_id}")
+    return {
+        "status": "success",
+        "message": f"Konfiguracja dla serwera {guild_id} została zapisana.",
+        "config": config_dict
+    }
 
 @router.post(
     "/analyze",

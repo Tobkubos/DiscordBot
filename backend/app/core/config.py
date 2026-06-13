@@ -29,7 +29,8 @@ class Settings:
     LOG_FILE: Optional[str] = os.getenv("LOG_FILE", None)
     
     AVAILABLE_MODELS = {
-        "text": ["yaya36095/xlm-roberta-text-detector"],
+        "text": ["yaya36095/xlm-roberta-text-detector",
+                 "almanach/xlmr-chatgptdetect-noisy"],
         "image": ["capcheck/ai-image-detection"],
     }
 
