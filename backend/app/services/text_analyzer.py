@@ -3,74 +3,110 @@ import time
 import gc
 from typing import Dict, Any
 
-from app.config_manager import get_active_text_model
+from app.config_manager import get_active_text_model, is_multi_model_enabled
+from app.core.config import get_settings
 from app.utils.exceptions import SetupRequiredError
 from transformers import pipeline
-# Importujesz helpery z Kroku 2:
-# from config_manager import get_active_text_model 
 
 logger = logging.getLogger(__name__)
 
-# Przechowujemy nazwę aktualnie załadowanego modelu oraz sam obiekt klasyfikatora
-_loaded_model_name = None
-_text_classifier = None
+# Słownik do keszowania klasyfikatorów w RAM (zapobiega ciągłemu przeładowywaniu przy multi-modelu)
+_loaded_classifiers = {}
 
 def _load_model(target_model_name: str):
-    global _text_classifier, _loaded_model_name
+    global _loaded_classifiers
     
-    # Jeśli model w pamięci jest tym, którego potrzebujemy, po prostu go zwracamy
-    if _text_classifier is not None and _loaded_model_name == target_model_name:
-        return _text_classifier
+    if target_model_name in _loaded_classifiers:
+        return _loaded_classifiers[target_model_name]
         
-    logger.info(f"Wymagana zmiana modelu. Obecny w RAM: {_loaded_model_name}, Nowy: {target_model_name}")
+    logger.info(f"Model {target_model_name} nie jest załadowany. Ładowanie do RAM...")
     
-    # Zwalnianie pamięci po poprzednim modelu
-    _text_classifier = None
     gc.collect()
-    
-    logger.info(f"Ładowanie modelu text detector: {target_model_name}...")
-    _text_classifier = pipeline(
+    _loaded_classifiers[target_model_name] = pipeline(
         "text-classification",
         model=target_model_name,
-        device=-1  # -1 oznacza CPU, jeśli masz GPU ustaw np. 0
+        device=-1
     )
-    _loaded_model_name = target_model_name
     logger.info(f"Model {target_model_name} został pomyślnie załadowany.")
     
-    return _text_classifier
+    return _loaded_classifiers[target_model_name]
 
 async def analyze_text(text: str, guild_id: str) -> Dict[str, Any]:
     start_time = time.time()
+    settings = get_settings()
     
-    # Pobranie aktywnego modelu dla danej gildii
-    active_model = get_active_text_model(guild_id)
+    # Sprawdzamy, czy włączony jest tryb wielomodelowy
+    multi_model_active = is_multi_model_enabled(guild_id)
     
-    # BLOKADA: Jeżeli model to 'none' lub brak konfiguracji, natychmiast wyrzucamy błąd
-    if not active_model:
-        logger.warning(f"Zablokowano zapytanie! Serwer {guild_id} nie ma skonfigurowanego modelu.")
-        raise SetupRequiredError(
-            f"Serwer o ID '{guild_id}' nie został jeszcze skonfigurowany. "
-            "Użyj komendy setup na Discordzie przed wykonaniem analizy."
-        )
+    if multi_model_active:
+        models_to_run = settings.AVAILABLE_MODELS.get("text", [])
+        if not models_to_run:
+            raise ValueError("Brak zdefiniowanych modeli tekstowych w ustawieniach systemu.")
+            
+        logger.info(f"Rozpoczęcie wielomodelowej analizy tekstu dla serwera {guild_id} ({len(models_to_run)} modeli)")
+        
+        individual_results = []
+        for m in models_to_run:
+            try:
+                classifier = _load_model(m)
+                result = classifier(text)
+                label = result[0]["label"]
+                score = result[0]["score"]
+                is_fake = label.lower() in ["fake", "ai", "chatgpt", "label_1", "machine-generated"]
+                
+                individual_results.append({
+                    "model": m,
+                    "is_deepfake": is_fake,
+                    "confidence": round(score, 3)
+                })
+            except Exception as e:
+                logger.error(f"Błąd modelu {m} podczas wielomodelowej analizy: {e}")
+        
+        if not individual_results:
+            raise ValueError("Żaden z modeli tekstowych nie dokonał pomyślnej analizy.")
+            
+        # Agregacja: Głosowanie większościowe
+        fake_votes = sum(1 for r in individual_results if r["is_deepfake"])
+        is_deepfake = fake_votes > (len(individual_results) / 2)
+        
+        # Pewność: Średnia pewność wszystkich modeli
+        confidence = sum(r["confidence"] for r in individual_results) / len(individual_results)
+        analysis_time = time.time() - start_time
+        
+        return {
+            "is_deepfake": is_deepfake,
+            "confidence": round(confidence, 3),
+            "analysis_time": round(analysis_time, 3),
+            "used_model": "Multi-Model Workflow (Ensemble)",
+            "details": individual_results  # Przekazujemy szczegóły do bota
+        }
+    
+    else:
+        # Tradycyjna analiza pojedynczego modelu
+        active_model = get_active_text_model(guild_id)
+        if not active_model:
+            logger.warning(f"Zablokowano zapytanie! Serwer {guild_id} nie ma skonfigurowanego modelu.")
+            raise SetupRequiredError(
+                f"Serwer o ID '{guild_id}' nie został jeszcze skonfigurowany. "
+                "Użyj komendy setup na Discordzie przed wykonaniem analizy."
+            )
 
-    logger.info(f"Rozpoczęcie analizy tekstu dla serwera {guild_id} przy użyciu modelu: {active_model}")
-    
-    classifier = _load_model(active_model)
-    result = classifier(text)
-    
-    label = result[0]["label"]
-    score = result[0]["score"]
-    
-    is_deepfake = label.lower() in ["fake", "ai", "chatgpt", "label_1", "machine-generated"]
-    confidence = score
-    analysis_time = time.time() - start_time
-    
-    response = {
-        "is_deepfake": is_deepfake,
-        "confidence": round(confidence, 3),
-        "analysis_time": round(analysis_time, 3),
-        "used_model": active_model,
-    }
-    
-    logger.info(f"Analiza zakończona sukcesem dla serwera {guild_id}.")
-    return response
+        logger.info(f"Rozpoczęcie analizy tekstu dla serwera {guild_id} przy użyciu modelu: {active_model}")
+        
+        classifier = _load_model(active_model)
+        result = classifier(text)
+        
+        label = result[0]["label"]
+        score = result[0]["score"]
+        
+        is_deepfake = label.lower() in ["fake", "ai", "chatgpt", "label_1", "machine-generated"]
+        confidence = score
+        analysis_time = time.time() - start_time
+        
+        return {
+            "is_deepfake": is_deepfake,
+            "confidence": round(confidence, 3),
+            "analysis_time": round(analysis_time, 3),
+            "used_model": active_model,
+            "details": None
+        }
