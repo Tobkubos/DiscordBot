@@ -23,7 +23,7 @@ router = APIRouter()
 
 AVAILABLE_MODELS = {
     "text": ["yaya36095/xlm-roberta-text-detector"],
-    "image": [],
+    "image": ["capcheck/ai-image-detection"],
     "video": [],
     "file": [],
 }
@@ -80,10 +80,10 @@ async def analyze(request: AnalysisRequest) -> AnalysisResponse:
                 detail=f"Text content exceeds maximum length of {MAX_CONTENT_SIZES['text']} characters"
             )
         
-        if len(request.text) < 10:
+        if len(request.text) < 50:
             raise HTTPException(
                 status_code=400,
-                detail="Text content must be at least 10 characters"
+                detail="Text content must be at least 50 characters"
             )
         
         if not AVAILABLE_MODELS["text"]:

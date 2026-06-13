@@ -20,12 +20,6 @@ def _load_model():
     return _text_classifier
 
 async def analyze_text(text: str) -> Dict[str, Any]:
-    if len(text) > 5000:
-        raise ValueError("Text content exceeds maximum length of 5000 characters")
-    
-    if len(text) < 10:
-        raise ValueError("Text content must be at least 10 characters")
-    
     start_time = time.time()
     
     logger.info(f"Starting text analysis, length: {len(text)} chars")
