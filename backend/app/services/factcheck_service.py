@@ -100,8 +100,12 @@ Wskazówki do werdyktu:
 
     try:
         model = genai.GenerativeModel(
-            model_name="gemini-1.5-flash",
-            tools="google_search_retrieval"
+            model_name="gemini-2.5-flash",
+            tools=[
+                genai.protos.Tool(
+                    google_search=genai.protos.Tool.GoogleSearch()
+                )
+            ]
         )
         
         response = model.generate_content(
