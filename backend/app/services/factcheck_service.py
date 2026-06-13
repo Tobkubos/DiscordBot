@@ -2,11 +2,11 @@ import logging
 import json
 import re
 import os
+import urllib.parse
 from pathlib import Path
 from typing import Dict, Any, List
+import httpx
 import google.generativeai as genai
-# Import narzędzia do bezpiecznego dekodowania obiektów Google Protobuf
-from google.protobuf.json_format import MessageToDict
 
 logger = logging.getLogger(__name__)
 
@@ -60,10 +60,82 @@ def load_env_fallback():
 load_env_fallback()
 
 
+def search_web_manually(query: str, max_results: int = 3) -> List[Dict[str, str]]:
+    """
+    Ręcznie wyszukuje informacje w DuckDuckGo HTML przy użyciu biblioteki httpx.
+    Bypassuje błędy i limity Google API, gwarantując pobranie źródeł i linków.
+    """
+    logger.info(f"Ręczne wyszukiwanie w sieci dla zapytania: {query}")
+    
+    # Standardowe nagłówki przeglądarki, aby zapobiec blokowaniu przez DDG
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    }
+    url = "https://html.duckduckgo.com/html/"
+    
+    try:
+        with httpx.Client(headers=headers, timeout=10.0) as client:
+            response = client.get(url, params={"q": query})
+            response.raise_for_status()
+            html = response.text
+            
+            # Regex do znajdowania linków i tytułów
+            link_pattern = re.compile(
+                r'<a[^>]*class="result__a"[^>]*href="(?P<url>[^"]+)"[^>]*>(?P<title>.*?)</a>',
+                re.IGNORECASE | re.DOTALL
+            )
+            # Regex do znajdowania snippetów (krótkich opisów)
+            snippet_pattern = re.compile(
+                r'<a[^>]*class="result__snippet"[^>]*>(?P<snippet>.*?)</a>',
+                re.IGNORECASE | re.DOTALL
+            )
+            
+            links = link_pattern.findall(html)
+            snippets = snippet_pattern.findall(html)
+            
+            results = []
+            for i in range(min(len(links), max_results)):
+                raw_url, raw_title = links[i]
+                
+                # Dekodowanie linku przekierowującego DuckDuckGo
+                clean_url = raw_url
+                if "uddg=" in raw_url:
+                    match = re.search(r'uddg=([^&]+)', raw_url)
+                    if match:
+                        clean_url = urllib.parse.unquote(match.group(1))
+                
+                # Upewniamy się, że link ma poprawny protokół
+                if clean_url.startswith("//"):
+                    clean_url = "https:" + clean_url
+                elif clean_url.startswith("/"):
+                    clean_url = "https://duckduckgo.com" + clean_url
+                
+                # Oczyszczenie tekstu z tagów HTML
+                clean_title = re.sub(r'<[^>]+>', '', raw_title).strip()
+                
+                clean_snippet = "Brak opisu."
+                if i < len(snippets):
+                    clean_snippet = re.sub(r'<[^>]+>', '', snippets[i]).strip()
+                
+                results.append({
+                    "title": clean_title,
+                    "url": clean_url,
+                    "snippet": clean_snippet
+                })
+            
+            logger.info(f"Pomyślnie wyszukano {len(results)} źródeł z sieci.")
+            return results
+            
+    except Exception as e:
+        logger.error(f"Ręczne wyszukiwanie DuckDuckGo nie powiodło się: {e}", exc_info=True)
+        return []
+
+
 async def analyze_with_gemini_grounding(statement: str) -> Dict[str, Any]:
     """
-    Analizuje stwierdzenie, automatycznie przeszukując internet za pomocą 
-    wbudowanego w Gemini narzędzia Google Search Grounding.
+    Analizuje stwierdzenie, najpierw pobierając najnowsze wyniki z sieci,
+    a następnie przekazując je jako kontekst do modelu Gemini.
+    Gwarantuje to stabilne działanie źródeł na Discordzie.
     """
     load_env_fallback()
     
@@ -80,33 +152,46 @@ async def analyze_with_gemini_grounding(statement: str) -> Dict[str, Any]:
         
     genai.configure(api_key=api_key)
     
-    # Zmieniamy prompt na standardowy tekst zamiast JSON-a, aby uwolnić grounding_chunks w API Google
+    # 1. Pobieramy źródła ręcznie (bypasując błędy API Google)
+    web_results = search_web_manually(statement, max_results=3)
+    
+    if not web_results:
+        return {
+            "verdict": "SPORNE",
+            "explanation": "Wyszukiwarka nie zwróciła żadnych wyników w sieci dla tego stwierdzenia, co uniemożliwia weryfikację.",
+            "confidence": 0.0,
+            "sources": []
+        }
+        
+    # Formatowanie pobranych źródeł do formy czytelnej dla modelu LLM
+    sources_text = ""
+    for idx, r in enumerate(web_results, start=1):
+        sources_text += f"[{idx}] Tytuł: {r['title']}\nTreść: {r['snippet']}\n\n"
+        
     prompt = f"""Jesteś zaawansowanym asystentem do weryfikacji faktów (fact-checking).
-Przeanalizuj poniższe stwierdzenie, korzystając z wyszukiwarki Google, aby zweryfikować jego prawdziwość w czasie rzeczywistym.
+Przeanalizuj poniższe stwierdzenie na podstawie dostarczonych aktualnych wyników wyszukiwania z internetu.
 
 STWIERDZENIE DO WERYFIKACJI:
 "{statement}"
 
+DOKUMENTY Z WYSZUKIWARKI:
+{sources_text}
+
 Twoja odpowiedź musi ściśle odpowiadać poniższemu szablonowi (nie dodawaj żadnych innych komentarzy ani wstępów):
 
 VERDICT: [Wpisz PRAWDA, FAŁSZ lub SPORNE]
-EXPLANATION: [Wpisz zwięzłe (2-4 zdania), merytoryczne i obiektywne uzasadnienie werdyktu w języku polskim, wyjaśniające co mówią najnowsze fakty.]
+EXPLANATION: [Wpisz zwięzłe (2-4 zdania), merytoryczne i obiektywne uzasadnienie werdyktu w języku polskim, wyjaśniające co mówią najnowsze fakty na podstawie dostarczonych dokumentów.]
 
 Zasady oceny:
-- VERDICT: PRAWDA (wiarygodne źródła w pełni potwierdzają to stwierdzenie)
-- VERDICT: FAŁSZ (fakty jednoznacznie zaprzeczają temu stwierdzeniu)
-- VERDICT: SPORNE (informacje są sprzeczne, opinie podzielone lub brak jednoznacznych dowodów)
+- VERDICT: PRAWDA (dostarczone dokumenty w pełni potwierdzają to stwierdzenie)
+- VERDICT: FAŁSZ (dostarczone dokumenty jednoznacznie zaprzeczają temu stwierdzeniu)
+- VERDICT: SPORNE (informacje są sprzeczne, opinie podzielone lub brak wystarczających dowodów w dokumentach)
 """
 
     try:
-        model = genai.GenerativeModel(
-            model_name="gemini-2.5-flash",
-            tools=[
-                genai.protos.Tool(
-                    google_search=genai.protos.Tool.GoogleSearch()
-                )
-            ]
-        )
+        # Używamy standardowego modelu bez wbudowanego "google_search" w tools,
+        # ponieważ sami zaimplementowaliśmy bezpieczny system RAG.
+        model = genai.GenerativeModel(model_name="gemini-2.5-flash")
         
         response = model.generate_content(
             prompt,
@@ -124,41 +209,21 @@ Zasady oceny:
         if verdict_match:
             verdict = verdict_match.group(1).upper()
             
-        # Parsowanie uzasadnienia za pomocą Regex (pobiera wszystko po EXPLANATION:)
+        # Parsowanie uzasadnienia za pomocą Regex
         explanation = "Nie udało się wygenerować uzasadnienia."
         explanation_match = re.search(r"EXPLANATION:\s*(.*)", raw_text, re.DOTALL | re.IGNORECASE)
         if explanation_match:
             explanation = explanation_match.group(1).strip()
             
-        sources = []
-        candidate = response.candidates[0]
-        metadata = getattr(candidate, "grounding_metadata", None)
-        
-        if metadata:
-            # Konwertujemy skomplikowany obiekt Google Protobuf na zwykły słownik Pythona, 
-            # zachowując oryginalne nazwy pól (snake_case)
-            metadata_dict = MessageToDict(metadata._pb, preserving_proto_field_name=True)
-            logger.info(f"Zdekodowane metadane wyszukiwania: {metadata_dict}")
-            
-            chunks = metadata_dict.get("grounding_chunks", [])
-            for chunk in chunks:
-                web = chunk.get("web", {})
-                if web:
-                    sources.append({
-                        "title": web.get("title", "Źródło bez tytułu"),
-                        "url": web.get("uri", ""),
-                        "snippet": "Źródło zweryfikowane bezpośrednio przez wyszukiwarkę Google."
-                    })
-                    
         return {
             "verdict": verdict,
             "explanation": explanation,
             "confidence": 0.95 if verdict in ["PRAWDA", "FAŁSZ"] else 0.5,
-            "sources": sources
+            "sources": web_results  # Zwracamy dokładnie te źródła, które sami wyszukaliśmy!
         }
         
     except Exception as e:
-        logger.error(f"Błąd analizy Gemini Grounding API: {e}", exc_info=True)
+        logger.error(f"Błąd analizy Gemini API: {e}", exc_info=True)
         return {
             "verdict": "SPORNE",
             "explanation": f"Wystąpił błąd komunikacji z modelem językowym: {str(e)}",
