@@ -1,7 +1,11 @@
+import asyncio
+from collections import defaultdict
 import logging
 from fastapi import APIRouter, HTTPException, Request, status
+from app.services.queue import get_queue_service
 from slowapi.errors import RateLimitExceeded
 from limits import parse
+from redis.exceptions import LockError
 
 from app.models.schemas import (
     AnalysisRequest,
@@ -23,6 +27,7 @@ from app.config_manager import _load_all_configs, save_guild_config
 logger = logging.getLogger(__name__)
 
 router = APIRouter()
+local_guild_locks = defaultdict(asyncio.Lock)
 
 @router.get(
     "/",
@@ -109,6 +114,49 @@ async def get_discord_guild_config(guild_id: str):
         "log_channel_id": guild_config.get("log_channel_id", None)
     }
 
+async def _execute_analysis(payload: AnalysisRequest, guild_id: str, settings) -> dict:
+    """Funkcja pomocnicza wykonująca właściwy proces pobierania i analizy."""
+    if isinstance(payload, TextAnalysisRequest):
+        content_type = "text"
+    elif isinstance(payload, ImageAnalysisRequest):
+        content_type = "image"
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE, 
+            detail="Unsupported file/content type."
+        )
+
+    try:
+        if content_type == "text":
+            if len(payload.text) > settings.MAX_CONTENT_SIZES["text"]:
+                raise ValueError(f"Text content exceeds maximum length.")
+            if len(payload.text) < 50:
+                raise ValueError("Text content must be at least 50 characters")
+            
+            result = await analyze_text(payload.text, guild_id)
+
+        elif content_type == "image":
+            image_bytes = await download_file(str(payload.image_url))
+            if not image_bytes:
+                raise ValueError("Failed to download image")
+            if len(image_bytes) > settings.MAX_CONTENT_SIZES["image"]:
+                raise ValueError(f"Image size exceeds maximum.")
+            
+            result = await analyze_image(image_bytes, guild_id)
+            
+        result["content_type"] = content_type
+        return result
+
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except SetupRequiredError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except DeepfakeDetectionError as e:
+        raise HTTPException(status_code=e.status_code, detail=e.message)
+    except Exception as e:
+        logger.error(f"Analysis error: {str(e)}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Failed to analyze {content_type}")
+    
 @router.post(
     "/analyze",
     response_model=AnalysisResponse,
@@ -124,52 +172,48 @@ async def get_discord_guild_config(guild_id: str):
 )
 async def analyze(request: Request, payload: AnalysisRequest) -> AnalysisResponse:
     guild_id = payload.guild_id
+    user_id = payload.user_id
+    
     limit_item = parse("1/5seconds")
-    
-    if not limiter.limiter.hit(limit_item, f"analyze:{guild_id}"):
-        raise HTTPException(status_code=429, detail="Rate limit exceeded for this guild")
-    
-    if isinstance(payload, TextAnalysisRequest):
-        content_type = "text"
-    elif isinstance(payload, ImageAnalysisRequest):
-        content_type = "image"
-    else:
+    if not limiter.limiter.hit(limit_item, f"analyze:user:{user_id}"):
+        logger.warning(f"Użytkownik {user_id} przekroczył limit zapytań (1/5s).")
         raise HTTPException(
-            status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE, 
-            detail="Unsupported file/content type. Only text and image are currently supported."
+            status_code=429, 
+            detail="Przekroczyłeś limit zapytań. Możesz wykonać tylko 1 analizę na 5 sekund."
         )
-
+    
     settings = get_settings()
+    queue_service = get_queue_service()
+    
+    # 2. Sprawdzamy, czy Redis jest aktywny w pliku konfiguracyjnym oraz czy klient został zainicjalizowany
+    if settings.REDIS_ENABLED and queue_service.redis_client is not None:
+        logger.info(f"Używam rozproszonej blokady Redis dla użytkownika {user_id}")
+        
+        # Tworzymy blokadę przy użyciu klienta z QueueService [1.2.6]
+        redis_lock = queue_service.redis_client.lock(
+            "global_analysis_queue_lock", timeout=60, blocking_timeout=120
+        )
+        try:
+            async with redis_lock:
+                analysis_result = await _execute_analysis(payload, guild_id, settings)
+        except LockError:
+            logger.error(f"Użytkownik {user_id} odrzucony z kolejki Redis z powodu timeoutu.")
+            raise HTTPException(
+                status_code=503, 
+                detail="Serwer jest zbyt zajęty (kolejka Redis przepełniona). Spróbuj ponownie za chwilę."
+            )
+    else:
+        # FALLBACK: Jeśli Redis jest wyłączony, aplikacja automatycznie używa kolejki in-memory
+        logger.info(f"Redis jest wyłączony. Używam lokalnej blokady in-memory dla gildii {guild_id}")
+        
+        local_lock = local_guild_locks[guild_id]
+        async with local_lock:
+            analysis_result = await _execute_analysis(payload, guild_id, settings)
 
-    try:
-        if content_type == "text":
-            if len(payload.text) > settings.MAX_CONTENT_SIZES["text"]:
-                raise ValueError(f"Text content exceeds maximum length of {settings.MAX_CONTENT_SIZES['text']} characters")
-            if len(payload.text) < 50:
-                raise ValueError("Text content must be at least 50 characters")
-            
-            analysis_result = await analyze_text(payload.text, guild_id)
-
-        elif content_type == "image":
-            image_bytes = await download_file(str(payload.image_url))
-            if not image_bytes:
-                raise ValueError("Failed to download image")
-            if len(image_bytes) > settings.MAX_CONTENT_SIZES["image"]:
-                raise ValueError(f"Image size exceeds maximum of {settings.MAX_CONTENT_SIZES['image']} bytes")
-            
-            analysis_result = await analyze_image(image_bytes, guild_id)
-
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-    except SetupRequiredError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-    except DeepfakeDetectionError as e:
-        raise HTTPException(status_code=e.status_code, detail=e.message)
-    except Exception as e:
-        logger.error(f"{content_type.capitalize()} analysis error: {str(e)}", exc_info=True)
-        raise HTTPException(status_code=500, detail=f"Failed to analyze {content_type}")
-
+    # 3. Zwrócenie wyniku analizy
+    content_type = analysis_result["content_type"]
     logger.info(f"{content_type.capitalize()} analysis completed. Result: {analysis_result}")
+    
     used_model = analysis_result.get("used_model", settings.AVAILABLE_MODELS.get(content_type)[0])
     
     return AnalysisResponse(
