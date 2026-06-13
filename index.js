@@ -13,8 +13,14 @@ import {
   ApplicationCommandType,
   EmbedBuilder,
   ButtonBuilder,
-  ButtonStyle
+  ButtonStyle,
+  PermissionFlagsBits,
+  ChannelSelectMenuBuilder,
+  StringSelectMenuBuilder,
+  ChannelType
 } from "discord.js";
+
+import { loadConfig, saveConfig } from "./configManager.js";
 
 const client = new Client({
 	intents: [
@@ -25,6 +31,8 @@ const client = new Client({
 });
 
 const API_URL = process.env.API_URL || "http://127.0.0.1:8000";
+
+const activeSetupSessions = new Map();
 
 client.once(Events.ClientReady, async () => {
 	console.log(`Bot ready: ${client.user.tag}`);
@@ -37,56 +45,68 @@ client.once(Events.ClientReady, async () => {
 				type: ApplicationCommandType.ChatInput
 			},
 			{
-				name: "Przeanalizuj tekst",
+				name: "setup",
+				description: "Ustawienia kanału logów i modeli analizy (Wymaga Administratora)",
+				default_member_permissions: PermissionFlagsBits.Administrator.toString(),
+				type: ApplicationCommandType.ChatInput
+			},
+			{
+				name: "Wykryj deepfake",
 				type: ApplicationCommandType.Message
 			}
 		]);
-		console.log("Pomyślnie zarejestrowano komendy (/detect oraz menu kontekstowe)");
+		console.log("Pomyślnie zarejestrowano komendy (/detect, /setup oraz menu kontekstowe)");
 	} catch (error) {
 		console.error("Błąd podczas rejestracji komend:", error);
 	}
 });
 
-function preparePayload(input) {
+// Pobieranie modeli bezpośrednio z FastAPI
+async function fetchAvailableModels() {
+	try {
+		const response = await fetch(API_URL);
+		if (response.ok) {
+			const data = await response.json();
+			if (data.available_models) {
+				return data.available_models;
+			}
+		}
+	} catch (err) {
+		console.error("Błąd połączenia z FastAPI:", err.message);
+	}
+	return null;
+}
+
+function preparePayload(input, explicitContentType = null) {
 	const trimmed = input.trim();
+
+	if (explicitContentType) {
+		if (explicitContentType.startsWith("image/")) {
+			return { type: "image", payload: { image_url: trimmed, content_type: "image" } };
+		} else if (explicitContentType.startsWith("video/")) {
+			return { type: "video", payload: { video_url: trimmed, content_type: "video" } };
+		} else {
+			return { type: "file", payload: { file_url: trimmed, content_type: "file" } };
+		}
+	}
+
 	const isUrl = trimmed.startsWith("http://") || trimmed.startsWith("https://");
 
 	if (isUrl) {
-		const lowerUrl = trimmed.toLowerCase();
+		const cleanUrl = trimmed.toLowerCase().split('?')[0]; 
 		
-		if (lowerUrl.endsWith(".png") || lowerUrl.endsWith(".jpg") || lowerUrl.endsWith(".jpeg") || lowerUrl.endsWith(".webp") || lowerUrl.endsWith(".gif")) {
-			return { 
-				type: "image", 
-				payload: { 
-					image_url: trimmed,
-					content_type: "image"
-				} 
-			};
-		} else if (lowerUrl.endsWith(".mp4") || lowerUrl.endsWith(".webm") || lowerUrl.endsWith(".mov") || lowerUrl.endsWith(".avi")) {
-			return { 
-				type: "video", 
-				payload: { 
-					video_url: trimmed,
-					content_type: "video"
-				} 
-			};
+		if (cleanUrl.match(/\.(png|jpg|jpeg|webp|gif)$/)) {
+			return { type: "image", payload: { image_url: trimmed, content_type: "image" } };
+		} else if (cleanUrl.match(/\.(mp4|webm|mov|avi)$/)) {
+			return { type: "video", payload: { video_url: trimmed, content_type: "video" } };
 		} else {
-			return { 
-				type: "file", 
-				payload: { 
-					file_url: trimmed,
-					content_type: "file"
-				} 
-			};
+			return { type: "file", payload: { file_url: trimmed, content_type: "file" } };
 		}
 	}
 
 	return { 
 		type: "text", 
-		payload: { 
-			text: trimmed,
-			content_type: "text"
-		} 
+		payload: { text: trimmed, content_type: "text" } 
 	};
 }
 
@@ -98,13 +118,110 @@ function getProgressBar(confidence, isDeepfake) {
 	return blockEmoji.repeat(filledBlocks) + "⬛".repeat(emptyBlocks);
 }
 
-async function handleAnalysis(interaction, userContent, targetMessage = null) {
-	await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
+// CAŁKOWICIE DYNAMICZNY GENERATOR WIDOKU SETUPU
+function generateSetupView(tempConfig, availableModels) {
+	const embed = new EmbedBuilder()
+		.setColor(0x5865F2)
+		.setTitle("⚙️ Konfiguracja Systemu Detekcji")
+		.setDescription("Wybierz kanał do wysyłania logów oraz aktywne modele dla poszczególnych formatów danych.")
+		.setTimestamp()
+		.setFooter({ text: "Wybierz opcje i kliknij Zapisz ustawienia" });
+
+	embed.addFields({ 
+		name: "📂 Kanał logów (Raporty)", 
+		value: tempConfig.logChannelId ? `<#${tempConfig.logChannelId}>` : "*Wysyłanie tylko do konsoli*", 
+		inline: false 
+	});
+
+	// Dynamicznie dodajemy pola dla każdego formatu zwróconego przez FastAPI
+	for (const [contentType, models] of Object.entries(availableModels)) {
+		const currentSelected = tempConfig.models[contentType] || models[0] || "Brak";
+		embed.addFields({
+			name: `⚙️ Model dla formatu: ${contentType.toUpperCase()}`,
+			value: `\`${currentSelected}\``,
+			inline: true
+		});
+	}
+
+	const channelSelect = new ChannelSelectMenuBuilder()
+		.setCustomId("setup_log_channel")
+		.setPlaceholder("Wybierz kanał dla raportów")
+		.addChannelTypes(ChannelType.GuildText);
+
+	const components = [
+		new ActionRowBuilder().addComponents(channelSelect)
+	];
+
+	// Dynamicznie generujemy menu rozwijane dla każdego formatu danych (tekst, obraz, wideo itp.)
+	for (const [contentType, models] of Object.entries(availableModels)) {
+		if (components.length >= 4) break; // Limit Discorda (max 5 rzędów komponentów na wiadomość)
+
+		const currentSelected = tempConfig.models[contentType] || models[0];
+
+		const selectOptions = models.map(model => ({
+			label: model,
+			value: model,
+			default: currentSelected === model
+		}));
+
+		const modelSelect = new StringSelectMenuBuilder()
+			.setCustomId(`setup_model_${contentType}`)
+			.setPlaceholder(`Wybierz model dla ${contentType}`)
+			.addOptions(selectOptions);
+
+		components.push(new ActionRowBuilder().addComponents(modelSelect));
+	}
+
+	const buttonsRow = new ActionRowBuilder().addComponents(
+		new ButtonBuilder()
+			.setCustomId("setup_save")
+			.setLabel("Zapisz ustawienia")
+			.setStyle(ButtonStyle.Success)
+			.setEmoji("💾"),
+		new ButtonBuilder()
+			.setCustomId("setup_cancel")
+			.setLabel("Anuluj")
+			.setStyle(ButtonStyle.Danger)
+			.setEmoji("❌")
+	);
+
+	components.push(buttonsRow);
+
+	return {
+		embeds: [embed],
+		components: components
+	};
+}
+
+async function sendLogToDiscord(guild, embedToSend) {
+	const config = loadConfig(guild.id);
+	if (!config.logChannelId) return;
 
 	try {
-		const { type, payload } = preparePayload(userContent);
+		const channel = await guild.channels.fetch(config.logChannelId);
+		if (channel) {
+			await channel.send({ embeds: [embedToSend] });
+		}
+	} catch (err) {
+		console.warn(`Nie można wysłać logu na kanał ${config.logChannelId}:`, err.message);
+	}
+}
+
+async function handleAnalysis(interaction, userContent, targetMessage = null, explicitContentType = null) {
+	await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
+
+	const serverConfig = loadConfig(interaction.guildId);
+
+	try {
+		const { type, payload } = preparePayload(userContent, explicitContentType);
 		
-		console.log(`Wysyłanie zapytania typu: ${type} do API...`);
+		// DYNAMICZNE POBIERANIE MODELU Z PLIKU KONFIGURACYJNEGO DLA DANEGO FORMATU (np. text, image, video)
+		const chosenModel = serverConfig.models[type];
+		if (chosenModel) {
+			payload.model = chosenModel;
+		}
+
+		console.log(`Wysyłanie zapytania typu: ${type} do API z modelem: ${payload.model || "domyślny"}...`);
 
 		const response = await fetch(`${API_URL}/analyze`, {
 			method: "POST",
@@ -157,13 +274,12 @@ async function handleAnalysis(interaction, userContent, targetMessage = null) {
 			.addFields(
 				{ name: "Pewność modelu", value: `\`${confidencePercent}%\` \n${progressBar}` },
 				{ name: "Czas przetwarzania", value: `\`${data.analysis_time.toFixed(3)}s\``, inline: true },
-				{ name: "Użyty model", value: `\`${data.model_used}\``, inline: true },
+				{ name: "Użyty model", value: `\`${data.used_model}\``, inline: true },
 				{ name: "Format danych", value: `\`${data.content_type.toUpperCase()}\``, inline: true }
 			)
 			.setTimestamp()
 			.setFooter({ text: "Deepfake Detection Service", iconURL: client.user.displayAvatarURL() });
 
-		// TWORZENIE PRZYCISKÓW
 		const buttonRow = new ActionRowBuilder().addComponents(
 			new ButtonBuilder()
 				.setCustomId("modelCorrect")
@@ -210,17 +326,79 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
 			await interaction.showModal(modal);
 		}
+
+		if (interaction.commandName === "setup") {
+			const guildId = interaction.guildId;
+			const currentConfig = loadConfig(guildId);
+
+			await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
+
+			// Pobieramy aktywne modele bezpośrednio z FastAPI
+			const availableModels = await fetchAvailableModels();
+
+			// Jeśli backend nie działa, natychmiast przerywamy i wyświetlamy błąd
+			if (!availableModels || Object.keys(availableModels).length === 0) {
+				return interaction.editReply({
+					content: "❌ **Błąd konfiguracji:** Nie udało się nawiązać połączenia z backendem (FastAPI). Uruchom swój backend w Pythonie i spróbuj ponownie!"
+				});
+			}
+
+			// Inicjalizujemy domyślne modele w konfiguracji, jeśli nie były wcześniej ustawione
+			for (const [contentType, models] of Object.entries(availableModels)) {
+				if (!currentConfig.models[contentType] && models.length > 0) {
+					currentConfig.models[contentType] = models[0];
+				}
+			}
+
+			// Zapisujemy sesję z konfiguracją oraz pobranymi modelami
+			activeSetupSessions.set(guildId, { 
+				config: { ...currentConfig }, 
+				availableModels 
+			});
+
+			const setupView = generateSetupView(currentConfig, availableModels);
+			await interaction.editReply(setupView);
+		}
+	}
+
+	if (interaction.isChannelSelectMenu()) {
+		if (interaction.customId === "setup_log_channel") {
+			const guildId = interaction.guildId;
+			const tempSession = activeSetupSessions.get(guildId);
+			if (tempSession) {
+				tempSession.config.logChannelId = interaction.values[0];
+				await interaction.update(generateSetupView(tempSession.config, tempSession.availableModels));
+			}
+		}
+	}
+
+	// OBSŁUGA DYNAMICZNYCH MENU ROZWIJANYCH DLA MODELI
+	if (interaction.isStringSelectMenu()) {
+		const guildId = interaction.guildId;
+		const tempSession = activeSetupSessions.get(guildId);
+		
+		if (tempSession) {
+			// Sprawdzamy czy zmieniany jest model (szukamy przedrostka setup_model_)
+			if (interaction.customId.startsWith("setup_model_")) {
+				const contentType = interaction.customId.replace("setup_model_", "");
+				tempSession.config.models[contentType] = interaction.values[0];
+				await interaction.update(generateSetupView(tempSession.config, tempSession.availableModels));
+			}
+		}
 	}
 
 	if (interaction.isMessageContextMenuCommand()) {
-		if (interaction.commandName === "Przeanalizuj tekst") {
+		if (interaction.commandName === "Wykryj deepfake") {
 			const targetMessage = interaction.targetMessage;
 			
 			let contentToAnalyze = targetMessage.content;
+			let explicitContentType = null;
+
 			const attachment = targetMessage.attachments.first();
 			
 			if (attachment) {
 				contentToAnalyze = attachment.url;
+				explicitContentType = attachment.contentType;
 			}
 
 			if (!contentToAnalyze || contentToAnalyze.trim().length === 0) {
@@ -230,7 +408,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 				});
 			}
 
-			await handleAnalysis(interaction, contentToAnalyze, targetMessage);
+			await handleAnalysis(interaction, contentToAnalyze, targetMessage, explicitContentType);
 		}
 	}
 
@@ -241,26 +419,112 @@ client.on(Events.InteractionCreate, async (interaction) => {
 		}
 	}
 
-	// GUZIKI
 	if (interaction.isButton()) {
-		// ZGŁOSZENIE BŁĘDU
-		if (interaction.customId === "reportError") {
-			await interaction.reply({
-				content: "✅ **Dziękujemy!** Twoje zgłoszenie błędu zostało zarejestrowane. Pomoże nam ono udoskonalić algorytmy detekcji.",
-				flags: [MessageFlags.Ephemeral]
-			});
+		const guildId = interaction.guildId;
 
-			console.log(`[RAPORT BŁĘDU] Użytkownik ${interaction.user.tag} (ID: ${interaction.user.id}) zgłosił błędną klasyfikację bota.`);
+		if (interaction.customId === "setup_save") {
+			const tempSession = activeSetupSessions.get(guildId);
+			if (tempSession) {
+				saveConfig(guildId, tempSession.config);
+				activeSetupSessions.delete(guildId);
+				await interaction.update({
+					content: "✅ **Ustawienia zostały pomyślnie zapisane!**",
+					embeds: [],
+					components: []
+				});
+			}
 		}
 
-		// POTWIERDZENIE POPRAWNOŚCI
-		if (interaction.customId === "modelCorrect") {
-			await interaction.reply({
-				content: "✅ **Dziękujemy!** Twoje potwierdzenie zostało pomyślnie zapisane. Cieszymy się, że model zadziałał prawidłowo.",
+		if (interaction.customId === "setup_cancel") {
+			activeSetupSessions.delete(guildId);
+			await interaction.update({
+				content: "❌ **Konfiguracja została anulowana.**",
+				embeds: [],
+				components: []
+			});
+		}
+
+		if (interaction.customId === "reportError") {
+			const disabledRow = new ActionRowBuilder().addComponents(
+				new ButtonBuilder()
+					.setCustomId("modelCorrect")
+					.setLabel("Model odpowiedział poprawnie")
+					.setStyle(ButtonStyle.Success)
+					.setEmoji("✅")
+					.setDisabled(true),
+				new ButtonBuilder()
+					.setCustomId("reportError")
+					.setLabel("Zgłoś błąd analizy")
+					.setStyle(ButtonStyle.Danger)
+					.setEmoji("⚠️")
+					.setDisabled(true)
+			);
+
+			// 2 UPDATE BUTTONS
+			await interaction.update({
+				embeds: [interaction.message.embeds[0]], 
+				components: [disabledRow]
+			});
+
+			// 3 CONFIRMATION
+			await interaction.followUp({
+				content: "✅ **Dziękujemy!** Twoje zgłoszenie błędu zostało zarejestrowane.",
 				flags: [MessageFlags.Ephemeral]
 			});
 
-			console.log(`[POTWIERDZENIE] Użytkownik ${interaction.user.tag} (ID: ${interaction.user.id}) potwierdził poprawną klasyfikację bota.`);
+			console.log(`[RAPORT BŁĘDU] Użytkownik ${interaction.user.tag} (ID: ${interaction.user.id}) zgłosił błąd klasyfikacji.`);
+
+			const originalEmbed = interaction.message.embeds[0];
+			if (originalEmbed) {
+				const logEmbed = EmbedBuilder.from(originalEmbed)
+					.setColor(0xFFAA00)
+					.setTitle("⚠️ Zgłoszenie błędu analizy")
+					.setDescription(`Użytkownik **${interaction.user.tag}** (ID: \`${interaction.user.id}\`) zgłosił błąd analizy w poniższym raporcie.`);
+				
+				await sendLogToDiscord(interaction.guild, logEmbed);
+			}
+		}
+
+		// CORRECT CLICK
+		if (interaction.customId === "modelCorrect") {
+			const disabledRow = new ActionRowBuilder().addComponents(
+				new ButtonBuilder()
+					.setCustomId("modelCorrect")
+					.setLabel("Model odpowiedział poprawnie")
+					.setStyle(ButtonStyle.Success)
+					.setEmoji("✅")
+					.setDisabled(true),
+				new ButtonBuilder()
+					.setCustomId("reportError")
+					.setLabel("Zgłoś błąd analizy")
+					.setStyle(ButtonStyle.Danger)
+					.setEmoji("⚠️")
+					.setDisabled(true)
+			);
+
+			// 2 DISABLE BUTTONS
+			await interaction.update({
+				embeds: [interaction.message.embeds[0]], 
+				components: [disabledRow]
+			});
+
+			// 3 CONFIRMATION
+			await interaction.followUp({
+				content: "✅ **Dziękujemy!** Twoje potwierdzenie zostało pomyślnie zapisane.",
+				flags: [MessageFlags.Ephemeral]
+			});
+
+			console.log(`[POTWIERDZENIE] Użytkownik ${interaction.user.tag} (ID: ${interaction.user.id}) potwierdził poprawną klasyfikację.`);
+
+			const originalEmbed = interaction.message.embeds[0];
+			if (originalEmbed) {
+				const logEmbed = EmbedBuilder.from(originalEmbed)
+					.setColor(0x00AAFF)
+					.setTitle("✅ Potwierdzona poprawność analizy")
+					.setDescription(`Użytkownik **${interaction.user.tag}** (ID: \`${interaction.user.id}\`) potwierdził poprawność raportu.`);
+				
+				await sendLogToDiscord(interaction.guild, logEmbed);
+			}
 		}
 	}
 });
