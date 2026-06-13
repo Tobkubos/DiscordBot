@@ -426,7 +426,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 			const tempSession = activeSetupSessions.get(guildId);
 			if (tempSession) {
 				try {
-					const response = await fetch(`http://backend-api-url/guilds/${guildId}/setup`, {
+					const response = await fetch(`${API_URL}/guilds/${guildId}/setup`, {
 						method: "POST",
 						headers: {
 							"Content-Type": "application/json"
