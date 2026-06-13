@@ -52,3 +52,9 @@ def get_active_image_model(guild_id: str) -> Optional[str]:
     if not model or model.lower() == "none":
         return None
     return model
+
+def is_multi_model_enabled(guild_id: str) -> bool:
+    """Sprawdza, czy dla danej gildii włączony jest tryb wielomodelowy."""
+    configs = _load_all_configs()
+    guild_config = configs.get(guild_id, {})
+    return guild_config.get("multi_model_workflow", False)

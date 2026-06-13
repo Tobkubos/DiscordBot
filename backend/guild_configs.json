@@ -2,6 +2,7 @@
     "1515307986963267595": {
         "active_text_model": "bibbbu/multilingual-ai-human-detector_xlm-roberta-base",
         "active_image_model": "Hemg/Deepfake-image",
-        "log_channel_id": "1515373138937123007"
+        "log_channel_id": "1515373138937123007",
+        "multi_model_workflow": true
     }
 }
