@@ -31,6 +31,16 @@ class Settings:
     # Logging
     LOG_LEVEL: str = os.getenv("LOG_LEVEL", "INFO")
     LOG_FILE: Optional[str] = os.getenv("LOG_FILE", None)
+    
+    AVAILABLE_MODELS = {
+        "text": ["yaya36095/xlm-roberta-text-detector"],
+        "image": ["capcheck/ai-image-detection"],
+    }
+
+    MAX_CONTENT_SIZES = {
+        "text": 5000,
+        "image": 100 * 1024 * 1024,
+    }
 
 
 @lru_cache()
