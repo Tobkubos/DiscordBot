@@ -16,7 +16,7 @@ from app.services.image_analyzer import analyze_image
 from app.core.config import get_settings
 from app.utils.exceptions import DeepfakeDetectionError, SetupRequiredError
 from app.core.limiter import limiter
-from app.config_manager import save_guild_config
+from app.config_manager import _load_all_configs, save_guild_config
 
 logger = logging.getLogger(__name__)
 
@@ -67,6 +67,7 @@ async def save_discord_guild_setup(guild_id: str, payload: GuildConfigSchema):
     # Walidacja modeli z pliku ustawień
     settings = get_settings()
     allowed_text_models = settings.AVAILABLE_MODELS.get("text", [])
+    allowed_image_models = settings.AVAILABLE_MODELS.get("image", [])
     
     # Walidujemy tylko wtedy, gdy model nie jest ustawiony na "none"
     if payload.active_text_model and payload.active_text_model.lower() != "none":
@@ -74,6 +75,13 @@ async def save_discord_guild_setup(guild_id: str, payload: GuildConfigSchema):
             raise HTTPException(
                 status_code=400,
                 detail=f"Model '{payload.active_text_model}' nie jest dozwolony. Wybierz z: {allowed_text_models}"
+            )
+            
+    if payload.active_image_model and payload.active_image_model.lower() != "none":
+        if payload.active_image_model not in allowed_image_models:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Model '{payload.active_image_model}' nie jest dozwolony. Wybierz z: {allowed_image_models}"
             )
             
     # Zapis konfiguracji przez config_manager
@@ -85,6 +93,18 @@ async def save_discord_guild_setup(guild_id: str, payload: GuildConfigSchema):
         "status": "success",
         "message": f"Konfiguracja dla serwera {guild_id} została zapisana.",
         "config": config_dict
+    }
+
+@router.get("/guilds/{guild_id}/config", tags=["Setup"])
+async def get_discord_guild_config(guild_id: str):
+    """Zwraca zapisaną konfigurację dla konkretnego serwera Discord."""
+    configs = _load_all_configs()
+    guild_config = configs.get(guild_id, {})
+    
+    return {
+        "active_text_model": guild_config.get("active_text_model", "none"),
+        "active_image_model": guild_config.get("active_image_model", "none"),
+        "log_channel_id": guild_config.get("log_channel_id", None)
     }
 
 @router.post(
@@ -102,6 +122,8 @@ async def save_discord_guild_setup(guild_id: str, payload: GuildConfigSchema):
 )
 @limiter.limit("1/5seconds")
 async def analyze(request: Request, payload: AnalysisRequest) -> AnalysisResponse:
+    guild_id = payload.guild_id
+    
     if isinstance(payload, TextAnalysisRequest):
         content_type = "text"
     elif isinstance(payload, ImageAnalysisRequest):
@@ -113,12 +135,6 @@ async def analyze(request: Request, payload: AnalysisRequest) -> AnalysisRespons
         )
 
     settings = get_settings()
-    models = settings.AVAILABLE_MODELS.get(content_type)
-    if not models:
-        raise HTTPException(status_code=400, detail=f"No model available for {content_type} analysis")
-    
-    model = models[0]
-    logger.info(f"Received {content_type} analysis request, model: {model}")
 
     try:
         if content_type == "text":
@@ -127,7 +143,7 @@ async def analyze(request: Request, payload: AnalysisRequest) -> AnalysisRespons
             if len(payload.text) < 50:
                 raise ValueError("Text content must be at least 50 characters")
             
-            analysis_result = await analyze_text(payload.text)
+            analysis_result = await analyze_text(payload.text, guild_id)
 
         elif content_type == "image":
             image_bytes = await download_file(str(payload.image_url))
@@ -136,9 +152,11 @@ async def analyze(request: Request, payload: AnalysisRequest) -> AnalysisRespons
             if len(image_bytes) > settings.MAX_CONTENT_SIZES["image"]:
                 raise ValueError(f"Image size exceeds maximum of {settings.MAX_CONTENT_SIZES['image']} bytes")
             
-            analysis_result = await analyze_image(image_bytes)
+            analysis_result = await analyze_image(image_bytes, guild_id)
 
     except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except SetupRequiredError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except DeepfakeDetectionError as e:
         raise HTTPException(status_code=e.status_code, detail=e.message)
@@ -147,12 +165,13 @@ async def analyze(request: Request, payload: AnalysisRequest) -> AnalysisRespons
         raise HTTPException(status_code=500, detail=f"Failed to analyze {content_type}")
 
     logger.info(f"{content_type.capitalize()} analysis completed. Result: {analysis_result}")
+    used_model = analysis_result.get("used_model", settings.AVAILABLE_MODELS.get(content_type)[0])
     
     return AnalysisResponse(
         is_deepfake=analysis_result["is_deepfake"],
         confidence=analysis_result["confidence"],
         analysis_time=analysis_result["analysis_time"],
-        used_model=model,
+        used_model=used_model,
         content_type=content_type,
     )
 

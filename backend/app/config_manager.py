@@ -42,3 +42,13 @@ def get_active_text_model(guild_id: str) -> Optional[str]:
     if not model or model.lower() == "none":
         return None
     return model
+
+def get_active_image_model(guild_id: str) -> Optional[str]:
+    """Zwraca aktywny model obrazu dla serwera. Jeśli brak konfiguracji, zwraca None."""
+    configs = _load_all_configs()
+    guild_config = configs.get(guild_id, {})
+    model = guild_config.get("active_image_model", "none")
+    
+    if not model or model.lower() == "none":
+        return None
+    return model
