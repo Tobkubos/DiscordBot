@@ -6,6 +6,7 @@ class TextAnalysisRequest(BaseModel):
     content_type: Literal["text"]
     text: str = Field(..., description="Text content to analyze for deepfake detection")
     guild_id: str = Field(..., description="ID serwera Discord, z którego pochodzi żądanie")
+    user_id: str = Field(..., description="ID użytkownika Discord, który wywołał analizę")
     
     class Config:
         json_schema_extra = {
@@ -20,6 +21,7 @@ class ImageAnalysisRequest(BaseModel):
     content_type: Literal["image"]
     image_url: HttpUrl = Field(..., description="URL of the image to analyze")
     guild_id: str = Field(..., description="ID serwera Discord, z którego pochodzi żądanie")
+    user_id: str = Field(..., description="ID użytkownika Discord, który wywołał analizę")
     
     class Config:
         json_schema_extra = {
