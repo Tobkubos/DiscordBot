@@ -10,3 +10,5 @@ numpy==1.26.4
 sentencepiece
 protobuf
 Pillow
+groq==0.13.1
+duckduckgo-search==7.3.0

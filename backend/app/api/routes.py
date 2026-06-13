@@ -16,6 +16,7 @@ from app.services.text_analyzer import analyze_text
 from app.services.image_analyzer import analyze_image
 from app.core.config import get_settings
 from app.utils.exceptions import DeepfakeDetectionError
+from backend.app.services.fact_checker import verify_facts
 
 logger = logging.getLogger(__name__)
 
@@ -229,3 +230,7 @@ async def analyze(request: AnalysisRequest) -> AnalysisResponse:
     
     else:
         raise HTTPException(status_code=400, detail="Unsupported content type")
+    
+@router.post("/factcheck", tags=["Fact Checking"])
+async def factcheck_route(request: TextAnalysisRequest):
+    return await verify_facts(request.text)
