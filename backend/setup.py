@@ -1,10 +1,3 @@
-#!/usr/bin/env python
-"""
-Setup script for the Deepfake Detection Service backend.
-
-Run: python setup.py
-"""
-
 import os
 import sys
 import subprocess
@@ -28,12 +21,6 @@ def main():
     print("\n" + "="*60)
     print("🚀 Deepfake Detection Service - Backend Setup")
     print("="*60)
-    
-    # Check Python version
-    if sys.version_info < (3, 8):
-        print("❌ Python 3.8 or higher is required")
-        sys.exit(1)
-    
     print(f"✅ Python version: {sys.version}")
     
     # Determine OS for venv activation

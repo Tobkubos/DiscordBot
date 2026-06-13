@@ -77,6 +77,7 @@ async def analyze(request: AnalysisRequest) -> AnalysisResponse:
         f"using model: {detector_model}"
     )
     
+    
     try:
         try:
             detector = get_detector(detector_model)
