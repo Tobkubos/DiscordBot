@@ -445,12 +445,34 @@ client.on(Events.InteractionCreate, async (interaction) => {
 		}
 
 		if (interaction.customId === "reportError") {
-			await interaction.reply({
+			const disabledRow = new ActionRowBuilder().addComponents(
+				new ButtonBuilder()
+					.setCustomId("modelCorrect")
+					.setLabel("Model odpowiedział poprawnie")
+					.setStyle(ButtonStyle.Success)
+					.setEmoji("✅")
+					.setDisabled(true),
+				new ButtonBuilder()
+					.setCustomId("reportError")
+					.setLabel("Zgłoś błąd analizy")
+					.setStyle(ButtonStyle.Danger)
+					.setEmoji("⚠️")
+					.setDisabled(true)
+			);
+
+			// 2 UPDATE BUTTONS
+			await interaction.update({
+				embeds: [interaction.message.embeds[0]], 
+				components: [disabledRow]
+			});
+
+			// 3 CONFIRMATION
+			await interaction.followUp({
 				content: "✅ **Dziękujemy!** Twoje zgłoszenie błędu zostało zarejestrowane.",
 				flags: [MessageFlags.Ephemeral]
 			});
 
-			console.log(`[RAPORT BŁĘDU] Użytkownik ${interaction.user.tag} (ID: ${interaction.user.id}) zgłosił błędną klasyfikację.`);
+			console.log(`[RAPORT BŁĘDU] Użytkownik ${interaction.user.tag} (ID: ${interaction.user.id}) zgłosił błąd klasyfikacji.`);
 
 			const originalEmbed = interaction.message.embeds[0];
 			if (originalEmbed) {
@@ -463,8 +485,31 @@ client.on(Events.InteractionCreate, async (interaction) => {
 			}
 		}
 
+		// CORRECT CLICK
 		if (interaction.customId === "modelCorrect") {
-			await interaction.reply({
+			const disabledRow = new ActionRowBuilder().addComponents(
+				new ButtonBuilder()
+					.setCustomId("modelCorrect")
+					.setLabel("Model odpowiedział poprawnie")
+					.setStyle(ButtonStyle.Success)
+					.setEmoji("✅")
+					.setDisabled(true),
+				new ButtonBuilder()
+					.setCustomId("reportError")
+					.setLabel("Zgłoś błąd analizy")
+					.setStyle(ButtonStyle.Danger)
+					.setEmoji("⚠️")
+					.setDisabled(true)
+			);
+
+			// 2 DISABLE BUTTONS
+			await interaction.update({
+				embeds: [interaction.message.embeds[0]], 
+				components: [disabledRow]
+			});
+
+			// 3 CONFIRMATION
+			await interaction.followUp({
 				content: "✅ **Dziękujemy!** Twoje potwierdzenie zostało pomyślnie zapisane.",
 				flags: [MessageFlags.Ephemeral]
 			});
