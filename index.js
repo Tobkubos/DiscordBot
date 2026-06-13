@@ -230,8 +230,6 @@ async function sendLogToDiscord(guild, embedToSend) {
 async function handleAnalysis(interaction, userContent, targetMessage = null, explicitContentType = null) {
 	await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
 
-	const serverConfig = loadConfig(interaction.guildId);
-
 	try {
 		const { type, payload } = preparePayload(userContent, explicitContentType);
 		payload.guild_id = interaction.guildId;
