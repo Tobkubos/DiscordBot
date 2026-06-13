@@ -51,7 +51,7 @@ client.once(Events.ClientReady, async () => {
 				type: ApplicationCommandType.ChatInput
 			},
 			{
-				name: "Przeanalizuj tekst",
+				name: "Wykryj deepfake",
 				type: ApplicationCommandType.Message
 			}
 		]);
@@ -77,46 +77,36 @@ async function fetchAvailableModels() {
 	return null;
 }
 
-function preparePayload(input) {
+function preparePayload(input, explicitContentType = null) {
 	const trimmed = input.trim();
+
+	if (explicitContentType) {
+		if (explicitContentType.startsWith("image/")) {
+			return { type: "image", payload: { image_url: trimmed, content_type: "image" } };
+		} else if (explicitContentType.startsWith("video/")) {
+			return { type: "video", payload: { video_url: trimmed, content_type: "video" } };
+		} else {
+			return { type: "file", payload: { file_url: trimmed, content_type: "file" } };
+		}
+	}
+
 	const isUrl = trimmed.startsWith("http://") || trimmed.startsWith("https://");
 
 	if (isUrl) {
-		const lowerUrl = trimmed.toLowerCase();
+		const cleanUrl = trimmed.toLowerCase().split('?')[0]; 
 		
-		if (lowerUrl.endsWith(".png") || lowerUrl.endsWith(".jpg") || lowerUrl.endsWith(".jpeg") || lowerUrl.endsWith(".webp") || lowerUrl.endsWith(".gif")) {
-			return { 
-				type: "image", 
-				payload: { 
-					image_url: trimmed,
-					content_type: "image"
-				} 
-			};
-		} else if (lowerUrl.endsWith(".mp4") || lowerUrl.endsWith(".webm") || lowerUrl.endsWith(".mov") || lowerUrl.endsWith(".avi")) {
-			return { 
-				type: "video", 
-				payload: { 
-					video_url: trimmed,
-					content_type: "video"
-				} 
-			};
+		if (cleanUrl.match(/\.(png|jpg|jpeg|webp|gif)$/)) {
+			return { type: "image", payload: { image_url: trimmed, content_type: "image" } };
+		} else if (cleanUrl.match(/\.(mp4|webm|mov|avi)$/)) {
+			return { type: "video", payload: { video_url: trimmed, content_type: "video" } };
 		} else {
-			return { 
-				type: "file", 
-				payload: { 
-					file_url: trimmed,
-					content_type: "file"
-				} 
-			};
+			return { type: "file", payload: { file_url: trimmed, content_type: "file" } };
 		}
 	}
 
 	return { 
 		type: "text", 
-		payload: { 
-			text: trimmed,
-			content_type: "text"
-		} 
+		payload: { text: trimmed, content_type: "text" } 
 	};
 }
 
@@ -217,13 +207,13 @@ async function sendLogToDiscord(guild, embedToSend) {
 	}
 }
 
-async function handleAnalysis(interaction, userContent, targetMessage = null) {
+async function handleAnalysis(interaction, userContent, targetMessage = null, explicitContentType = null) {
 	await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
 
 	const serverConfig = loadConfig(interaction.guildId);
 
 	try {
-		const { type, payload } = preparePayload(userContent);
+		const { type, payload } = preparePayload(userContent, explicitContentType);
 		
 		// DYNAMICZNE POBIERANIE MODELU Z PLIKU KONFIGURACYJNEGO DLA DANEGO FORMATU (np. text, image, video)
 		const chosenModel = serverConfig.models[type];
@@ -398,14 +388,17 @@ client.on(Events.InteractionCreate, async (interaction) => {
 	}
 
 	if (interaction.isMessageContextMenuCommand()) {
-		if (interaction.commandName === "Przeanalizuj tekst") {
+		if (interaction.commandName === "Wykryj deepfake") {
 			const targetMessage = interaction.targetMessage;
 			
 			let contentToAnalyze = targetMessage.content;
+			let explicitContentType = null;
+
 			const attachment = targetMessage.attachments.first();
 			
 			if (attachment) {
 				contentToAnalyze = attachment.url;
+				explicitContentType = attachment.contentType;
 			}
 
 			if (!contentToAnalyze || contentToAnalyze.trim().length === 0) {
@@ -415,7 +408,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 				});
 			}
 
-			await handleAnalysis(interaction, contentToAnalyze, targetMessage);
+			await handleAnalysis(interaction, contentToAnalyze, targetMessage, explicitContentType);
 		}
 	}
 
