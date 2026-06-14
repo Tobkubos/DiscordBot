@@ -2,17 +2,17 @@ import logging
 import json
 import re
 import os
+import urllib.parse
 from pathlib import Path
 from typing import Dict, Any, List
+import httpx
 import google.generativeai as genai
-# Import narzędzia do bezpiecznego dekodowania obiektów Google Protobuf
-from google.protobuf.json_format import MessageToDict
 
 logger = logging.getLogger(__name__)
 
 def load_env_fallback():
     """
-    Ręcznie wczytuje plik .env do os.environ, jeśli nie został jeszcze załadowany.
+    Ręcznie wczytuje plik .env do os.environ.
     """
     if os.getenv("GEMINI_API_KEY"):
         return
@@ -23,47 +23,103 @@ def load_env_fallback():
         Path(__file__).resolve().parent.parent.parent / ".env"  # Ścieżka relatywna do serwisu
     ]
 
-    print(f"\n🔍 [DIAGNOSTYKA .ENV] Bieżący katalog roboczy (CWD): {os.getcwd()}")
-    
-    found_any = False
     for path_obj in possible_paths:
         resolved_path = path_obj.resolve()
-        exists = resolved_path.exists()
-        print(f"👉 Sprawdzam ścieżkę: {resolved_path} -> [Znaleziono: {'TAK' if exists else 'NIE'}]")
-        
-        if exists:
-            found_any = True
-            print(f"📖 Próba wczytania pliku: {resolved_path}")
+        if resolved_path.exists():
             try:
-                loaded_keys = []
                 with open(resolved_path, "r", encoding="utf-8") as f:
                     for line in f:
                         line = line.strip()
                         if line and not line.startswith("#") and "=" in line:
                             key, val = line.split("=", 1)
-                            k_clean = key.strip()
-                            v_clean = val.strip().strip("'\"")
-                            os.environ[k_clean] = v_clean
-                            loaded_keys.append(k_clean)
-                print(f"✅ Pomyślnie wczytano klucze z pliku: {loaded_keys}")
+                            os.environ[key.strip()] = val.strip().strip("'\"")
                 break
             except Exception as e:
-                print(f"❌ Błąd odczytu pliku .env: {e}")
-                
-    if not found_any:
-        print("❌ Nie znaleziono pliku .env w żadnej z badanych lokalizacji!")
-        
-    final_key = os.getenv("GEMINI_API_KEY")
-    print(f"🔑 Status GEMINI_API_KEY: {'ZNAJDZIONO (zaczyna się od: ' + final_key[:6] + '...)' if final_key else 'NIE ZNAJDZIONO!'}\n")
+                logger.warning(f"Błąd odczytu .env: {e}")
 
 # Uruchamiamy wczytywanie środowiska przy imporcie tego serwisu
 load_env_fallback()
 
 
+def search_web_manually(query: str, max_results: int = 3) -> List[Dict[str, str]]:
+    """
+    Ręcznie przeszukuje sieć za pomocą wyszukiwarki DuckDuckGo HTML.
+    Rozwiązanie w 100% darmowe, nielimitowane i niezależne od zewnętrznych kluczy API.
+    """
+    logger.info(f"Ręczne wyszukiwanie (POST) w sieci dla zapytania: {query}")
+    
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Content-Type": "application/x-www-form-urlencoded"
+    }
+    url = "https://html.duckduckgo.com/html/"
+    
+    try:
+        with httpx.Client(headers=headers, timeout=10.0, follow_redirects=True) as client:
+            # KLUCZOWA POPRAWKA: DuckDuckGo HTML wymaga metody POST (symulacja wysłania formularza)
+            response = client.post(url, data={"q": query})
+            response.raise_for_status()
+            html = response.text
+            
+            # Bardzo elastyczne i odporne parsowanie linków w obu kolejnościach atrybutów
+            links = []
+            
+            # Kolejność 1: class przed href
+            for m in re.finditer(r'<a[^>]+class=["\'][^"\']*result__a[^"\']*["\'][^>]+href=["\'](?P<url>[^"\']+)["\'][^*]*>(?P<title>.*?)</a>', html, re.IGNORECASE | re.DOTALL):
+                links.append({"url": m.group("url"), "title": m.group("title")})
+            
+            # Kolejność 2: href przed class (zabezpieczenie)
+            if not links:
+                for m in re.finditer(r'<a[^>]+href=["\'](?P<url>[^"\']+)["\'][^>]+class=["\'][^"\']*result__a[^"\']*["\'][^*]*>(?P<title>.*?)</a>', html, re.IGNORECASE | re.DOTALL):
+                    links.append({"url": m.group("url"), "title": m.group("title")})
+            
+            # Parsowanie opisów (snippetów)
+            snippets = []
+            for m in re.finditer(r'<[^>]+class=["\'][^"\']*result__snippet[^"\']*["\'][^>]*>(?P<snippet>.*?)</[^>]+>', html, re.IGNORECASE | re.DOTALL):
+                snippets.append(m.group("snippet"))
+                
+            results = []
+            for i in range(min(len(links), max_results)):
+                raw_url = links[i]["url"]
+                raw_title = links[i]["title"]
+                
+                # Dekodowanie linku DuckDuckGo
+                clean_url = raw_url
+                if "uddg=" in raw_url:
+                    match = re.search(r'uddg=([^&]+)', raw_url)
+                    if match:
+                        clean_url = urllib.parse.unquote(match.group(1))
+                
+                if clean_url.startswith("//"):
+                    clean_url = "https:" + clean_url
+                elif clean_url.startswith("/"):
+                    clean_url = "https://duckduckgo.com" + clean_url
+                
+                # Oczyszczenie z tagów HTML
+                clean_title = re.sub(r'<[^>]+>', '', raw_title).strip()
+                
+                clean_snippet = "Brak opisu."
+                if i < len(snippets):
+                    clean_snippet = re.sub(r'<[^>]+>', '', snippets[i]).strip()
+                
+                results.append({
+                    "title": clean_title,
+                    "url": clean_url,
+                    "snippet": clean_snippet
+                })
+            
+            print(f"📊 [WYSZUKIWANIE] Pobrano {len(results)} wyników wyszukiwania.")
+            return results
+            
+    except Exception as e:
+        logger.error(f"Manualne wyszukiwanie nie powiodło się: {e}", exc_info=True)
+        return []
+
+
 async def analyze_with_gemini_grounding(statement: str) -> Dict[str, Any]:
     """
-    Analizuje stwierdzenie, automatycznie przeszukując internet za pomocą 
-    wbudowanego w Gemini narzędzia Google Search Grounding.
+    Analizuje stwierdzenie, najpierw pobierając najnowsze wyniki przez darmowe wyszukiwanie POST,
+    a następnie przekazując je jako kontekst do Gemini.
     """
     load_env_fallback()
     
@@ -80,34 +136,43 @@ async def analyze_with_gemini_grounding(statement: str) -> Dict[str, Any]:
         
     genai.configure(api_key=api_key)
     
-    # Prosty szablon tekstowy (bez JSON-a), co pozwala Google API na stabilne dołączanie źródeł
+    # 1. Pobieramy źródła za darmo i bez kluczy metodą POST
+    web_results = search_web_manually(statement, max_results=3)
+    
+    if not web_results:
+        return {
+            "verdict": "SPORNE",
+            "explanation": "Nie udało się pobrać wyników wyszukiwania z sieci. Sprawdź połączenie internetowe na serwerze.",
+            "confidence": 0.0,
+            "sources": []
+        }
+        
+    sources_text = ""
+    for idx, r in enumerate(web_results, start=1):
+        sources_text += f"[{idx}] Tytuł: {r['title']}\nTreść: {r['snippet']}\n\n"
+        
     prompt = f"""Jesteś zaawansowanym asystentem do weryfikacji faktów (fact-checking).
-Przeanalizuj poniższe stwierdzenie, korzystając z wyszukiwarki Google, aby zweryfikować jego prawdziwość w czasie rzeczywistym.
+Przeanalizuj poniższe stwierdzenie na podstawie dostarczonych aktualnych wyników wyszukiwania z internetu.
 
 STWIERDZENIE DO WERYFIKACJI:
 "{statement}"
 
+DOKUMENTY Z WYSZUKIWARKI:
+{sources_text}
+
 Twoja odpowiedź musi ściśle odpowiadać poniższemu szablonowi (nie dodawaj żadnych innych komentarzy ani wstępów):
 
 VERDICT: [Wpisz PRAWDA, FAŁSZ lub SPORNE]
-EXPLANATION: [Wpisz zwięzłe (2-4 zdania), merytoryczne i obiektywne uzasadnienie werdyktu w języku polskim, wyjaśniające co mówią najnowsze fakty.]
+EXPLANATION: [Wpisz zwięzłe (2-4 zdania), merytoryczne i obiektywne uzasadnienie werdyktu w języku polskim, wyjaśniające co mówią najnowsze fakty na podstawie dostarczonych dokumentów.]
 
 Zasady oceny:
-- VERDICT: PRAWDA (wiarygodne źródła w pełni potwierdzają to stwierdzenie)
-- VERDICT: FAŁSZ (fakty jednoznacznie zaprzeczają temu stwierdzeniu)
-- VERDICT: SPORNE (informacje są sprzeczne, opinie podzielone lub brak jednoznacznych dowodów)
+- VERDICT: PRAWDA (dostarczone dokumenty w pełni potwierdzają to stwierdzenie)
+- VERDICT: FAŁSZ (dostarczone dokumenty jednoznacznie zaprzeczają temu stwierdzeniu)
+- VERDICT: SPORNE (informacje są sprzeczne, opinie podzielone lub brak wystarczających dowodów w dokumentach)
 """
 
     try:
-        # Włączamy oficjalną wyszukiwarkę Google w modelu Gemini 2.5
-        model = genai.GenerativeModel(
-            model_name="gemini-2.5-flash",
-            tools=[
-                genai.protos.Tool(
-                    google_search=genai.protos.Tool.GoogleSearch()
-                )
-            ]
-        )
+        model = genai.GenerativeModel(model_name="gemini-2.5-flash")
         
         response = model.generate_content(
             prompt,
@@ -119,42 +184,21 @@ Zasady oceny:
         raw_text = response.text.strip()
         logger.info(f"Surowa odpowiedź Gemini: {raw_text}")
         
-        # Parsowanie werdyktu za pomocą Regex
         verdict = "SPORNE"
         verdict_match = re.search(r"VERDICT:\s*(PRAWDA|FAŁSZ|SPORNE)", raw_text, re.IGNORECASE)
         if verdict_match:
             verdict = verdict_match.group(1).upper()
             
-        # Parsowanie uzasadnienia za pomocą Regex
         explanation = "Nie udało się wygenerować uzasadnienia."
         explanation_match = re.search(r"EXPLANATION:\s*(.*)", raw_text, re.DOTALL | re.IGNORECASE)
         if explanation_match:
             explanation = explanation_match.group(1).strip()
             
-        sources = []
-        candidate = response.candidates[0]
-        metadata = getattr(candidate, "grounding_metadata", None)
-        
-        if metadata:
-            # Konwertujemy obiekt Google Protobuf na standardowy słownik Pythona, aby odczytać linki
-            metadata_dict = MessageToDict(metadata._pb, preserving_proto_field_name=True)
-            logger.info(f"Zdekodowane metadane wyszukiwania: {metadata_dict}")
-            
-            chunks = metadata_dict.get("grounding_chunks", [])
-            for chunk in chunks:
-                web = chunk.get("web", {})
-                if web:
-                    sources.append({
-                        "title": web.get("title", "Źródło bez tytułu"),
-                        "url": web.get("uri", ""),
-                        "snippet": "Źródło zweryfikowane bezpośrednio przez wyszukiwarkę Google."
-                    })
-                    
         return {
             "verdict": verdict,
             "explanation": explanation,
             "confidence": 0.95 if verdict in ["PRAWDA", "FAŁSZ"] else 0.5,
-            "sources": sources
+            "sources": web_results
         }
         
     except Exception as e:
