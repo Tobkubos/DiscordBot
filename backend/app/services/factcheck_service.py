@@ -43,8 +43,8 @@ load_env_fallback()
 
 def search_web_manually(query: str, max_results: int = 3) -> List[Dict[str, str]]:
     """
-    Ręcznie przeszukuje sieć za pomocą wyszukiwarki DuckDuckGo HTML.
-    Rozwiązanie w 100% darmowe, nielimitowane i niezależne od zewnętrznych kluczy API.
+    Ręcznie przeszukuje sieć za pomocą wyszukiwarki DuckDuckGo HTML (metoda POST).
+    Rozwiązanie w 100% darmowe, nielimitowane i bezpieczne przed blokadami.
     """
     logger.info(f"Ręczne wyszukiwanie (POST) w sieci dla zapytania: {query}")
     
@@ -56,28 +56,37 @@ def search_web_manually(query: str, max_results: int = 3) -> List[Dict[str, str]
     
     try:
         with httpx.Client(headers=headers, timeout=10.0, follow_redirects=True) as client:
-            # KLUCZOWA POPRAWKA: DuckDuckGo HTML wymaga metody POST (symulacja wysłania formularza)
+            # Wysłanie zapytania POST (formularz) do DuckDuckGo
             response = client.post(url, data={"q": query})
             response.raise_for_status()
             html = response.text
             
-            # Bardzo elastyczne i odporne parsowanie linków w obu kolejnościach atrybutów
-            links = []
-            
-            # Kolejność 1: class przed href
-            for m in re.finditer(r'<a[^>]+class=["\'][^"\']*result__a[^"\']*["\'][^>]+href=["\'](?P<url>[^"\']+)["\'][^*]*>(?P<title>.*?)</a>', html, re.IGNORECASE | re.DOTALL):
-                links.append({"url": m.group("url"), "title": m.group("title")})
-            
-            # Kolejność 2: href przed class (zabezpieczenie)
-            if not links:
-                for m in re.finditer(r'<a[^>]+href=["\'](?P<url>[^"\']+)["\'][^>]+class=["\'][^"\']*result__a[^"\']*["\'][^*]*>(?P<title>.*?)</a>', html, re.IGNORECASE | re.DOTALL):
-                    links.append({"url": m.group("url"), "title": m.group("title")})
-            
-            # Parsowanie opisów (snippetów)
-            snippets = []
-            for m in re.finditer(r'<[^>]+class=["\'][^"\']*result__snippet[^"\']*["\'][^>]*>(?P<snippet>.*?)</[^>]+>', html, re.IGNORECASE | re.DOTALL):
-                snippets.append(m.group("snippet"))
+            # --- DIAGNOSTYKA CAPTCHA ---
+            lower_html = html.lower()
+            if "ddg-captcha" in lower_html or "security check" in lower_html or "robot" in lower_html:
+                print("\n⚠️  [BLOKADA IP] DuckDuckGo wykryło bota i zablokowało to zapytanie (wymaga CAPTCHA)!")
+                return []
                 
+            # PROSTE I BEZBŁĘDNE PARSOWANIE:
+            # Znajdujemy wszystkie linki <a> i dopiero wewnątrz nich sprawdzamy klasy wyników.
+            links = []
+            for m in re.finditer(r'<a\s+[^>]*href=["\'](?P<url>[^"\']+)["\'][^>]*>(?P<title>.*?)</a>', html, re.IGNORECASE | re.DOTALL):
+                tag_full_text = m.group(0)
+                # Sprawdzamy czy dany tag ma klasę głównego wyniku wyszukiwania
+                if "result__a" in tag_full_text:
+                    links.append({
+                        "url": m.group("url"),
+                        "title": m.group("title")
+                    })
+            
+            # Wyciągamy opisy (snippety) również za pomocą bezpiecznego dopasowania
+            snippets = []
+            for m in re.finditer(r'<a\s+[^>]*href=["\'](?P<url>[^"\']+)["\'][^>]*>(?P<snippet>.*?)</a>', html, re.IGNORECASE | re.DOTALL):
+                tag_full_text = m.group(0)
+                # Sprawdzamy czy dany tag ma klasę opisu
+                if "result__snippet" in tag_full_text:
+                    snippets.append(m.group("snippet"))
+            
             results = []
             for i in range(min(len(links), max_results)):
                 raw_url = links[i]["url"]
@@ -95,7 +104,7 @@ def search_web_manually(query: str, max_results: int = 3) -> List[Dict[str, str]
                 elif clean_url.startswith("/"):
                     clean_url = "https://duckduckgo.com" + clean_url
                 
-                # Oczyszczenie z tagów HTML
+                # Oczyszczenie z tagów HTML (np. usunięcie <b>)
                 clean_title = re.sub(r'<[^>]+>', '', raw_title).strip()
                 
                 clean_snippet = "Brak opisu."
