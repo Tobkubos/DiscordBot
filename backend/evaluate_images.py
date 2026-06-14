@@ -25,7 +25,7 @@ def setup_test_guild():
     print(f"[*] Konfigurowanie testowej gildii '{TEST_GUILD_ID}' na backendzie...")
     setup_payload = {
         "active_text_model": "none",
-        "active_image_model": "capcheck/ai-image-detection",  # Model do przetestowania
+        "active_image_model": "Hemg/Deepfake-image",  # Model do przetestowania
         "log_channel_id": None,
         "multi_model_workflow": False
     }

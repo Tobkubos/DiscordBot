@@ -6,8 +6,8 @@
         "multi_model_workflow": true
     },
     "eval_test_guild": {
-        "active_text_model": "bibbbu/multilingual-ai-human-detector_xlm-roberta-base",
-        "active_image_model": "none",
+        "active_text_model": "none",
+        "active_image_model": "Hemg/Deepfake-image",
         "log_channel_id": null,
         "multi_model_workflow": false
     }
