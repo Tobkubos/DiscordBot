@@ -1,0 +1,501 @@
+id,text_snippet,ground_truth,predicted,confidence,analysis_time,used_model,status
+0,Aging is the process by which our bodies and cells get older...,True,True,1.0,7.101,yaya36095/xlm-roberta-text-detector,SUCCESS
+1,Some stickers are put there to show if unauthorized servicin...,False,False,1.0,0.115,yaya36095/xlm-roberta-text-detector,SUCCESS
+2,only one key on me keyboard be workin ' proper with caps loc...,False,True,0.994,0.113,yaya36095/xlm-roberta-text-detector,SUCCESS
+3,But the ball is also rotating with the earth . And so are yo...,False,True,1.0,0.125,yaya36095/xlm-roberta-text-detector,SUCCESS
+4,There are currently seven professional hockey teams in Canad...,True,True,1.0,0.22,yaya36095/xlm-roberta-text-detector,SUCCESS
+5,Oxford University Press (OUP) is a department of the Univers...,True,True,1.0,0.239,yaya36095/xlm-roberta-text-detector,SUCCESS
+6,Gregory I. Piatetsky-Shapiro (born 7 April 1958) is a data s...,False,True,1.0,0.161,yaya36095/xlm-roberta-text-detector,SUCCESS
+7,Kanji (; ) are the adopted logographic Chinese characters ( ...,False,True,1.0,0.144,yaya36095/xlm-roberta-text-detector,SUCCESS
+8,Chemotherapy is a type of treatment that uses powerful medic...,True,True,1.0,0.223,yaya36095/xlm-roberta-text-detector,SUCCESS
+9,When you sneeze or experience some other kind of strong phys...,True,True,1.0,0.233,yaya36095/xlm-roberta-text-detector,SUCCESS
+10,"If humanity started out with only two people, it's possible ...",True,False,0.997,0.274,yaya36095/xlm-roberta-text-detector,SUCCESS
+11,The BBC Model B is a computer that was made by the British c...,True,True,1.0,0.292,yaya36095/xlm-roberta-text-detector,SUCCESS
+12,A web browser is a piece of software that you use to access ...,True,True,1.0,0.333,yaya36095/xlm-roberta-text-detector,SUCCESS
+13,"It started as a travel guide for motorists , which makes sen...",False,True,0.999,0.225,yaya36095/xlm-roberta-text-detector,SUCCESS
+14,Sure! I'd be happy to help explain the difference between bi...,True,True,0.999,0.346,yaya36095/xlm-roberta-text-detector,SUCCESS
+15,No. The intro rate is a gambit by the bank - they accept los...,False,True,1.0,0.174,yaya36095/xlm-roberta-text-detector,SUCCESS
+16,The Freedom of Religion clause says this : > Congress shall ...,False,False,0.996,0.15,yaya36095/xlm-roberta-text-detector,SUCCESS
+17,'Cause the right side of your body has a fricken body lying ...,False,False,1.0,0.12,yaya36095/xlm-roberta-text-detector,SUCCESS
+18,It is generally not advisable to withdraw funds from a retir...,True,True,1.0,0.261,yaya36095/xlm-roberta-text-detector,SUCCESS
+19,I'm sorry to hear about the health issues that some Ground Z...,True,True,1.0,0.233,yaya36095/xlm-roberta-text-detector,SUCCESS
+20,If you need to amend your tax return to correctly report gai...,True,True,1.0,0.269,yaya36095/xlm-roberta-text-detector,SUCCESS
+21,No NFL team wants to come off as that asshole team who sues ...,False,False,0.999,0.125,yaya36095/xlm-roberta-text-detector,SUCCESS
+22,The money you give allows the bank to give it to other peopl...,False,True,1.0,0.157,yaya36095/xlm-roberta-text-detector,SUCCESS
+23,Administrative Professionals' Day (also known as Administrat...,True,True,1.0,0.199,yaya36095/xlm-roberta-text-detector,SUCCESS
+24,Curt Schilling is a former Major League Baseball (MLB) playe...,True,True,1.0,0.197,yaya36095/xlm-roberta-text-detector,SUCCESS
+25,"Ultimately , there are only going to be a few ' links ' betw...",False,True,1.0,0.222,yaya36095/xlm-roberta-text-detector,SUCCESS
+26,So its only a matter of relative blood supply as opposed to ...,False,True,1.0,0.098,yaya36095/xlm-roberta-text-detector,SUCCESS
+27,"I'm sorry, but you haven't provided me with enough informati...",True,True,1.0,0.127,yaya36095/xlm-roberta-text-detector,SUCCESS
+28,Shi'ites think that leadership in Islam should be hereditary...,False,False,0.997,0.249,yaya36095/xlm-roberta-text-detector,SUCCESS
+29,It is impossible to produce random numbers by using an algor...,False,False,0.997,0.34,yaya36095/xlm-roberta-text-detector,SUCCESS
+30,"The current actually does the damage , but it 's the high vo...",False,True,1.0,0.168,yaya36095/xlm-roberta-text-detector,SUCCESS
+31,Posting a video of someone else without their permission can...,True,True,1.0,0.249,yaya36095/xlm-roberta-text-detector,SUCCESS
+32,"A doctor said it once , so celebs jumped on board and made a...",False,False,0.998,0.123,yaya36095/xlm-roberta-text-detector,SUCCESS
+33,Wind is caused by the movement of air. Air is made up of tin...,True,True,1.0,0.39,yaya36095/xlm-roberta-text-detector,SUCCESS
+34,"Internet Explorer 9 (IE9) was released on March 14, 2011. It...",True,True,1.0,0.176,yaya36095/xlm-roberta-text-detector,SUCCESS
+35,I think op actually wants to KNOW the science behind the hea...,False,True,0.902,0.107,yaya36095/xlm-roberta-text-detector,SUCCESS
+36,The Dalai Lama is tibeten . Tibet is controlled by China and...,False,True,1.0,0.19,yaya36095/xlm-roberta-text-detector,SUCCESS
+37,I'm sorry to hear about the attacks on vaccine teams. The Ta...,True,True,1.0,0.237,yaya36095/xlm-roberta-text-detector,SUCCESS
+38,Martin Luther King Jr. Day is a federal holiday in the Unite...,True,True,1.0,0.207,yaya36095/xlm-roberta-text-detector,SUCCESS
+39,\nA railgun is a type of cannon that uses electricity to acc...,True,True,1.0,0.298,yaya36095/xlm-roberta-text-detector,SUCCESS
+40,Hatches and SUVs often have rear windshield wipers because t...,True,True,1.0,0.289,yaya36095/xlm-roberta-text-detector,SUCCESS
+41,"PCI stands for Peripheral Component Interconnect, and it is ...",True,True,1.0,0.262,yaya36095/xlm-roberta-text-detector,SUCCESS
+42,Canned air duster is a product that is used to blow dust and...,True,True,1.0,0.29,yaya36095/xlm-roberta-text-detector,SUCCESS
+43,"The dry air can promote a response from your body , similar ...",False,True,1.0,0.103,yaya36095/xlm-roberta-text-detector,SUCCESS
+44,"The menstrual cycle is run by hormones , little messengers e...",False,False,1.0,0.368,yaya36095/xlm-roberta-text-detector,SUCCESS
+45,the short version is that a burn sucks because your body now...,False,False,1.0,0.211,yaya36095/xlm-roberta-text-detector,SUCCESS
+46,"Disulfide bonds, also known as disulfide bridges, are covale...",True,True,1.0,0.338,yaya36095/xlm-roberta-text-detector,SUCCESS
+47,"In the first 3 days , the body is still using energy from gl...",False,True,1.0,0.234,yaya36095/xlm-roberta-text-detector,SUCCESS
+48,A lighter doesn't explode when it's lit because the flame fr...,True,False,1.0,0.194,yaya36095/xlm-roberta-text-detector,SUCCESS
+49,It 's very nice to be able to separate what goes into our st...,False,True,0.948,0.157,yaya36095/xlm-roberta-text-detector,SUCCESS
+50,"Defamation is very technical , its not just "" saying stuff t...",False,True,1.0,0.177,yaya36095/xlm-roberta-text-detector,SUCCESS
+51,There 's a muscle right under your lungs . You use that musc...,False,False,0.924,0.209,yaya36095/xlm-roberta-text-detector,SUCCESS
+52,"Look into the definition of ""primary residence"" for your jur...",False,True,1.0,0.114,yaya36095/xlm-roberta-text-detector,SUCCESS
+53,It is generally not recommended to watch a microwave while i...,True,True,1.0,0.332,yaya36095/xlm-roberta-text-detector,SUCCESS
+54,Homing pigeons only know how to fly back home . If you want ...,False,True,1.0,0.16,yaya36095/xlm-roberta-text-detector,SUCCESS
+55,Yup so pretty much as said before it would affect the Coriol...,False,True,1.0,0.197,yaya36095/xlm-roberta-text-detector,SUCCESS
+56,"In movies and TV shows, filmmakers use a technique called ""a...",True,True,1.0,0.21,yaya36095/xlm-roberta-text-detector,SUCCESS
+57,"Sure, I'd be happy to help clarify some stock terminology fo...",True,True,1.0,0.103,yaya36095/xlm-roberta-text-detector,SUCCESS
+58,"That 's kind of like asking , "" Why are there capascin recep...",False,False,0.999,0.195,yaya36095/xlm-roberta-text-detector,SUCCESS
+59,"Saliva flows and is replaced in your mouth when you move , s...",False,True,1.0,0.145,yaya36095/xlm-roberta-text-detector,SUCCESS
+60,A turbocharger is a device that helps a car's engine produce...,True,True,1.0,0.244,yaya36095/xlm-roberta-text-detector,SUCCESS
+61,"They hire temporary staff , just like all other companies th...",False,True,1.0,0.1,yaya36095/xlm-roberta-text-detector,SUCCESS
+62,The WWW is a service that runs on the Internet . There are m...,False,False,1.0,0.196,yaya36095/xlm-roberta-text-detector,SUCCESS
+63,Let 's play a game . You and your friend want to hang out to...,False,False,0.997,0.355,yaya36095/xlm-roberta-text-detector,SUCCESS
+64,"Yes, fish do drink water! Fish are living creatures just lik...",True,True,1.0,0.207,yaya36095/xlm-roberta-text-detector,SUCCESS
+65,Burgundy is a dark red color. It is often described as a dee...,True,True,1.0,0.174,yaya36095/xlm-roberta-text-detector,SUCCESS
+66,It 's to prevent fraud . You can almost trick any system to ...,False,True,1.0,0.107,yaya36095/xlm-roberta-text-detector,SUCCESS
+67,They did n't require the dental hygiene we do because their ...,False,True,1.0,0.134,yaya36095/xlm-roberta-text-detector,SUCCESS
+68,Lets say you take an orange and squeeze it . You have yourse...,False,True,1.0,0.36,yaya36095/xlm-roberta-text-detector,SUCCESS
+69,A bond is a debt security that represents a loan made by an ...,True,True,1.0,0.301,yaya36095/xlm-roberta-text-detector,SUCCESS
+70,Cricket ! ? No one in the world understands cricket ! You ha...,False,True,1.0,0.105,yaya36095/xlm-roberta-text-detector,SUCCESS
+71,Frank Sinatra was a highly successful and influential singer...,True,True,1.0,0.171,yaya36095/xlm-roberta-text-detector,SUCCESS
+72,!network errorThere was an error generating a response...,True,True,1.0,0.092,yaya36095/xlm-roberta-text-detector,SUCCESS
+73,"Self-destructive behavior, also called self-harm, is when so...",True,True,1.0,0.238,yaya36095/xlm-roberta-text-detector,SUCCESS
+74,Soap is made up of molecules that have two ends. One end of ...,True,True,1.0,0.285,yaya36095/xlm-roberta-text-detector,SUCCESS
+75,I would guess that it 's because they set their thermostat t...,False,False,0.991,0.114,yaya36095/xlm-roberta-text-detector,SUCCESS
+76,"I'm sorry, but I am not able to provide information about cu...",True,True,1.0,0.235,yaya36095/xlm-roberta-text-detector,SUCCESS
+77,There are a few reasons why some people might think that pol...,True,True,1.0,0.201,yaya36095/xlm-roberta-text-detector,SUCCESS
+78,There are a few reasons why people might prefer cooking on a...,True,True,1.0,0.255,yaya36095/xlm-roberta-text-detector,SUCCESS
+79,"When you eat food, your body digests it in your stomach and ...",True,True,1.0,0.299,yaya36095/xlm-roberta-text-detector,SUCCESS
+80,Counting to four in music is a way of keeping track of the b...,True,True,1.0,0.29,yaya36095/xlm-roberta-text-detector,SUCCESS
+81,It is technically possible for individuals to engage in high...,True,True,1.0,0.283,yaya36095/xlm-roberta-text-detector,SUCCESS
+82,Ho Chi Minh was a Vietnamese communist revolutionary leader ...,True,True,1.0,0.287,yaya36095/xlm-roberta-text-detector,SUCCESS
+83,"Cats are naturally curious animals, and they often like to e...",True,True,1.0,0.265,yaya36095/xlm-roberta-text-detector,SUCCESS
+84,"Auburndale is a city in Polk County, Florida, United States....",True,True,1.0,0.161,yaya36095/xlm-roberta-text-detector,SUCCESS
+85,It all can be to the best of my knowledge since alcohol kill...,False,False,0.969,0.121,yaya36095/xlm-roberta-text-detector,SUCCESS
+86,Cheap housing in the US has all their AC visible ....,False,True,1.0,0.092,yaya36095/xlm-roberta-text-detector,SUCCESS
+87,I happen to be gay . I support politicians who believe I des...,False,True,1.0,0.149,yaya36095/xlm-roberta-text-detector,SUCCESS
+88,A single shot of espresso typically contains about 30-50 mil...,True,True,1.0,0.264,yaya36095/xlm-roberta-text-detector,SUCCESS
+89,There are many reasons why people might move from one region...,True,True,1.0,0.242,yaya36095/xlm-roberta-text-detector,SUCCESS
+90,Radiolab had an episode about precisely this question : URL_...,False,False,0.991,0.159,yaya36095/xlm-roberta-text-detector,SUCCESS
+91,Imagine it this way : you 've been watching two slugs trying...,False,False,1.0,0.236,yaya36095/xlm-roberta-text-detector,SUCCESS
+92,"No, the expense ratio would be something you wouldn't be cha...",False,True,0.999,0.241,yaya36095/xlm-roberta-text-detector,SUCCESS
+93,A zero-tolerance policy is a rule that says that certain act...,True,True,1.0,0.206,yaya36095/xlm-roberta-text-detector,SUCCESS
+94,The same way we could buy and sell produce between us after ...,False,True,1.0,0.1,yaya36095/xlm-roberta-text-detector,SUCCESS
+95,[ Long version of what is a hedge fund ] ( URL_0 ) Short ver...,False,True,1.0,0.291,yaya36095/xlm-roberta-text-detector,SUCCESS
+96,"If you saw yourself while time traveling, it could potential...",True,True,1.0,0.282,yaya36095/xlm-roberta-text-detector,SUCCESS
+97,Having a system based around the number 60 makes for easy di...,False,True,1.0,0.112,yaya36095/xlm-roberta-text-detector,SUCCESS
+98,"I'm sorry, but I am an AI language model and am not able to ...",True,True,1.0,0.237,yaya36095/xlm-roberta-text-detector,SUCCESS
+99,Find a lawyer or law firm who wants to represent you and tal...,False,True,1.0,0.098,yaya36095/xlm-roberta-text-detector,SUCCESS
+100,"It eliminates the need for a mechanical transmission , which...",False,True,0.999,0.122,yaya36095/xlm-roberta-text-detector,SUCCESS
+101,"To be fair , English speakers drop Spanish words into their ...",False,True,1.0,0.179,yaya36095/xlm-roberta-text-detector,SUCCESS
+102,Pimples are caused by a buildup of oil and dead skin cells i...,True,True,1.0,0.253,yaya36095/xlm-roberta-text-detector,SUCCESS
+103,"I'm sorry, but I'm not able to provide information about the...",True,True,1.0,0.318,yaya36095/xlm-roberta-text-detector,SUCCESS
+104,The ETF price quoted on the stock exchange is in principle n...,False,True,1.0,0.154,yaya36095/xlm-roberta-text-detector,SUCCESS
+105,"I'm sorry, but I don't have any information about a subreddi...",True,True,1.0,0.14,yaya36095/xlm-roberta-text-detector,SUCCESS
+106,Procrastination is when we put off doing something that we k...,True,True,1.0,0.294,yaya36095/xlm-roberta-text-detector,SUCCESS
+107,Grover's algorithm is a quantum algorithm that can search th...,True,True,1.0,0.298,yaya36095/xlm-roberta-text-detector,SUCCESS
+108,Mark Zuckerberg is the CEO of Facebook. He co-founded the so...,True,True,1.0,0.145,yaya36095/xlm-roberta-text-detector,SUCCESS
+109,It's not necessarily a crime for a news organization to inte...,True,True,1.0,0.206,yaya36095/xlm-roberta-text-detector,SUCCESS
+110,It is a terrible book to read if your desire it to learn abo...,False,True,1.0,0.098,yaya36095/xlm-roberta-text-detector,SUCCESS
+111,"When you feel the wind, you are actually feeling the movemen...",True,True,1.0,0.234,yaya36095/xlm-roberta-text-detector,SUCCESS
+112,DirectX is a collection of multimedia APIs for programmers ....,False,False,0.999,0.247,yaya36095/xlm-roberta-text-detector,SUCCESS
+113,"I'm sorry, but I don't have any information about a current ...",True,True,1.0,0.275,yaya36095/xlm-roberta-text-detector,SUCCESS
+114,They are used to add a word that the author have added that ...,False,False,0.998,0.171,yaya36095/xlm-roberta-text-detector,SUCCESS
+115,Traceroute (also known as tracert on Windows systems) is a t...,True,False,1.0,0.318,yaya36095/xlm-roberta-text-detector,SUCCESS
+116,chat.openai.comChecking if the site connection is securechat...,True,True,1.0,0.165,yaya36095/xlm-roberta-text-detector,SUCCESS
+117,"I'm sorry, but I am not able to access information about spe...",True,True,1.0,0.141,yaya36095/xlm-roberta-text-detector,SUCCESS
+118,You could try giving this a try : URL_0 From what I can gath...,False,False,1.0,0.228,yaya36095/xlm-roberta-text-detector,SUCCESS
+119,Scientists and good wannabee scientists hate it because it '...,False,True,0.999,0.291,yaya36095/xlm-roberta-text-detector,SUCCESS
+120,You are not obligated to file your taxes with HR Block or an...,True,True,1.0,0.208,yaya36095/xlm-roberta-text-detector,SUCCESS
+121,"He wears a metal suit , and causes magnetic fields to attrac...",False,True,1.0,0.15,yaya36095/xlm-roberta-text-detector,SUCCESS
+122,"Shem ( ; Sēm; Arabic : Sām; Ge'ez : ሴም, Sēm; ""renown; prospe...",False,True,1.0,0.147,yaya36095/xlm-roberta-text-detector,SUCCESS
+123,Men and women have different chess tournaments because chess...,True,True,1.0,0.276,yaya36095/xlm-roberta-text-detector,SUCCESS
+124,Photographs can sometimes look different from what we see in...,True,True,1.0,0.291,yaya36095/xlm-roberta-text-detector,SUCCESS
+125,Hi!welcome to healthcaremagic.com.Since you are not able to ...,False,True,1.0,0.199,yaya36095/xlm-roberta-text-detector,SUCCESS
+126,"Water conservation is about using water efficiently, which m...",True,True,1.0,0.303,yaya36095/xlm-roberta-text-detector,SUCCESS
+127,"In 2017, a passenger named Dr. David Dao was violently remov...",True,True,1.0,0.262,yaya36095/xlm-roberta-text-detector,SUCCESS
+128,I 'm not sure people think in any language at all . It 's al...,False,True,1.0,0.192,yaya36095/xlm-roberta-text-detector,SUCCESS
+129,Computer programmers write the error message into their soft...,False,False,0.995,0.205,yaya36095/xlm-roberta-text-detector,SUCCESS
+130,"In the past, some actors and actresses in black and white mo...",True,True,1.0,0.266,yaya36095/xlm-roberta-text-detector,SUCCESS
+131,"No, the baby will not look exactly like either of the twins ...",True,True,1.0,0.409,yaya36095/xlm-roberta-text-detector,SUCCESS
+132,Some parts of the Earth 's surface are hotter than others . ...,False,True,1.0,0.199,yaya36095/xlm-roberta-text-detector,SUCCESS
+133,It is generally not necessary to write the date on the back ...,True,True,1.0,0.304,yaya36095/xlm-roberta-text-detector,SUCCESS
+134,They started out as a way to keep hair from getting into foo...,False,True,0.999,0.105,yaya36095/xlm-roberta-text-detector,SUCCESS
+135,Unicorns are mythical creatures that have been depicted in s...,True,True,1.0,0.259,yaya36095/xlm-roberta-text-detector,SUCCESS
+136,Wireless keyboards and mice use different types of technolog...,True,True,1.0,0.211,yaya36095/xlm-roberta-text-detector,SUCCESS
+137,r/circlejerk is a subreddit where people post jokes and humo...,True,True,1.0,0.189,yaya36095/xlm-roberta-text-detector,SUCCESS
+138,Ignore useful . How a discovery is used is of zero concern ....,False,True,1.0,0.192,yaya36095/xlm-roberta-text-detector,SUCCESS
+139,"If they 're still plugged in , yes , they 're continuing to ...",False,True,1.0,0.175,yaya36095/xlm-roberta-text-detector,SUCCESS
+140,The polar ice caps are made of freshwater because they are f...,True,True,1.0,0.219,yaya36095/xlm-roberta-text-detector,SUCCESS
+141,The original True Grit film was released in 1969 and starred...,True,True,1.0,0.144,yaya36095/xlm-roberta-text-detector,SUCCESS
+142,"Executing prisoners by gunshot to the back of the head, also...",True,True,1.0,0.26,yaya36095/xlm-roberta-text-detector,SUCCESS
+143,There is no mini version of Google stock. Google is a public...,True,True,1.0,0.127,yaya36095/xlm-roberta-text-detector,SUCCESS
+144,"Switchblades, also known as automatic knives, are illegal in...",True,True,1.0,0.202,yaya36095/xlm-roberta-text-detector,SUCCESS
+145,"When they 're close to the ground , they 're still accelerat...",False,True,1.0,0.11,yaya36095/xlm-roberta-text-detector,SUCCESS
+146,"In financial markets, the terms ""bid"" and ""ask"" refer to the...",True,True,1.0,0.207,yaya36095/xlm-roberta-text-detector,SUCCESS
+147,"A league is a unit of distance, usually used to measure the ...",True,True,1.0,0.109,yaya36095/xlm-roberta-text-detector,SUCCESS
+148,Water is not commonly sold in cans because cans are usually ...,True,True,1.0,0.146,yaya36095/xlm-roberta-text-detector,SUCCESS
+149,They were meant to attack bombers that were themselves carry...,False,False,0.997,0.135,yaya36095/xlm-roberta-text-detector,SUCCESS
+150,"When you work your muscles , it costs your body energy . The...",False,False,1.0,0.175,yaya36095/xlm-roberta-text-detector,SUCCESS
+151,"In a hotel with central heating and cooling (HVAC), each roo...",True,True,1.0,0.186,yaya36095/xlm-roberta-text-detector,SUCCESS
+152,"When you feel nervous or scared, your body goes into ""fight ...",True,True,1.0,0.207,yaya36095/xlm-roberta-text-detector,SUCCESS
+153,Sufficiently advanced technology is indistinguishable from m...,False,True,1.0,0.065,yaya36095/xlm-roberta-text-detector,SUCCESS
+154,In larger cities there are numerous traffic sensors that are...,False,True,1.0,0.124,yaya36095/xlm-roberta-text-detector,SUCCESS
+155,It really depends on the quality of the dollar store glasses...,False,False,1.0,0.202,yaya36095/xlm-roberta-text-detector,SUCCESS
+156,“ Based means being yourself . Not being scared of what peop...,False,True,1.0,0.172,yaya36095/xlm-roberta-text-detector,SUCCESS
+157,Place yourself in the sentenced person shoes . Would you lik...,False,True,1.0,0.132,yaya36095/xlm-roberta-text-detector,SUCCESS
+158,"Westboro Baptist Church is a small, extremist group that has...",True,True,1.0,0.173,yaya36095/xlm-roberta-text-detector,SUCCESS
+159,Off-brand batteries are cheaper than name-brand batteries be...,True,True,1.0,0.148,yaya36095/xlm-roberta-text-detector,SUCCESS
+160,yes it can be a reaction to pain and also anxiety of meeting...,False,True,1.0,0.084,yaya36095/xlm-roberta-text-detector,SUCCESS
+161,"They ca nt , but they can be given a [ table of symbols ] ( ...",False,True,1.0,0.092,yaya36095/xlm-roberta-text-detector,SUCCESS
+162,Or they could go the parks and rec route and use alta vista...,False,True,0.994,0.068,yaya36095/xlm-roberta-text-detector,SUCCESS
+163,It 's from cheaper dog foods that are full of ash and crushe...,False,True,1.0,0.085,yaya36095/xlm-roberta-text-detector,SUCCESS
+164,Most animals have two eyes because two eyes give them the ab...,True,True,1.0,0.19,yaya36095/xlm-roberta-text-detector,SUCCESS
+165,it could be MS. it could also not be MS and be many more dis...,False,True,1.0,0.092,yaya36095/xlm-roberta-text-detector,SUCCESS
+166,"She was n't recording herself , she was recording others . A...",False,True,1.0,0.065,yaya36095/xlm-roberta-text-detector,SUCCESS
+167,Dontforgetpants ' response seems to hit the nail on the head...,False,True,1.0,0.107,yaya36095/xlm-roberta-text-detector,SUCCESS
+168,The sun looks yellow in some videos because the atmosphere o...,True,True,1.0,0.151,yaya36095/xlm-roberta-text-detector,SUCCESS
+169,"The CIA is a foreign intelligence service , which is tasked ...",False,True,1.0,0.102,yaya36095/xlm-roberta-text-detector,SUCCESS
+170,If a parking ticket is lost or destroyed before the owner is...,True,True,1.0,0.143,yaya36095/xlm-roberta-text-detector,SUCCESS
+171,Sure you can . The Stuxnet virus was software intended to da...,False,True,1.0,0.069,yaya36095/xlm-roberta-text-detector,SUCCESS
+172,I am a huge fan of [ this chart ] ( URL_0 ) for all of the i...,False,True,1.0,0.1,yaya36095/xlm-roberta-text-detector,SUCCESS
+173,[ This is a really good explanation ] ( URL_0 ) . For a long...,False,True,1.0,0.074,yaya36095/xlm-roberta-text-detector,SUCCESS
+174,God punished Egypt for not releasing God 's people when inst...,False,True,1.0,0.133,yaya36095/xlm-roberta-text-detector,SUCCESS
+175,"​   ··· ChatGPT Dec 15 Version. Free Research Preview. O...",True,True,1.0,0.194,yaya36095/xlm-roberta-text-detector,SUCCESS
+176,"No, collecting and recycling your own pee and sweat will not...",True,True,1.0,0.143,yaya36095/xlm-roberta-text-detector,SUCCESS
+177,"Yes, drinking 3 glasses of beer will make you urinate more t...",True,True,1.0,0.21,yaya36095/xlm-roberta-text-detector,SUCCESS
+178,The only reason why Texas is commonly considered is because ...,False,True,1.0,0.122,yaya36095/xlm-roberta-text-detector,SUCCESS
+179,You have fluid in your inner ear that helps your brain figur...,False,True,0.998,0.068,yaya36095/xlm-roberta-text-detector,SUCCESS
+180,"When you exercise options early, the tax implications will d...",True,True,1.0,0.262,yaya36095/xlm-roberta-text-detector,SUCCESS
+181,"As of September 2021, the two senators representing Louisian...",True,True,1.0,0.189,yaya36095/xlm-roberta-text-detector,SUCCESS
+182,It was called the ' goddamned particle ' first and then it w...,False,True,1.0,0.087,yaya36095/xlm-roberta-text-detector,SUCCESS
+183,The hundred dollar bill features a portrait of Benjamin Fran...,True,True,1.0,0.137,yaya36095/xlm-roberta-text-detector,SUCCESS
+184,"Hello Prabash,Please consult with a psychiatrist as your mam...",False,True,1.0,0.086,yaya36095/xlm-roberta-text-detector,SUCCESS
+185,"Albany is a city located in Linn County, Oregon, United Stat...",True,True,1.0,0.105,yaya36095/xlm-roberta-text-detector,SUCCESS
+186,Mostly because the vast majority of the surface of this plan...,False,True,1.0,0.112,yaya36095/xlm-roberta-text-detector,SUCCESS
+187,Viruses are n't actually organisms by the strict definition ...,False,True,1.0,0.107,yaya36095/xlm-roberta-text-detector,SUCCESS
+188,"A surveyor's wheel, also known as a measuring wheel or a dis...",True,True,1.0,0.167,yaya36095/xlm-roberta-text-detector,SUCCESS
+189,Coffee is often served at a high temperature because it is b...,True,True,1.0,0.194,yaya36095/xlm-roberta-text-detector,SUCCESS
+190,"When people are feeling anxious or stressed, they may feel s...",True,True,1.0,0.231,yaya36095/xlm-roberta-text-detector,SUCCESS
+191,It sounds like you may be experiencing a phenomenon called a...,True,True,1.0,0.347,yaya36095/xlm-roberta-text-detector,SUCCESS
+192,The Fibonacci sequence is a series of numbers in which each ...,True,True,1.0,0.16,yaya36095/xlm-roberta-text-detector,SUCCESS
+193,"When you drink alcohol , it passes through your liver where ...",False,True,1.0,0.35,yaya36095/xlm-roberta-text-detector,SUCCESS
+194,Making a movie is expensive for a lot of reasons. One reason...,True,True,1.0,0.232,yaya36095/xlm-roberta-text-detector,SUCCESS
+195,"When you install a program, you are adding new files to your...",True,True,0.999,0.292,yaya36095/xlm-roberta-text-detector,SUCCESS
+196,"It is n't . Much better to use vinegar , and simply because ...",False,True,1.0,0.131,yaya36095/xlm-roberta-text-detector,SUCCESS
+197,"if they are truly A - list , they do n't file , they pay som...",False,True,1.0,0.11,yaya36095/xlm-roberta-text-detector,SUCCESS
+198,"It 's a blurry line , and stout is derived from porter . I u...",False,True,1.0,0.171,yaya36095/xlm-roberta-text-detector,SUCCESS
+199,"well it 's been around for decades , and is linked to homose...",False,True,1.0,0.135,yaya36095/xlm-roberta-text-detector,SUCCESS
+200,Lots of the byproducts of combustion have phenolic structure...,False,True,0.999,0.266,yaya36095/xlm-roberta-text-detector,SUCCESS
+201,Easy first example : Oarsman : Regatta::jockey : _ _ _ _ _ _...,False,True,1.0,0.135,yaya36095/xlm-roberta-text-detector,SUCCESS
+202,A modern torpedo like the Mk 48 ADCAP has a 50 km range so t...,False,True,1.0,0.117,yaya36095/xlm-roberta-text-detector,SUCCESS
+203,This whole new attack against Amazon to make them pay a sale...,False,True,1.0,0.149,yaya36095/xlm-roberta-text-detector,SUCCESS
+204,There are a few reasons why the closing price of a stock mig...,True,True,1.0,0.25,yaya36095/xlm-roberta-text-detector,SUCCESS
+205,"Basically , a business plan is a document that describes wha...",False,True,1.0,0.192,yaya36095/xlm-roberta-text-detector,SUCCESS
+206,The scientific name of the eastern tiger salamander is Ambys...,True,True,1.0,0.215,yaya36095/xlm-roberta-text-detector,SUCCESS
+207,The seasonal nature of the flu has not been established by r...,False,True,1.0,0.251,yaya36095/xlm-roberta-text-detector,SUCCESS
+208,This is Swolehate . Please cease and disist your discriminat...,False,True,1.0,0.114,yaya36095/xlm-roberta-text-detector,SUCCESS
+209,It 's a lot cheaper to put window AC in than central AC . Pl...,False,True,1.0,0.106,yaya36095/xlm-roberta-text-detector,SUCCESS
+210,Sure! People have always needed a way to distinguish one per...,True,True,1.0,0.188,yaya36095/xlm-roberta-text-detector,SUCCESS
+211,An inner monologue is the internal voice in our head that we...,True,True,1.0,0.223,yaya36095/xlm-roberta-text-detector,SUCCESS
+212,This is a better explaination : Lottery bonds are a type of ...,False,True,1.0,0.145,yaya36095/xlm-roberta-text-detector,SUCCESS
+213,"Shaving certain parts of the body, such as the face or legs,...",True,True,1.0,0.279,yaya36095/xlm-roberta-text-detector,SUCCESS
+214,Sure! A turtle is a type of animal that has a hard shell on ...,True,True,1.0,0.273,yaya36095/xlm-roberta-text-detector,SUCCESS
+215,A filibuster is a tactic used in the United States Senate to...,True,True,1.0,0.261,yaya36095/xlm-roberta-text-detector,SUCCESS
+216,"Living beings , including humans , are mostly water . When w...",False,True,1.0,0.172,yaya36095/xlm-roberta-text-detector,SUCCESS
+217,The muzzle energy of a bullet is a measure of how much energ...,True,True,1.0,0.329,yaya36095/xlm-roberta-text-detector,SUCCESS
+218,Because most meetings are run and/or structured badly and ar...,False,True,1.0,0.156,yaya36095/xlm-roberta-text-detector,SUCCESS
+219,* brief horrified daydream of being belted to a 500 - pound ...,False,True,1.0,0.171,yaya36095/xlm-roberta-text-detector,SUCCESS
+220,Sure! Sympathy and empathy are similar in that they both inv...,True,True,1.0,0.322,yaya36095/xlm-roberta-text-detector,SUCCESS
+221,Starts with the same template . Would n't say this to a 5 ye...,False,False,1.0,0.138,yaya36095/xlm-roberta-text-detector,SUCCESS
+222,Brett Favre started 297 consecutive games over the course of...,True,True,1.0,0.209,yaya36095/xlm-roberta-text-detector,SUCCESS
+223,"A digital image is an image composed of picture elements, al...",False,True,1.0,0.222,yaya36095/xlm-roberta-text-detector,SUCCESS
+224,The University of Western Australia (UWA) is a public resear...,True,True,1.0,0.209,yaya36095/xlm-roberta-text-detector,SUCCESS
+225,It does n't . The NDAA contains two sections ( 1031 and 1032...,False,True,0.999,0.263,yaya36095/xlm-roberta-text-detector,SUCCESS
+226,"You likely have tinnitus , possibly an industrial hearing lo...",False,False,1.0,0.18,yaya36095/xlm-roberta-text-detector,SUCCESS
+227,There are a few reasons why British actors might get cast in...,True,True,1.0,0.284,yaya36095/xlm-roberta-text-detector,SUCCESS
+228,"Take an egg from your fridge , and try to hold it from the t...",False,True,1.0,0.18,yaya36095/xlm-roberta-text-detector,SUCCESS
+229,It is generally the case that an individual will be liable f...,True,True,1.0,0.26,yaya36095/xlm-roberta-text-detector,SUCCESS
+230,There is definitely such thing as eating too much fish in te...,False,True,1.0,0.149,yaya36095/xlm-roberta-text-detector,SUCCESS
+231,There are two things to note in addition to what /u / UlmusI...,False,False,1.0,0.359,yaya36095/xlm-roberta-text-detector,SUCCESS
+232,Cloning is a scientific process that involves creating a gen...,True,True,1.0,0.317,yaya36095/xlm-roberta-text-detector,SUCCESS
+233,A meteor is a big rock that falls from space and lands on Ea...,True,False,1.0,0.263,yaya36095/xlm-roberta-text-detector,SUCCESS
+234,"In dreams, your body is actually paralyzed and unable to mov...",True,True,1.0,0.252,yaya36095/xlm-roberta-text-detector,SUCCESS
+235,"[ It is n't . ] ( URL_0 ) * "" But "" hot "" water for hand was...",False,True,1.0,0.208,yaya36095/xlm-roberta-text-detector,SUCCESS
+236,Their truest peers would be . But at the same time those wou...,False,True,1.0,0.197,yaya36095/xlm-roberta-text-detector,SUCCESS
+237,"The question has no meaning , because ' expansion ' is n't e...",False,True,1.0,0.137,yaya36095/xlm-roberta-text-detector,SUCCESS
+238,SeaWorld gets their killer whales (also known as orcas) thro...,True,True,1.0,0.29,yaya36095/xlm-roberta-text-detector,SUCCESS
+239,"When you listen to loud music, you can damage the tiny hair ...",True,True,1.0,0.245,yaya36095/xlm-roberta-text-detector,SUCCESS
+240,"When you 're that tired , part of your brain goes on vacatio...",False,True,1.0,0.1,yaya36095/xlm-roberta-text-detector,SUCCESS
+241,The ointment keeps the wound moist which promotes healing . ...,False,True,1.0,0.072,yaya36095/xlm-roberta-text-detector,SUCCESS
+242,A lot of our sense of taste is actually our sense of smell ....,False,True,1.0,0.08,yaya36095/xlm-roberta-text-detector,SUCCESS
+243,"When people are pointing guns at each other, it is usually b...",True,True,1.0,0.157,yaya36095/xlm-roberta-text-detector,SUCCESS
+244,"Technically , that apple seed will stay alive until it rots ...",False,True,1.0,0.068,yaya36095/xlm-roberta-text-detector,SUCCESS
+245,A Nazi lives in 1930s-40s Germany . A Neo - Nazi lives now ....,False,True,1.0,0.06,yaya36095/xlm-roberta-text-detector,SUCCESS
+246,"Well , just downloading a torrent is n't illegal - it 's the...",False,True,1.0,0.1,yaya36095/xlm-roberta-text-detector,SUCCESS
+247,David Ortiz is a retired professional baseball player from t...,True,True,1.0,0.112,yaya36095/xlm-roberta-text-detector,SUCCESS
+248,"In ice hockey, ""high sticking"" refers to the act of hitting ...",True,True,1.0,0.194,yaya36095/xlm-roberta-text-detector,SUCCESS
+249,"The green color on the Mexican flag represents hope, joy, an...",True,True,1.0,0.173,yaya36095/xlm-roberta-text-detector,SUCCESS
+250,"They can completely decay . However , you ca n't determine a...",False,True,1.0,0.122,yaya36095/xlm-roberta-text-detector,SUCCESS
+251,Pretty much the same reason Star Wars does . The game was qu...,False,True,1.0,0.112,yaya36095/xlm-roberta-text-detector,SUCCESS
+252,There are a few reasons why some people might not like Dane ...,True,True,1.0,0.149,yaya36095/xlm-roberta-text-detector,SUCCESS
+253,Being scared can be exciting because it gives us a rush of a...,True,True,1.0,0.174,yaya36095/xlm-roberta-text-detector,SUCCESS
+254,"When something is made from concentrate, it means that it wa...",True,True,1.0,0.1,yaya36095/xlm-roberta-text-detector,SUCCESS
+255,Season 2 of Project Runway was won by Chloe Dao. The show ai...,True,True,1.0,0.115,yaya36095/xlm-roberta-text-detector,SUCCESS
+256,Optical fibers are made of very thin strands of glass or pla...,True,True,1.0,0.182,yaya36095/xlm-roberta-text-detector,SUCCESS
+257,Ozone is too reactive to exist in quantity near the ground ....,False,True,1.0,0.092,yaya36095/xlm-roberta-text-detector,SUCCESS
+258,"He is worse than a little creepy / crap photographer , he is...",False,False,0.999,0.112,yaya36095/xlm-roberta-text-detector,SUCCESS
+259,"Dr. J.B. Danquah was a Ghanaian lawyer, politician, and inde...",True,True,1.0,0.181,yaya36095/xlm-roberta-text-detector,SUCCESS
+260,Water doesn't have any calories because it doesn't contain a...,True,True,1.0,0.216,yaya36095/xlm-roberta-text-detector,SUCCESS
+261,Eating and drinking certain foods can definitely impact your...,True,True,1.0,0.24,yaya36095/xlm-roberta-text-detector,SUCCESS
+262,The Big Bang is the name scientists give to the event that h...,True,True,1.0,0.297,yaya36095/xlm-roberta-text-detector,SUCCESS
+263,"Working in the industry , I can tell you that the engineers ...",False,True,1.0,0.3,yaya36095/xlm-roberta-text-detector,SUCCESS
+264,"I don't know if those machines work this way in the UK too, ...",False,True,0.979,0.175,yaya36095/xlm-roberta-text-detector,SUCCESS
+265,"There are technical differences between the 2 , but the core...",False,True,1.0,0.157,yaya36095/xlm-roberta-text-detector,SUCCESS
+266,All points in the universe are growing further apart from ea...,False,False,0.999,0.197,yaya36095/xlm-roberta-text-detector,SUCCESS
+267,Welcome to Healthcare MagicYou could be having irritable bow...,False,True,1.0,0.127,yaya36095/xlm-roberta-text-detector,SUCCESS
+268,Game shows can make money in a few different ways. One way i...,True,True,1.0,0.173,yaya36095/xlm-roberta-text-detector,SUCCESS
+269,"Well , you need references and first and last months rent , ...",False,False,1.0,0.107,yaya36095/xlm-roberta-text-detector,SUCCESS
+270,"You do n't get to 10,000 subscribers without making a few tr...",False,True,1.0,0.063,yaya36095/xlm-roberta-text-detector,SUCCESS
+271,Those black cables that you see running across the road are ...,True,True,1.0,0.144,yaya36095/xlm-roberta-text-detector,SUCCESS
+272,Light spectra have what are called absorption lines in them ...,False,True,0.991,0.186,yaya36095/xlm-roberta-text-detector,SUCCESS
+273,"Existing shareholders do have a say , usually . Most corpora...",False,True,1.0,0.065,yaya36095/xlm-roberta-text-detector,SUCCESS
+274,"In a single driver audio system, multiple frequencies can be...",True,True,1.0,0.209,yaya36095/xlm-roberta-text-detector,SUCCESS
+275,"If you were to look at a cross section of a hair , like the ...",False,True,1.0,0.093,yaya36095/xlm-roberta-text-detector,SUCCESS
+276,Small talk is a way for people to have a friendly conversati...,True,True,1.0,0.126,yaya36095/xlm-roberta-text-detector,SUCCESS
+277,! Only one message at a time. Please allow any other respons...,True,True,1.0,0.065,yaya36095/xlm-roberta-text-detector,SUCCESS
+278,"As an AI, I don't have personal preferences or opinions. My ...",True,True,1.0,0.156,yaya36095/xlm-roberta-text-detector,SUCCESS
+279,The Renaissance was a time period in European history that l...,True,True,1.0,0.196,yaya36095/xlm-roberta-text-detector,SUCCESS
+280,Time is a measure of how long events take to happen. It's wh...,True,True,1.0,0.193,yaya36095/xlm-roberta-text-detector,SUCCESS
+281,Lung effusion is the accumulation of fluid in the space arou...,True,True,1.0,0.147,yaya36095/xlm-roberta-text-detector,SUCCESS
+282,"That 's the Balducci levitation , and he did n't invent it ....",False,True,1.0,0.098,yaya36095/xlm-roberta-text-detector,SUCCESS
+283,"When you snort water, it can go up into your nose and then d...",True,True,1.0,0.165,yaya36095/xlm-roberta-text-detector,SUCCESS
+284,It is theoretically possible for one person with an unlimite...,True,True,1.0,0.171,yaya36095/xlm-roberta-text-detector,SUCCESS
+285,Aereo was a company that allowed users to watch television c...,True,True,1.0,0.183,yaya36095/xlm-roberta-text-detector,SUCCESS
+286,"hi,thank you for providing the brief history of you.A thorou...",False,True,1.0,0.127,yaya36095/xlm-roberta-text-detector,SUCCESS
+287,There are a lot of personal injury lawyers because people ge...,True,False,1.0,0.161,yaya36095/xlm-roberta-text-detector,SUCCESS
+288,"I 've seen an article on how they filmed that scene , FooHen...",False,True,0.999,0.101,yaya36095/xlm-roberta-text-detector,SUCCESS
+289,It is . Hot water strips your body 's natural oils a lot fas...,False,True,1.0,0.064,yaya36095/xlm-roberta-text-detector,SUCCESS
+290,Let 's say the earth is cold and there is no wind resistance...,False,False,1.0,0.127,yaya36095/xlm-roberta-text-detector,SUCCESS
+291,ORACLE is involved . That accounts for $ 250 million of the ...,False,True,1.0,0.069,yaya36095/xlm-roberta-text-detector,SUCCESS
+292,It's not accurate to say that all mass murderers and terrori...,True,True,1.0,0.193,yaya36095/xlm-roberta-text-detector,SUCCESS
+293,That 's probably a MIG-35 . It has a thrust / weight ratio g...,False,False,1.0,0.162,yaya36095/xlm-roberta-text-detector,SUCCESS
+294,French is spelled phonetically with very few exceptions . So...,False,True,1.0,0.143,yaya36095/xlm-roberta-text-detector,SUCCESS
+295,"The United States supported the Contras, who were a group of...",True,False,0.995,0.194,yaya36095/xlm-roberta-text-detector,SUCCESS
+296,> People with obsessive compulsive disorder are often aware ...,False,True,1.0,0.16,yaya36095/xlm-roberta-text-detector,SUCCESS
+297,"I BELIEVE : Usually , there are sensors in the road under th...",False,True,0.998,0.077,yaya36095/xlm-roberta-text-detector,SUCCESS
+298,"It is not uncommon for tax software, such as H&R Block, to i...",True,True,1.0,0.176,yaya36095/xlm-roberta-text-detector,SUCCESS
+299,"When you download a game, you are usually just downloading t...",True,True,1.0,0.142,yaya36095/xlm-roberta-text-detector,SUCCESS
+300,One tablespoon of water is equal to approximately 15 millili...,True,True,1.0,0.097,yaya36095/xlm-roberta-text-detector,SUCCESS
+301,Heaters work by converting electricity into heat. They do th...,True,True,1.0,0.21,yaya36095/xlm-roberta-text-detector,SUCCESS
+302,"A picture paints a thousand words , so [ here 's a diagram o...",False,True,1.0,0.085,yaya36095/xlm-roberta-text-detector,SUCCESS
+303,"Sometimes people might not know how to use Google, or they m...",True,True,0.785,0.128,yaya36095/xlm-roberta-text-detector,SUCCESS
+304,i can tell you i joined the army at 18 and got deployed righ...,False,False,1.0,0.2,yaya36095/xlm-roberta-text-detector,SUCCESS
+305,"There are many possible causes of headache, neck pain, and b...",True,True,1.0,0.197,yaya36095/xlm-roberta-text-detector,SUCCESS
+306,Burlesque originally developed as a racy satire show in resp...,False,False,0.971,0.242,yaya36095/xlm-roberta-text-detector,SUCCESS
+307,Sound mass is a compositional technique that involves the us...,True,True,1.0,0.1,yaya36095/xlm-roberta-text-detector,SUCCESS
+308,Jet engines operate using the [ Brayton Cycle ] ( URL_0 ) wh...,False,True,1.0,0.103,yaya36095/xlm-roberta-text-detector,SUCCESS
+309,AMD is doing more than just laying off staff. Their earnings...,False,True,1.0,0.144,yaya36095/xlm-roberta-text-detector,SUCCESS
+310,Hi thank you for posting your query in HCM.SGOT AND SGPT are...,False,True,1.0,0.156,yaya36095/xlm-roberta-text-detector,SUCCESS
+311,"I think there is a HUGE distinction between "" lazy "" and con...",False,True,1.0,0.158,yaya36095/xlm-roberta-text-detector,SUCCESS
+312,Lips serve many important functions. One of their main funct...,True,True,1.0,0.2,yaya36095/xlm-roberta-text-detector,SUCCESS
+313,"Fish is a very broad group of animals ; lions , wolves , and...",False,True,1.0,0.1,yaya36095/xlm-roberta-text-detector,SUCCESS
+314,It is not surprising that people did not realize the negativ...,True,True,1.0,0.166,yaya36095/xlm-roberta-text-detector,SUCCESS
+315,Streaming is something you watch that you do n't have a copy...,False,True,1.0,0.137,yaya36095/xlm-roberta-text-detector,SUCCESS
+316,Muscles get bigger when we lift weights because lifting weig...,True,True,1.0,0.212,yaya36095/xlm-roberta-text-detector,SUCCESS
+317,"At night, when it's quiet and there are fewer distractions, ...",True,True,1.0,0.196,yaya36095/xlm-roberta-text-detector,SUCCESS
+318,In Italy (even with taxes that are more than 50% on income) ...,False,False,1.0,0.241,yaya36095/xlm-roberta-text-detector,SUCCESS
+319,It has a lot to do with diet and lifestyle as well ... Short...,False,True,1.0,0.067,yaya36095/xlm-roberta-text-detector,SUCCESS
+320,If you 're travelling on the beaten path in Italy you 'll fi...,False,False,0.996,0.201,yaya36095/xlm-roberta-text-detector,SUCCESS
+321,As the sun sets various light wavelengths are absorbed diffe...,False,True,1.0,0.123,yaya36095/xlm-roberta-text-detector,SUCCESS
+322,Popcorn is a type of corn that has a hard outer shell called...,True,True,1.0,0.238,yaya36095/xlm-roberta-text-detector,SUCCESS
+323,It usually sends a signal to the phone to see if it is compa...,False,False,1.0,0.081,yaya36095/xlm-roberta-text-detector,SUCCESS
+324,"Non-nicotine electronic cigarettes, also known as e-cigarett...",True,True,1.0,0.2,yaya36095/xlm-roberta-text-detector,SUCCESS
+325,"A lot of mammals have a uterus shaped more like a V , or mor...",False,True,1.0,0.174,yaya36095/xlm-roberta-text-detector,SUCCESS
+326,"For me , I pirate content I would n't purchase in the first ...",False,True,1.0,0.094,yaya36095/xlm-roberta-text-detector,SUCCESS
+327,A file server is a server which main purpose is to store fil...,False,True,1.0,0.135,yaya36095/xlm-roberta-text-detector,SUCCESS
+328,The Puritans were various groups who advocated from serious ...,False,True,1.0,0.176,yaya36095/xlm-roberta-text-detector,SUCCESS
+329,It is not always possible to simply cut away cancerous tissu...,True,True,1.0,0.183,yaya36095/xlm-roberta-text-detector,SUCCESS
+330,I do n't remember the time I successfully managed to watch a...,False,True,1.0,0.11,yaya36095/xlm-roberta-text-detector,SUCCESS
+331,"Ignoring the problem of the pool holding the water , since w...",False,True,1.0,0.072,yaya36095/xlm-roberta-text-detector,SUCCESS
+332,Reddit moderators are volunteers who help manage the content...,True,True,1.0,0.134,yaya36095/xlm-roberta-text-detector,SUCCESS
+333,I can think of a few reasons . One that no one seems to have...,False,True,1.0,0.168,yaya36095/xlm-roberta-text-detector,SUCCESS
+334,There are a few options for someone who is intelligent but i...,True,True,1.0,0.262,yaya36095/xlm-roberta-text-detector,SUCCESS
+335,"When you save a Word document to a USB stick, the informatio...",True,False,1.0,0.246,yaya36095/xlm-roberta-text-detector,SUCCESS
+336,A turbocharger is a device that is used to boost the power o...,True,True,1.0,0.273,yaya36095/xlm-roberta-text-detector,SUCCESS
+337,I 've never seen anyone tilt it up . Every car I 've been in...,False,True,1.0,0.098,yaya36095/xlm-roberta-text-detector,SUCCESS
+338,Online videos and GIFs are two different types of media that...,True,False,1.0,0.202,yaya36095/xlm-roberta-text-detector,SUCCESS
+339,It is unfortunate that some people who called themselves Chr...,True,True,1.0,0.194,yaya36095/xlm-roberta-text-detector,SUCCESS
+340,"""Black Velvet"" is a song written by David Tyson, Christopher...",True,True,1.0,0.096,yaya36095/xlm-roberta-text-detector,SUCCESS
+341,Predicting how long a task will take can be difficult for a ...,True,True,1.0,0.145,yaya36095/xlm-roberta-text-detector,SUCCESS
+342,Good question . I 'm fed up with people saying ' u look tire...,False,False,0.998,0.073,yaya36095/xlm-roberta-text-detector,SUCCESS
+343,"The Beatles released ""I Want to Hold Your Hand"" in 1964. It ...",True,True,1.0,0.13,yaya36095/xlm-roberta-text-detector,SUCCESS
+344,"Why does anyone major in anything ? I think at its core , pe...",False,True,1.0,0.136,yaya36095/xlm-roberta-text-detector,SUCCESS
+345,That transaction probably cost the merchant $0.50 + 3% or cl...,False,True,0.521,0.165,yaya36095/xlm-roberta-text-detector,SUCCESS
+346,It is not always necessary to undergo surgery for a bicuspid...,True,True,1.0,0.249,yaya36095/xlm-roberta-text-detector,SUCCESS
+347,""" Alcohol "" refers to a class of compounds that contain a hy...",False,True,1.0,0.122,yaya36095/xlm-roberta-text-detector,SUCCESS
+348,"In addition to what Get_a_GOB and da1 m adequately wrote , h...",False,True,1.0,0.085,yaya36095/xlm-roberta-text-detector,SUCCESS
+349,"When you read something, the words you see on the page or sc...",True,False,0.998,0.197,yaya36095/xlm-roberta-text-detector,SUCCESS
+350,Mostly so that a 24 week long season occupies more than half...,False,True,1.0,0.073,yaya36095/xlm-roberta-text-detector,SUCCESS
+351,"As a guitarist , here is how I see it : it does n't work tha...",False,False,0.998,0.203,yaya36095/xlm-roberta-text-detector,SUCCESS
+352,Because there are a LOT of people who get their account hack...,False,True,1.0,0.085,yaya36095/xlm-roberta-text-detector,SUCCESS
+353,Hopefully they would n't get charged-- prosecutors got ta ge...,False,True,0.999,0.196,yaya36095/xlm-roberta-text-detector,SUCCESS
+354,This is known as [ Olber 's Paradox ] ( URL_0 ) . Because th...,False,True,0.996,0.22,yaya36095/xlm-roberta-text-detector,SUCCESS
+355,"Sure! Decriminalization means that a certain activity, such ...",True,True,1.0,0.256,yaya36095/xlm-roberta-text-detector,SUCCESS
+356,A full-time job typically refers to a job that requires a pe...,True,True,1.0,0.276,yaya36095/xlm-roberta-text-detector,SUCCESS
+357,Bob Seger is an American singer-songwriter who was born on M...,True,True,1.0,0.138,yaya36095/xlm-roberta-text-detector,SUCCESS
+358,"I completely agree with Whazzits definition of a melody , bu...",False,True,1.0,0.134,yaya36095/xlm-roberta-text-detector,SUCCESS
+359,Sure! Catchers in baseball give pitchers hand signals to let...,True,True,1.0,0.187,yaya36095/xlm-roberta-text-detector,SUCCESS
+360,It is not currently possible to keep a person alive forever ...,True,True,1.0,0.207,yaya36095/xlm-roberta-text-detector,SUCCESS
+361,When brass instruments first came out they did n't have valv...,False,True,1.0,0.119,yaya36095/xlm-roberta-text-detector,SUCCESS
+362,Sodium hypochlorite is a chemical compound with the formula ...,True,True,1.0,0.194,yaya36095/xlm-roberta-text-detector,SUCCESS
+363,"In artificial intelligence, an expert system is a computer s...",False,True,1.0,0.163,yaya36095/xlm-roberta-text-detector,SUCCESS
+364,Chuck Norris is a famous actor and martial artist who has ap...,True,True,1.0,0.148,yaya36095/xlm-roberta-text-detector,SUCCESS
+365,"Most new cars have a feature called ""daytime running lights""...",True,False,1.0,0.204,yaya36095/xlm-roberta-text-detector,SUCCESS
+366,They are very nearly synonymous ; the only difference is in ...,False,True,1.0,0.07,yaya36095/xlm-roberta-text-detector,SUCCESS
+367,"It depends whether you hear an actual high - pitched noise ,...",False,False,1.0,0.219,yaya36095/xlm-roberta-text-detector,SUCCESS
+368,The cost - benefit ratio is too high . Anything you want to ...,False,True,1.0,0.115,yaya36095/xlm-roberta-text-detector,SUCCESS
+369,There are a few reasons why there might be more trained dogs...,True,True,1.0,0.194,yaya36095/xlm-roberta-text-detector,SUCCESS
+370,"poker is a very complicated game , full of subtleties and nu...",False,True,1.0,0.196,yaya36095/xlm-roberta-text-detector,SUCCESS
+371,"The biggest difference is that the Start menu is gone , repl...",False,True,1.0,0.139,yaya36095/xlm-roberta-text-detector,SUCCESS
+372,"Well , the nazis were members of Hitler 's political party N...",False,True,1.0,0.073,yaya36095/xlm-roberta-text-detector,SUCCESS
+373,It is important to be cautious when considering investing in...,True,True,1.0,0.212,yaya36095/xlm-roberta-text-detector,SUCCESS
+374,same reason a spoon of soup cools quicker than a large bowl ...,False,True,1.0,0.082,yaya36095/xlm-roberta-text-detector,SUCCESS
+375,"We do n't know for sure ! The best answer ( ELI5 answer , no...",False,True,1.0,0.13,yaya36095/xlm-roberta-text-detector,SUCCESS
+376,"When your body senses fear , your testicles reflexively rais...",False,True,1.0,0.087,yaya36095/xlm-roberta-text-detector,SUCCESS
+377,Sound is a type of energy that travels through vibrations. T...,True,True,1.0,0.204,yaya36095/xlm-roberta-text-detector,SUCCESS
+378,Sports teams are usually funded by the owners of the team an...,True,True,1.0,0.197,yaya36095/xlm-roberta-text-detector,SUCCESS
+379,I think it has to do with the stigma associated with users o...,False,True,1.0,0.079,yaya36095/xlm-roberta-text-detector,SUCCESS
+380,""" Running out "" is a bit misleading . Most people will get m...",False,False,1.0,0.246,yaya36095/xlm-roberta-text-detector,SUCCESS
+381,"You can fall asleep standing up I think for a moment , but t...",False,True,0.999,0.09,yaya36095/xlm-roberta-text-detector,SUCCESS
+382,"In movies, actors and actresses often pretend to have sex, b...",True,True,1.0,0.163,yaya36095/xlm-roberta-text-detector,SUCCESS
+383,Social Darwinism is a belief that some groups of people are ...,True,True,1.0,0.157,yaya36095/xlm-roberta-text-detector,SUCCESS
+384,"""The NeverEnding Story"" is a song by German band Limahl (Kie...",True,True,1.0,0.135,yaya36095/xlm-roberta-text-detector,SUCCESS
+385,Sure! NASCAR is a type of racing where people drive really f...,True,False,1.0,0.14,yaya36095/xlm-roberta-text-detector,SUCCESS
+386,"When a group , usually prisoners are made to travel long dis...",False,True,1.0,0.125,yaya36095/xlm-roberta-text-detector,SUCCESS
+387,"In music theory , frequencies that are a simple ratios sound...",False,False,0.995,0.202,yaya36095/xlm-roberta-text-detector,SUCCESS
+388,"Great question! Just like humans, animals that live in the w...",True,True,1.0,0.204,yaya36095/xlm-roberta-text-detector,SUCCESS
+389,"Most people say the fibonacci sequence is important , becaus...",False,False,1.0,0.153,yaya36095/xlm-roberta-text-detector,SUCCESS
+390,"\nWhen you see something with your eyes, it means that light...",True,True,0.999,0.19,yaya36095/xlm-roberta-text-detector,SUCCESS
+391,"In their quest for civil rights and equality , many blacks i...",False,True,1.0,0.103,yaya36095/xlm-roberta-text-detector,SUCCESS
+392,The telephone was invented by Alexander Graham Bell in 1876....,True,True,0.754,0.219,yaya36095/xlm-roberta-text-detector,SUCCESS
+393,Andy Whitfield (died 11 September 2011) was a Welsh Australi...,False,True,1.0,0.069,yaya36095/xlm-roberta-text-detector,SUCCESS
+394,Shin A Lam is a Korean fencer who competed in the 2012 Olymp...,True,True,0.995,0.212,yaya36095/xlm-roberta-text-detector,SUCCESS
+395,"Jamestown is a town located in Guilford County, North Caroli...",True,True,1.0,0.141,yaya36095/xlm-roberta-text-detector,SUCCESS
+396,""" The first thing you need to know about the Internet , "" He...",False,True,1.0,0.181,yaya36095/xlm-roberta-text-detector,SUCCESS
+397,Sometimes an established company may already have that name ...,False,True,1.0,0.091,yaya36095/xlm-roberta-text-detector,SUCCESS
+398,"Ever seen Toy Story ? To boil it down to it 's simplest , it...",False,True,1.0,0.073,yaya36095/xlm-roberta-text-detector,SUCCESS
+399,"In war, there are rules that are meant to protect civilians ...",True,True,1.0,0.165,yaya36095/xlm-roberta-text-detector,SUCCESS
+400,A mortgage gift exchange is a financial arrangement in which...,True,True,1.0,0.175,yaya36095/xlm-roberta-text-detector,SUCCESS
+401,"In the context of business asset transfer, tax allocation re...",True,True,1.0,0.17,yaya36095/xlm-roberta-text-detector,SUCCESS
+402,Dogs don't live as long as people because they have a faster...,True,True,1.0,0.186,yaya36095/xlm-roberta-text-detector,SUCCESS
+403,Driving in cities with traffic jams daily will quickly cure ...,False,True,1.0,0.069,yaya36095/xlm-roberta-text-detector,SUCCESS
+404,I would imagine it 's a combination of factors here . The sn...,False,False,1.0,0.19,yaya36095/xlm-roberta-text-detector,SUCCESS
+405,The licenses for the mobile and browser version are differen...,False,True,1.0,0.077,yaya36095/xlm-roberta-text-detector,SUCCESS
+406,The use of 60 as a base for measuring time can be traced bac...,True,True,1.0,0.227,yaya36095/xlm-roberta-text-detector,SUCCESS
+407,It's hard to say exactly why some people might hate feminist...,True,True,1.0,0.21,yaya36095/xlm-roberta-text-detector,SUCCESS
+408,I 'm not sure why I get morning wood but I think it has some...,False,False,1.0,0.126,yaya36095/xlm-roberta-text-detector,SUCCESS
+409,The universe is not expanding into anything . The current ac...,False,True,1.0,0.106,yaya36095/xlm-roberta-text-detector,SUCCESS
+410,Gym class parachutes are large pieces of fabric that are use...,True,True,1.0,0.169,yaya36095/xlm-roberta-text-detector,SUCCESS
+411,Revenge is when someone does something bad to someone else o...,True,False,0.998,0.154,yaya36095/xlm-roberta-text-detector,SUCCESS
+412,I am not a mathematician but I will present my theory anyway...,False,True,1.0,0.142,yaya36095/xlm-roberta-text-detector,SUCCESS
+413,It's considered dangerous to use your cell phone near an ope...,True,True,1.0,0.117,yaya36095/xlm-roberta-text-detector,SUCCESS
+414,It is common for car dealers to offer lower prices on used c...,True,True,1.0,0.194,yaya36095/xlm-roberta-text-detector,SUCCESS
+415,Tesla cars are made in the U.S. and therefore have to be exp...,False,True,1.0,0.088,yaya36095/xlm-roberta-text-detector,SUCCESS
+416,Black Friday is a shopping holiday that traditionally takes ...,True,True,1.0,0.149,yaya36095/xlm-roberta-text-detector,SUCCESS
+417,"It creates some minor difficulties , but not as much as if y...",False,True,1.0,0.127,yaya36095/xlm-roberta-text-detector,SUCCESS
+418,Gravity is what makes things fall down to the ground instead...,True,False,1.0,0.142,yaya36095/xlm-roberta-text-detector,SUCCESS
+419,We do n't . It 's as simple as that : nobody has any idea wh...,False,True,1.0,0.099,yaya36095/xlm-roberta-text-detector,SUCCESS
+420,A free radical is a type of molecule that has an unpaired el...,True,True,1.0,0.198,yaya36095/xlm-roberta-text-detector,SUCCESS
+421,I think it 's because of the different roles the writers & d...,False,True,1.0,0.15,yaya36095/xlm-roberta-text-detector,SUCCESS
+422,Scary things can seem scarier at night because our brains ar...,True,True,1.0,0.17,yaya36095/xlm-roberta-text-detector,SUCCESS
+423,"A fire needs three things to keep burning : fuel , oxygen , ...",False,True,1.0,0.085,yaya36095/xlm-roberta-text-detector,SUCCESS
+424,Welfare requires you to jump through administrative hoops in...,False,False,0.999,0.147,yaya36095/xlm-roberta-text-detector,SUCCESS
+425,It 's useful because it tells you how you 're doing financia...,False,True,1.0,0.117,yaya36095/xlm-roberta-text-detector,SUCCESS
+426,Derealization is a feeling of detachment or disconnection fr...,True,True,1.0,0.212,yaya36095/xlm-roberta-text-detector,SUCCESS
+427,"Sometimes , tech support people ask this * * just to make su...",False,True,0.767,0.074,yaya36095/xlm-roberta-text-detector,SUCCESS
+428,It depends on the specific terms of your internet service ag...,True,True,1.0,0.275,yaya36095/xlm-roberta-text-detector,SUCCESS
+429,I suppose you can print them and hand them down . My wife pr...,False,True,0.998,0.111,yaya36095/xlm-roberta-text-detector,SUCCESS
+430,"I'm sorry, but I don't have any information about Walmart em...",True,True,1.0,0.197,yaya36095/xlm-roberta-text-detector,SUCCESS
+431,Basically it 's overused and in most cases also misused . Th...,False,False,1.0,0.189,yaya36095/xlm-roberta-text-detector,SUCCESS
+432,"The four-digit extension on ZIP codes, also known as the ZIP...",True,True,1.0,0.197,yaya36095/xlm-roberta-text-detector,SUCCESS
+433,"During takeoff and landing, the airplane is going through a ...",True,True,1.0,0.136,yaya36095/xlm-roberta-text-detector,SUCCESS
+434,It's illegal to drive without a seat belt in a car because s...,True,True,1.0,0.17,yaya36095/xlm-roberta-text-detector,SUCCESS
+435,Corporate personhood is the legal concept that a corporation...,True,True,1.0,0.192,yaya36095/xlm-roberta-text-detector,SUCCESS
+436,Penny bid sites are online auctions where you can bid on ite...,True,True,1.0,0.144,yaya36095/xlm-roberta-text-detector,SUCCESS
+437,"As we grow and develop, our bodies and tastes change. This c...",True,True,1.0,0.189,yaya36095/xlm-roberta-text-detector,SUCCESS
+438,My theory . If you have 200 or so friends and you look at mo...,False,False,1.0,0.18,yaya36095/xlm-roberta-text-detector,SUCCESS
+439,1 . Buy Patents 2 . Claim that someone is infringing on your...,False,False,1.0,0.086,yaya36095/xlm-roberta-text-detector,SUCCESS
+440,"Suction , per my husband , who used to work on ATM machines ...",False,True,1.0,0.058,yaya36095/xlm-roberta-text-detector,SUCCESS
+441,"Yes, cars have sensors that can measure their own speed. The...",True,True,0.993,0.138,yaya36095/xlm-roberta-text-detector,SUCCESS
+442,Giving money as a gift is often considered impersonal becaus...,True,True,1.0,0.196,yaya36095/xlm-roberta-text-detector,SUCCESS
+443,"When you make a phone call or send a text message, your phon...",True,True,1.0,0.183,yaya36095/xlm-roberta-text-detector,SUCCESS
+444,Gabapentin (brand name Neurontin) is a medication that is pr...,True,True,1.0,0.192,yaya36095/xlm-roberta-text-detector,SUCCESS
+445,"Iron is attracted to magnets, but the amount of iron in your...",True,True,1.0,0.175,yaya36095/xlm-roberta-text-detector,SUCCESS
+446,Amputations are surgeries that involve removing a part of th...,True,True,1.0,0.185,yaya36095/xlm-roberta-text-detector,SUCCESS
+447,It is not legal or safe to buy or sell marijuana in many pla...,True,True,1.0,0.137,yaya36095/xlm-roberta-text-detector,SUCCESS
+448,The hypothesis is an important part of the scientific method...,True,True,1.0,0.194,yaya36095/xlm-roberta-text-detector,SUCCESS
+449,Well everyone here is n't wrong to say things like it 's ref...,False,False,0.996,0.1,yaya36095/xlm-roberta-text-detector,SUCCESS
+450,"""O level"" refers to the General Certificate of Education (GC...",True,True,1.0,0.131,yaya36095/xlm-roberta-text-detector,SUCCESS
+451,Wikipedia is not a complete mess because it has a large comm...,True,True,1.0,0.189,yaya36095/xlm-roberta-text-detector,SUCCESS
+452,The WWW is a service that runs on the Internet . There are m...,False,False,1.0,0.17,yaya36095/xlm-roberta-text-detector,SUCCESS
+453,It would wash away from the rain since salt is water soluble...,False,True,1.0,0.121,yaya36095/xlm-roberta-text-detector,SUCCESS
+454,If you put something in water it will move the water aside t...,False,False,1.0,0.183,yaya36095/xlm-roberta-text-detector,SUCCESS
+455,"HTTP stands for ""Hypertext Transfer Protocol"" and it is the ...",True,True,1.0,0.209,yaya36095/xlm-roberta-text-detector,SUCCESS
+456,The dogs are trained to be alerted by the smell of their own...,False,True,0.938,0.088,yaya36095/xlm-roberta-text-detector,SUCCESS
+457,Trader Joe's is a grocery store chain that is known for its ...,True,True,1.0,0.154,yaya36095/xlm-roberta-text-detector,SUCCESS
+458,It is difficult to determine the average American income bec...,True,True,1.0,0.202,yaya36095/xlm-roberta-text-detector,SUCCESS
+459,Psych is an American comedy-drama television series that air...,True,True,1.0,0.092,yaya36095/xlm-roberta-text-detector,SUCCESS
+460,""" Why do italian tanks have multiple reverse gears and only ...",False,False,0.993,0.064,yaya36095/xlm-roberta-text-detector,SUCCESS
+461,They work when the elevator is in fireman control mode ....,False,True,1.0,0.058,yaya36095/xlm-roberta-text-detector,SUCCESS
+462,Sure! A gigabyte is a unit of measurement for data. It's use...,True,True,1.0,0.159,yaya36095/xlm-roberta-text-detector,SUCCESS
+463,"In the classic children's novel ""The Wizard of Oz,"" written ...",True,True,1.0,0.099,yaya36095/xlm-roberta-text-detector,SUCCESS
+464,Why is it being linked with real time communication . Are we...,False,True,0.999,0.06,yaya36095/xlm-roberta-text-detector,SUCCESS
+465,they may be willing to issue mortgages with smaller deposits...,False,True,0.995,0.208,yaya36095/xlm-roberta-text-detector,SUCCESS
+466,"Yes, a finger injury can cause an infection if it is not pro...",True,True,1.0,0.146,yaya36095/xlm-roberta-text-detector,SUCCESS
+467,"First of all , a regular computer * is n't * good at generat...",False,True,1.0,0.139,yaya36095/xlm-roberta-text-detector,SUCCESS
+468,Cats are pretty much self - domesticated ( the ones that wou...,False,False,1.0,0.114,yaya36095/xlm-roberta-text-detector,SUCCESS
+469,"Imagine a hollow sphere , made of glass , with a vacuum insi...",False,True,0.996,0.113,yaya36095/xlm-roberta-text-detector,SUCCESS
+470,"I'm sorry, but I don't have any information about a dish cal...",True,True,1.0,0.119,yaya36095/xlm-roberta-text-detector,SUCCESS
+471,Military strength is measured by various factors . How big i...,False,True,1.0,0.113,yaya36095/xlm-roberta-text-detector,SUCCESS
+472,It 's called type - casting . Elijah Wood will always be Fro...,False,True,1.0,0.091,yaya36095/xlm-roberta-text-detector,SUCCESS
+473,The Flat Earth Society is a group of people who believe that...,True,True,1.0,0.14,yaya36095/xlm-roberta-text-detector,SUCCESS
+474,Because you ca n't see the lego bricks on the carpet...,False,False,1.0,0.058,yaya36095/xlm-roberta-text-detector,SUCCESS
+475,"In major studio films , the studio keeps most of the money ....",False,True,1.0,0.096,yaya36095/xlm-roberta-text-detector,SUCCESS
+476,Complex numbers revolve around the number * i * . * i * is a...,False,True,1.0,0.139,yaya36095/xlm-roberta-text-detector,SUCCESS
+477,The West (including countries like the United States and Eur...,True,True,1.0,0.2,yaya36095/xlm-roberta-text-detector,SUCCESS
+478,There are a few reasons why you might not see news about Mon...,True,True,1.0,0.194,yaya36095/xlm-roberta-text-detector,SUCCESS
+479,"When you have a cold, your body is trying to get rid of a vi...",True,False,1.0,0.182,yaya36095/xlm-roberta-text-detector,SUCCESS
+480,"Piers Morgan is a British television presenter, journalist, ...",True,True,1.0,0.148,yaya36095/xlm-roberta-text-detector,SUCCESS
+481,The value of tokens that you have purchased at an older pric...,True,True,1.0,0.171,yaya36095/xlm-roberta-text-detector,SUCCESS
+482,"I'm sorry, but it is not possible for a vaccine to cause neu...",True,True,1.0,0.134,yaya36095/xlm-roberta-text-detector,SUCCESS
+483,If foxtel is a cable provider then the reason is that the ne...,False,True,1.0,0.118,yaya36095/xlm-roberta-text-detector,SUCCESS
+484,"I'm sorry, but I don't understand what you're asking. Could ...",True,True,1.0,0.067,yaya36095/xlm-roberta-text-detector,SUCCESS
+485,"​   ··· ChatGPT Dec 15 Version. Free Research Preview. O...",True,False,1.0,0.181,yaya36095/xlm-roberta-text-detector,SUCCESS
+486,NYSE and Nasdaq are secondary markets where stocks are bough...,False,True,1.0,0.07,yaya36095/xlm-roberta-text-detector,SUCCESS
+487,Credit unions are not-for-profit financial cooperatives that...,True,True,1.0,0.179,yaya36095/xlm-roberta-text-detector,SUCCESS
+488,"In the maintenance of file systems , defragmentation is a pr...",False,True,1.0,0.062,yaya36095/xlm-roberta-text-detector,SUCCESS
+489,"No other countries want to pay for bases in the US , largely...",False,True,0.698,0.145,yaya36095/xlm-roberta-text-detector,SUCCESS
+490,"Water does n't have a taste , or I guess I should say , we c...",False,True,1.0,0.087,yaya36095/xlm-roberta-text-detector,SUCCESS
+491,"What makes you think they are "" more common than ever before...",False,True,1.0,0.055,yaya36095/xlm-roberta-text-detector,SUCCESS
+492,"There are actually seat belts on some buses, but not all of ...",True,True,1.0,0.14,yaya36095/xlm-roberta-text-detector,SUCCESS
+493,"Ok , let say that the doors are marked A , B and C. Suppose ...",False,False,1.0,0.171,yaya36095/xlm-roberta-text-detector,SUCCESS
+494,A multivitamin is like a safety net . It assures you gets en...,False,False,1.0,0.126,yaya36095/xlm-roberta-text-detector,SUCCESS
+495,The [ Maillard Reaction ] ( URL_0 ) is a chemical reaction w...,False,True,1.0,0.161,yaya36095/xlm-roberta-text-detector,SUCCESS
+496,"When you inject a liquid into your body, the extra liquid go...",True,True,1.0,0.191,yaya36095/xlm-roberta-text-detector,SUCCESS
+497,"The term ""gringo"" is a Spanish word that is often used to re...",True,True,1.0,0.155,yaya36095/xlm-roberta-text-detector,SUCCESS
+498,There are many reasons why some Republicans opposed Hillary ...,True,True,1.0,0.123,yaya36095/xlm-roberta-text-detector,SUCCESS
+499,Market cap is the current value of a company's equity and is...,False,True,1.0,0.119,yaya36095/xlm-roberta-text-detector,SUCCESS

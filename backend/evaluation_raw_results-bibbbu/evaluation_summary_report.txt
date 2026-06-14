@@ -1,0 +1,17 @@
+==================================================
+      RAPORT JAKOŚCI USŁUGI DETEKCJI TEKSTU       
+==================================================
+Zanalizowano pomyślnie próbki: 500 / 500
+Ogólna dokładność (Accuracy): 96.20%
+Średni czas analizy: 0.256 sekundy
+
+Szczegółowe metryki klasyfikacji:
+              precision    recall  f1-score   support
+
+REAL (Human)       1.00      0.93      0.96       250
+   FAKE (AI)       0.93      1.00      0.96       250
+
+    accuracy                           0.96       500
+   macro avg       0.96      0.96      0.96       500
+weighted avg       0.96      0.96      0.96       500
+==================================================
