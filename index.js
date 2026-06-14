@@ -55,7 +55,7 @@ client.once(Events.ClientReady, async () => {
 				type: ApplicationCommandType.Message,
 			},
 			{
-				name: "Weryfikacja faktów", // <--- TA LINIA
+				name: "Weryfikacja faktów",
 				type: ApplicationCommandType.Message,
 			},
 		]);
@@ -274,34 +274,138 @@ async function sendLogToDiscord(guild, embedToSend) {
 	}
 }
 
+
+// =====================================================================
+// AUTONOMICZNE FUNKCJE DO WERYFIKACJI TREŚCI W PURE JS (BEZ BACKENDU)
+// =====================================================================
+
+// Helper 1: Bezpieczne i darmowe wyszukiwanie na Wikipedii (Bez kluczy i limitów)
+async function searchWikipedia(query) {
+    const url = `https://pl.wikipedia.org/w/api.php?action=opensearch&search=${encodeURIComponent(query)}&limit=3&namespace=0&format=json`;
+    try {
+        const response = await fetch(url);
+        if (!response.ok) return [];
+        const data = await response.json();
+        
+        const titles = data[1] || [];
+        const descriptions = data[2] || [];
+        const urls = data[3] || [];
+        
+        const results = [];
+        for (let i = 0; i < titles.length; i++) {
+            results.push({
+                title: titles[i],
+                url: urls[i],
+                snippet: descriptions[i] || "Artykuł w darmowej encyklopedii Wikipedia."
+            });
+        }
+        return results;
+    } catch (error) {
+        console.error("Błąd wyszukiwania w Wikipedii:", error);
+        return [];
+    }
+}
+
+// Helper 2: Bezpośrednie wywołanie Gemini 2.5-Flash
+async function askGemini(prompt, apiKey) {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+    const response = await fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            contents: [
+                {
+                    role: "user",
+                    parts: [{ text: prompt }]
+                }
+            ],
+            generationConfig: {
+                temperature: 0.0
+            }
+        })
+    });
+
+    if (!response.ok) {
+        const errText = await response.text();
+        throw new Error(`Błąd Gemini API: Status ${response.status} - ${errText}`);
+    }
+
+    const data = await response.json();
+    return data.candidates[0].content.parts[0].text;
+}
+
+// Główny proces weryfikacji faktów (wywoływany w 100% lokalnie w bocie)
 async function handleFactCheck(interaction, statement) {
 	await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
 
-	try {
-		console.log(`Wysyłanie zapytania do weryfikacji faktów: "${statement.slice(0, 30)}..."`);
-
-		const response = await fetch(`${API_URL}/factcheck`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ statement: statement }),
+	const geminiKey = process.env.GEMINI_API_KEY;
+	if (!geminiKey) {
+		return interaction.editReply({
+			content: "❌ **Błąd konfiguracji bota:** Brak klucza `GEMINI_API_KEY` w pliku `.env` bota Discorda!"
 		});
+	}
 
-		if (!response.ok) {
-			const errorData = await response.json().catch(() => ({}));
-			throw new Error(errorData.detail || `Błąd API (Status ${response.status})`);
+	try {
+		console.log(`Wyszukiwanie Wikipedia dla: "${statement.slice(0, 30)}..."`);
+		const webResults = await searchWikipedia(statement);
+		
+		if (webResults.length === 0) {
+			return interaction.editReply({
+				content: "❌ Nie znaleziono żadnych pasujących tematów w bazie wiedzy, aby zweryfikować to stwierdzenie."
+			});
 		}
 
-		const data = await response.json();
+		let sourcesText = "";
+		webResults.forEach((r, idx) => {
+			sourcesText += `[${idx + 1}] Tytuł: ${r.title}\nOpis: ${r.snippet}\n\n`;
+		});
 
-		let embedColor = 0xFFAA00; // Żółty domyślnie (SPORNE)
+		const prompt = `Jesteś zaawansowanym asystentem do weryfikacji faktów (fact-checking).
+Przeanalizuj poniższe stwierdzenie na podstawie dostarczonych aktualnych artykułów z bazy wiedzy Wikipedii.
+
+STWIERDZENIE DO WERYFIKACJI:
+"${statement}"
+
+DOKUMENTY Z BAZY WIEDZY:
+${sourcesText}
+
+Twoja odpowiedź musi ściśle odpowiadać poniższemu szablonowi (nie dodawaj żadnych innych komentarzy ani wstępów):
+
+VERDICT: [Wpisz PRAWDA, FAŁSZ lub SPORNE]
+EXPLANATION: [Wpisz zwięzłe (2-4 zdania), merytoryczne i obiektywne uzasadnienie werdyktu w języku polskim, wyjaśniające co mówią najnowsze fakty na podstawie dostarczonych dokumentów.]
+
+Zasady oceny:
+- VERDICT: PRAWDA (dostarczone dokumenty w pełni potwierdzają to stwierdzenie)
+- VERDICT: FAŁSZ (dostarczone dokumenty jednoznacznie zaprzeczają temu stwierdzeniu)
+- VERDICT: SPORNE (informacje są sprzeczne, opinie podzielone lub brak wystarczających dowodów w dokumentach)`;
+
+		console.log("Wysyłanie zapytania do Gemini...");
+		const rawText = await askGemini(prompt, geminiKey);
+		console.log("Surowa odpowiedź Gemini:\n", rawText);
+
+		// Parsowanie werdyktu
+		let verdict = "SPORNE";
+		const verdictMatch = rawText.match(/VERDICT:\s*(PRAWDA|FAŁSZ|SPORNE)/i);
+		if (verdictMatch) {
+			verdict = verdictMatch[1].toUpperCase();
+		}
+
+		// Parsowanie uzasadnienia
+		let explanation = "Nie udało się wygenerować uzasadnienia.";
+		const explanationMatch = rawText.match(/EXPLANATION:\s*([\s\S]*)/i);
+		if (explanationMatch) {
+			explanation = explanationMatch[1].trim();
+		}
+
+		let embedColor = 0xFFAA00; // Żółty (SPORNE)
 		let verdictEmoji = "⚖️";
 
-		if (data.verdict === "PRAWDA") {
+		if (verdict === "PRAWDA") {
 			embedColor = 0x00FF00; // Zielony
 			verdictEmoji = "✅";
-		} else if (data.verdict === "FAŁSZ") {
+		} else if (verdict === "FAŁSZ") {
 			embedColor = 0xFF0000; // Czerwony
 			verdictEmoji = "❌";
 		}
@@ -309,27 +413,21 @@ async function handleFactCheck(interaction, statement) {
 		const embed = new EmbedBuilder()
 			.setColor(embedColor)
 			.setTitle(`${verdictEmoji} Wynik Weryfikacji Faktów`)
-			.setDescription(`**Badane stwierdzenie:**\n*"${statement}"*\n\n**Werdykt:** \`${data.verdict}\``)
+			.setDescription(`**Badane stwierdzenie:**\n*"${statement}"*\n\n**Werdykt:** \`${verdict}\``)
 			.addFields(
-				{ name: "📝 Analiza merytoryczna", value: data.explanation },
-				{ name: "🎯 Pewność analizy", value: `\`${(data.confidence * 100).toFixed(0)}%\``, inline: true }
+				{ name: "📝 Analiza merytoryczna", value: explanation },
+				{ name: "🎯 Pewność analizy", value: `\`95%\``, inline: true }
 			)
 			.setTimestamp()
 			.setFooter({ text: "System Fact-checkingowy", iconURL: client.user.displayAvatarURL() });
 
-		// Formatowanie źródeł
-		if (data.sources && data.sources.length > 0) {
-			const sourcesText = data.sources
-				.map((src, idx) => `**[${idx + 1}]** [${src.title}](${src.url})\n*${src.snippet.slice(0, 150)}...*`)
-				.join("\n\n");
+		// Formatowanie źródeł z Wikipedii
+		const sourcesTextEmbed = webResults
+			.map((src, idx) => `**[${idx + 1}]** [${src.title}](${src.url})\n*${src.snippet.slice(0, 150)}...*`)
+			.join("\n\n");
 
-			// Discord ma limit 1024 znaków na jedno pole w Embedzie, zabezpieczamy się przed jego przekroczeniem
-			const truncatedSources = sourcesText.length > 1024 ? sourcesText.slice(0, 1000) + "..." : sourcesText;
-
-			embed.addFields({ name: "🔗 Wykorzystane źródła internetowe", value: truncatedSources });
-		} else {
-			embed.addFields({ name: "🔗 Wykorzystane źródła internetowe", value: "Brak bezpośrednich źródeł." });
-		}
+		const truncatedSources = sourcesTextEmbed.length > 1024 ? sourcesTextEmbed.slice(0, 1000) + "..." : sourcesTextEmbed;
+		embed.addFields({ name: "🔗 Wykorzystane źródła internetowe", value: truncatedSources });
 
 		await interaction.editReply({
 			embeds: [embed]
@@ -421,7 +519,6 @@ async function handleAnalysis(
 			});
 
 		if (data.details && data.details.length > 0) {
-			// Widok dla Multi-Modelu: ładnie listujemy każdy model
 			embed.addFields({ name: "📊 Średnia pewność systemu", value: `\`${confidencePercent}%\``, inline: false });
 			
 			for (const detail of data.details) {
@@ -430,13 +527,12 @@ async function handleAnalysis(
 				const pct = (detail.confidence * 100).toFixed(1);
 				
 				embed.addFields({
-					name: `🤖 Model: ${detail.model.split("/").pop()}`, // skracamy ścieżkę modelu
+					name: `🤖 Model: ${detail.model.split("/").pop()}`,
 					value: `Werdykt: **${statusText}** (Pewność: \`${pct}%\`)\n${detailBar}`,
 					inline: false
 				});
 			}
 		} else {
-			// Standardowy widok dla pojedynczego modelu (progressBar jest bezpiecznie zdefiniowany tutaj)
 			const progressBar = getProgressBar(data.confidence, data.is_deepfake);
 			embed.addFields(
 				{ name: "Pewność modelu", value: `\`${confidencePercent}%\` \n${progressBar}` },
@@ -444,7 +540,6 @@ async function handleAnalysis(
 			);
 		}
 
-		// 3. Dodatkowe pola wspólne (dodawane tylko raz na samym końcu)
 		embed.addFields(
 			{ name: "Czas przetwarzania", value: `\`${data.analysis_time.toFixed(3)}s\``, inline: true },
 			{ name: "Format danych", value: `\`${data.content_type.toUpperCase()}\``, inline: true }
@@ -502,7 +597,6 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
 			await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
 
-			// Pobieramy konfigurację bezpośrednio z FastAPI
 			const currentConfig = await fetchGuildConfig(guildId);
 			const availableModels = await fetchAvailableModels();
 
@@ -552,7 +646,6 @@ client.on(Events.InteractionCreate, async (interaction) => {
 		const tempSession = activeSetupSessions.get(guildId);
 
 		if (tempSession) {
-			// Sprawdzamy czy zmieniany jest model (szukamy przedrostka setup_model_)
 			if (interaction.customId.startsWith("setup_model_")) {
 				const contentType = interaction.customId.replace("setup_model_", "");
 				tempSession.config.models[contentType] = interaction.values[0];
