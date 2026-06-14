@@ -55,7 +55,7 @@ client.once(Events.ClientReady, async () => {
 				type: ApplicationCommandType.Message,
 			},
 			{
-				name: "Weryfikacja faktów", // <--- TA LINIA
+				name: "Weryfikacja faktów",
 				type: ApplicationCommandType.Message,
 			},
 		]);
@@ -172,7 +172,6 @@ function getProgressBar(confidence, isDeepfake) {
 	return blockEmoji.repeat(filledBlocks) + "⬛".repeat(emptyBlocks);
 }
 
-// CAŁKOWICIE DYNAMICZNY GENERATOR WIDOKU SETUPU
 function generateSetupView(tempConfig, availableModels) {
 	const embed = new EmbedBuilder()
 		.setColor(0x5865f2)
@@ -225,7 +224,6 @@ function generateSetupView(tempConfig, availableModels) {
 			.setCustomId(`setup_model_${contentType}`)
 			.setPlaceholder(`Wybierz model dla ${contentType}`)
 			.addOptions(selectOptions)
-			// WYszarzenie i zablokowanie wyboru, gdy włączony jest Multi-Model Workflow
 			.setDisabled(tempConfig.multiModelWorkflow);
 
 		components.push(new ActionRowBuilder().addComponents(modelSelect));
@@ -295,14 +293,14 @@ async function handleFactCheck(interaction, statement) {
 
 		const data = await response.json();
 
-		let embedColor = 0xFFAA00; // Żółty domyślnie (SPORNE)
+		let embedColor = 0xFFAA00; 
 		let verdictEmoji = "⚖️";
 
 		if (data.verdict === "PRAWDA") {
-			embedColor = 0x00FF00; // Zielony
+			embedColor = 0x00FF00;
 			verdictEmoji = "✅";
 		} else if (data.verdict === "FAŁSZ") {
-			embedColor = 0xFF0000; // Czerwony
+			embedColor = 0xFF0000;
 			verdictEmoji = "❌";
 		}
 
@@ -422,7 +420,6 @@ async function handleAnalysis(
 			});
 
 		if (data.details && data.details.length > 0) {
-			// Widok dla Multi-Modelu: ładnie listujemy każdy model
 			embed.addFields({ name: "📊 Średnia pewność systemu", value: `\`${confidencePercent}%\``, inline: false });
 			
 			for (const detail of data.details) {
@@ -437,7 +434,6 @@ async function handleAnalysis(
 				});
 			}
 		} else {
-			// Standardowy widok dla pojedynczego modelu (progressBar jest bezpiecznie zdefiniowany tutaj)
 			const progressBar = getProgressBar(data.confidence, data.is_deepfake);
 			embed.addFields(
 				{ name: "Pewność modelu", value: `\`${confidencePercent}%\` \n${progressBar}` },
@@ -445,7 +441,6 @@ async function handleAnalysis(
 			);
 		}
 
-		// 3. Dodatkowe pola wspólne (dodawane tylko raz na samym końcu)
 		embed.addFields(
 			{ name: "Czas przetwarzania", value: `\`${data.analysis_time.toFixed(3)}s\``, inline: true },
 			{ name: "Format danych", value: `\`${data.content_type.toUpperCase()}\``, inline: true }
@@ -476,7 +471,6 @@ async function handleAnalysis(
 	}
 }
 
-//funkcja kupczaka
 
 client.on(Events.InteractionCreate, async (interaction) => {
 	if (interaction.isChatInputCommand()) {
@@ -503,7 +497,6 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
 			await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
 
-			// Pobieramy konfigurację bezpośrednio z FastAPI
 			const currentConfig = await fetchGuildConfig(guildId);
 			const availableModels = await fetchAvailableModels();
 
@@ -547,13 +540,11 @@ client.on(Events.InteractionCreate, async (interaction) => {
 		}
 	}
 
-	// OBSŁUGA DYNAMICZNYCH MENU ROZWIJANYCH DLA MODELI
 	if (interaction.isStringSelectMenu()) {
 		const guildId = interaction.guildId;
 		const tempSession = activeSetupSessions.get(guildId);
 
 		if (tempSession) {
-			// Sprawdzamy czy zmieniany jest model (szukamy przedrostka setup_model_)
 			if (interaction.customId.startsWith("setup_model_")) {
 				const contentType = interaction.customId.replace("setup_model_", "");
 				tempSession.config.models[contentType] = interaction.values[0];
@@ -608,7 +599,6 @@ client.on(Events.InteractionCreate, async (interaction) => {
 			await handleFactCheck(interaction, contentToVerify);
 		}
 	}
-	//koniec funkcji kupczaka
 
 	if (interaction.isModalSubmit()) {
 		if (interaction.customId === "detectModal") {
