@@ -318,6 +318,7 @@ async function handleFactCheck(interaction, statement) {
 			.setFooter({ text: "System Fact-checkingowy", iconURL: client.user.displayAvatarURL() });
 
 		// Formatowanie źródeł
+		/*
 		if (data.sources && data.sources.length > 0) {
 			const sourcesText = data.sources
 				.map((src, idx) => `**[${idx + 1}]** [${src.title}](${src.url})\n*${src.snippet.slice(0, 150)}...*`)
@@ -330,7 +331,7 @@ async function handleFactCheck(interaction, statement) {
 		} else {
 			embed.addFields({ name: "🔗 Wykorzystane źródła internetowe", value: "Brak bezpośrednich źródeł." });
 		}
-
+		*/
 		await interaction.editReply({
 			embeds: [embed]
 		});
