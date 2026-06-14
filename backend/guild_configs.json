@@ -4,5 +4,11 @@
         "active_image_model": "Hemg/Deepfake-image",
         "log_channel_id": "1515373138937123007",
         "multi_model_workflow": true
+    },
+    "eval_test_guild": {
+        "active_text_model": "none",
+        "active_image_model": "Hemg/Deepfake-image",
+        "log_channel_id": null,
+        "multi_model_workflow": false
     }
 }

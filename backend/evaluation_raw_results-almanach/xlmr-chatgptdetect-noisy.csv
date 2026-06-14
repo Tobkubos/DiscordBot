@@ -1,0 +1,501 @@
+id,status,ground_truth,text_snippet,predicted,confidence,analysis_time,used_model
+0,API_ERROR_500,True,,,,,
+1,CONNECTION_ERROR,False,,,,,
+2,SUCCESS,False,only one key on me keyboard be workin ' proper with caps loc...,False,1.0,77.022,almanach/xlmr-chatgptdetect-noisy
+3,SUCCESS,False,But the ball is also rotating with the earth . And so are yo...,False,1.0,0.103,almanach/xlmr-chatgptdetect-noisy
+4,SUCCESS,True,There are currently seven professional hockey teams in Canad...,True,1.0,0.194,almanach/xlmr-chatgptdetect-noisy
+5,SUCCESS,True,Oxford University Press (OUP) is a department of the Univers...,True,1.0,0.213,almanach/xlmr-chatgptdetect-noisy
+6,SUCCESS,False,Gregory I. Piatetsky-Shapiro (born 7 April 1958) is a data s...,False,1.0,0.141,almanach/xlmr-chatgptdetect-noisy
+7,SUCCESS,False,Kanji (; ) are the adopted logographic Chinese characters ( ...,False,1.0,0.122,almanach/xlmr-chatgptdetect-noisy
+8,SUCCESS,True,Chemotherapy is a type of treatment that uses powerful medic...,True,1.0,0.21,almanach/xlmr-chatgptdetect-noisy
+9,SUCCESS,True,When you sneeze or experience some other kind of strong phys...,True,1.0,0.213,almanach/xlmr-chatgptdetect-noisy
+10,SUCCESS,True,"If humanity started out with only two people, it's possible ...",True,1.0,0.244,almanach/xlmr-chatgptdetect-noisy
+11,SUCCESS,True,The BBC Model B is a computer that was made by the British c...,True,1.0,0.236,almanach/xlmr-chatgptdetect-noisy
+12,SUCCESS,True,A web browser is a piece of software that you use to access ...,True,1.0,0.262,almanach/xlmr-chatgptdetect-noisy
+13,SUCCESS,False,"It started as a travel guide for motorists , which makes sen...",False,1.0,0.203,almanach/xlmr-chatgptdetect-noisy
+14,SUCCESS,True,Sure! I'd be happy to help explain the difference between bi...,True,1.0,0.294,almanach/xlmr-chatgptdetect-noisy
+15,SUCCESS,False,No. The intro rate is a gambit by the bank - they accept los...,False,1.0,0.147,almanach/xlmr-chatgptdetect-noisy
+16,SUCCESS,False,The Freedom of Religion clause says this : > Congress shall ...,False,1.0,0.139,almanach/xlmr-chatgptdetect-noisy
+17,SUCCESS,False,'Cause the right side of your body has a fricken body lying ...,False,1.0,0.106,almanach/xlmr-chatgptdetect-noisy
+18,SUCCESS,True,It is generally not advisable to withdraw funds from a retir...,True,1.0,0.241,almanach/xlmr-chatgptdetect-noisy
+19,SUCCESS,True,I'm sorry to hear about the health issues that some Ground Z...,True,1.0,0.188,almanach/xlmr-chatgptdetect-noisy
+20,SUCCESS,True,If you need to amend your tax return to correctly report gai...,True,1.0,0.233,almanach/xlmr-chatgptdetect-noisy
+21,SUCCESS,False,No NFL team wants to come off as that asshole team who sues ...,False,1.0,0.1,almanach/xlmr-chatgptdetect-noisy
+22,SUCCESS,False,The money you give allows the bank to give it to other peopl...,False,1.0,0.14,almanach/xlmr-chatgptdetect-noisy
+23,SUCCESS,True,Administrative Professionals' Day (also known as Administrat...,True,1.0,0.172,almanach/xlmr-chatgptdetect-noisy
+24,SUCCESS,True,Curt Schilling is a former Major League Baseball (MLB) playe...,True,1.0,0.169,almanach/xlmr-chatgptdetect-noisy
+25,SUCCESS,False,"Ultimately , there are only going to be a few ' links ' betw...",False,1.0,0.209,almanach/xlmr-chatgptdetect-noisy
+26,SUCCESS,False,So its only a matter of relative blood supply as opposed to ...,False,1.0,0.075,almanach/xlmr-chatgptdetect-noisy
+27,SUCCESS,True,"I'm sorry, but you haven't provided me with enough informati...",True,1.0,0.088,almanach/xlmr-chatgptdetect-noisy
+28,SUCCESS,False,Shi'ites think that leadership in Islam should be hereditary...,False,1.0,0.201,almanach/xlmr-chatgptdetect-noisy
+29,SUCCESS,False,It is impossible to produce random numbers by using an algor...,False,1.0,0.275,almanach/xlmr-chatgptdetect-noisy
+30,SUCCESS,False,"The current actually does the damage , but it 's the high vo...",False,1.0,0.138,almanach/xlmr-chatgptdetect-noisy
+31,SUCCESS,True,Posting a video of someone else without their permission can...,True,1.0,0.209,almanach/xlmr-chatgptdetect-noisy
+32,SUCCESS,False,"A doctor said it once , so celebs jumped on board and made a...",False,1.0,0.107,almanach/xlmr-chatgptdetect-noisy
+33,SUCCESS,True,Wind is caused by the movement of air. Air is made up of tin...,True,1.0,0.278,almanach/xlmr-chatgptdetect-noisy
+34,SUCCESS,True,"Internet Explorer 9 (IE9) was released on March 14, 2011. It...",True,1.0,0.17,almanach/xlmr-chatgptdetect-noisy
+35,SUCCESS,False,I think op actually wants to KNOW the science behind the hea...,False,1.0,0.1,almanach/xlmr-chatgptdetect-noisy
+36,SUCCESS,False,The Dalai Lama is tibeten . Tibet is controlled by China and...,False,1.0,0.213,almanach/xlmr-chatgptdetect-noisy
+37,SUCCESS,True,I'm sorry to hear about the attacks on vaccine teams. The Ta...,True,1.0,0.216,almanach/xlmr-chatgptdetect-noisy
+38,SUCCESS,True,Martin Luther King Jr. Day is a federal holiday in the Unite...,True,1.0,0.177,almanach/xlmr-chatgptdetect-noisy
+39,SUCCESS,True,\nA railgun is a type of cannon that uses electricity to acc...,True,1.0,0.247,almanach/xlmr-chatgptdetect-noisy
+40,SUCCESS,True,Hatches and SUVs often have rear windshield wipers because t...,True,1.0,0.247,almanach/xlmr-chatgptdetect-noisy
+41,SUCCESS,True,"PCI stands for Peripheral Component Interconnect, and it is ...",True,1.0,0.275,almanach/xlmr-chatgptdetect-noisy
+42,SUCCESS,True,Canned air duster is a product that is used to blow dust and...,True,1.0,0.255,almanach/xlmr-chatgptdetect-noisy
+43,SUCCESS,False,"The dry air can promote a response from your body , similar ...",False,1.0,0.07,almanach/xlmr-chatgptdetect-noisy
+44,SUCCESS,False,"The menstrual cycle is run by hormones , little messengers e...",False,1.0,0.275,almanach/xlmr-chatgptdetect-noisy
+45,SUCCESS,False,the short version is that a burn sucks because your body now...,False,1.0,0.18,almanach/xlmr-chatgptdetect-noisy
+46,SUCCESS,True,"Disulfide bonds, also known as disulfide bridges, are covale...",True,1.0,0.241,almanach/xlmr-chatgptdetect-noisy
+47,SUCCESS,False,"In the first 3 days , the body is still using energy from gl...",False,1.0,0.168,almanach/xlmr-chatgptdetect-noisy
+48,SUCCESS,True,A lighter doesn't explode when it's lit because the flame fr...,True,1.0,0.171,almanach/xlmr-chatgptdetect-noisy
+49,SUCCESS,False,It 's very nice to be able to separate what goes into our st...,False,1.0,0.125,almanach/xlmr-chatgptdetect-noisy
+50,SUCCESS,False,"Defamation is very technical , its not just "" saying stuff t...",False,1.0,0.134,almanach/xlmr-chatgptdetect-noisy
+51,SUCCESS,False,There 's a muscle right under your lungs . You use that musc...,False,1.0,0.174,almanach/xlmr-chatgptdetect-noisy
+52,SUCCESS,False,"Look into the definition of ""primary residence"" for your jur...",False,1.0,0.098,almanach/xlmr-chatgptdetect-noisy
+53,SUCCESS,True,It is generally not recommended to watch a microwave while i...,True,1.0,0.226,almanach/xlmr-chatgptdetect-noisy
+54,SUCCESS,False,Homing pigeons only know how to fly back home . If you want ...,False,1.0,0.137,almanach/xlmr-chatgptdetect-noisy
+55,SUCCESS,False,Yup so pretty much as said before it would affect the Coriol...,False,1.0,0.167,almanach/xlmr-chatgptdetect-noisy
+56,SUCCESS,True,"In movies and TV shows, filmmakers use a technique called ""a...",True,1.0,0.176,almanach/xlmr-chatgptdetect-noisy
+57,SUCCESS,True,"Sure, I'd be happy to help clarify some stock terminology fo...",True,1.0,0.074,almanach/xlmr-chatgptdetect-noisy
+58,SUCCESS,False,"That 's kind of like asking , "" Why are there capascin recep...",False,1.0,0.183,almanach/xlmr-chatgptdetect-noisy
+59,SUCCESS,False,"Saliva flows and is replaced in your mouth when you move , s...",False,1.0,0.123,almanach/xlmr-chatgptdetect-noisy
+60,SUCCESS,True,A turbocharger is a device that helps a car's engine produce...,True,1.0,0.224,almanach/xlmr-chatgptdetect-noisy
+61,SUCCESS,False,"They hire temporary staff , just like all other companies th...",False,1.0,0.075,almanach/xlmr-chatgptdetect-noisy
+62,SUCCESS,False,The WWW is a service that runs on the Internet . There are m...,False,1.0,0.163,almanach/xlmr-chatgptdetect-noisy
+63,SUCCESS,False,Let 's play a game . You and your friend want to hang out to...,False,1.0,0.304,almanach/xlmr-chatgptdetect-noisy
+64,SUCCESS,True,"Yes, fish do drink water! Fish are living creatures just lik...",True,1.0,0.177,almanach/xlmr-chatgptdetect-noisy
+65,SUCCESS,True,Burgundy is a dark red color. It is often described as a dee...,True,1.0,0.15,almanach/xlmr-chatgptdetect-noisy
+66,SUCCESS,False,It 's to prevent fraud . You can almost trick any system to ...,False,1.0,0.075,almanach/xlmr-chatgptdetect-noisy
+67,SUCCESS,False,They did n't require the dental hygiene we do because their ...,False,1.0,0.113,almanach/xlmr-chatgptdetect-noisy
+68,SUCCESS,False,Lets say you take an orange and squeeze it . You have yourse...,False,1.0,0.302,almanach/xlmr-chatgptdetect-noisy
+69,SUCCESS,True,A bond is a debt security that represents a loan made by an ...,True,1.0,0.256,almanach/xlmr-chatgptdetect-noisy
+70,SUCCESS,False,Cricket ! ? No one in the world understands cricket ! You ha...,False,1.0,0.076,almanach/xlmr-chatgptdetect-noisy
+71,SUCCESS,True,Frank Sinatra was a highly successful and influential singer...,True,1.0,0.14,almanach/xlmr-chatgptdetect-noisy
+72,SUCCESS,True,!network errorThere was an error generating a response...,True,1.0,0.063,almanach/xlmr-chatgptdetect-noisy
+73,SUCCESS,True,"Self-destructive behavior, also called self-harm, is when so...",True,1.0,0.221,almanach/xlmr-chatgptdetect-noisy
+74,SUCCESS,True,Soap is made up of molecules that have two ends. One end of ...,True,1.0,0.213,almanach/xlmr-chatgptdetect-noisy
+75,SUCCESS,False,I would guess that it 's because they set their thermostat t...,False,1.0,0.101,almanach/xlmr-chatgptdetect-noisy
+76,SUCCESS,True,"I'm sorry, but I am not able to provide information about cu...",True,1.0,0.246,almanach/xlmr-chatgptdetect-noisy
+77,SUCCESS,True,There are a few reasons why some people might think that pol...,True,1.0,0.19,almanach/xlmr-chatgptdetect-noisy
+78,SUCCESS,True,There are a few reasons why people might prefer cooking on a...,True,1.0,0.227,almanach/xlmr-chatgptdetect-noisy
+79,SUCCESS,True,"When you eat food, your body digests it in your stomach and ...",True,1.0,0.282,almanach/xlmr-chatgptdetect-noisy
+80,SUCCESS,True,Counting to four in music is a way of keeping track of the b...,True,1.0,0.255,almanach/xlmr-chatgptdetect-noisy
+81,SUCCESS,True,It is technically possible for individuals to engage in high...,True,1.0,0.229,almanach/xlmr-chatgptdetect-noisy
+82,SUCCESS,True,Ho Chi Minh was a Vietnamese communist revolutionary leader ...,True,1.0,0.246,almanach/xlmr-chatgptdetect-noisy
+83,SUCCESS,True,"Cats are naturally curious animals, and they often like to e...",True,1.0,0.229,almanach/xlmr-chatgptdetect-noisy
+84,SUCCESS,True,"Auburndale is a city in Polk County, Florida, United States....",True,1.0,0.134,almanach/xlmr-chatgptdetect-noisy
+85,SUCCESS,False,It all can be to the best of my knowledge since alcohol kill...,False,1.0,0.093,almanach/xlmr-chatgptdetect-noisy
+86,SUCCESS,False,Cheap housing in the US has all their AC visible ....,False,1.0,0.064,almanach/xlmr-chatgptdetect-noisy
+87,SUCCESS,False,I happen to be gay . I support politicians who believe I des...,False,1.0,0.12,almanach/xlmr-chatgptdetect-noisy
+88,SUCCESS,True,A single shot of espresso typically contains about 30-50 mil...,True,1.0,0.234,almanach/xlmr-chatgptdetect-noisy
+89,SUCCESS,True,There are many reasons why people might move from one region...,True,1.0,0.216,almanach/xlmr-chatgptdetect-noisy
+90,SUCCESS,False,Radiolab had an episode about precisely this question : URL_...,False,1.0,0.134,almanach/xlmr-chatgptdetect-noisy
+91,SUCCESS,False,Imagine it this way : you 've been watching two slugs trying...,False,1.0,0.209,almanach/xlmr-chatgptdetect-noisy
+92,SUCCESS,False,"No, the expense ratio would be something you wouldn't be cha...",False,1.0,0.16,almanach/xlmr-chatgptdetect-noisy
+93,SUCCESS,True,A zero-tolerance policy is a rule that says that certain act...,True,1.0,0.16,almanach/xlmr-chatgptdetect-noisy
+94,SUCCESS,False,The same way we could buy and sell produce between us after ...,False,1.0,0.065,almanach/xlmr-chatgptdetect-noisy
+95,SUCCESS,False,[ Long version of what is a hedge fund ] ( URL_0 ) Short ver...,False,1.0,0.252,almanach/xlmr-chatgptdetect-noisy
+96,SUCCESS,True,"If you saw yourself while time traveling, it could potential...",True,1.0,0.229,almanach/xlmr-chatgptdetect-noisy
+97,SUCCESS,False,Having a system based around the number 60 makes for easy di...,False,1.0,0.089,almanach/xlmr-chatgptdetect-noisy
+98,SUCCESS,True,"I'm sorry, but I am an AI language model and am not able to ...",True,1.0,0.189,almanach/xlmr-chatgptdetect-noisy
+99,SUCCESS,False,Find a lawyer or law firm who wants to represent you and tal...,True,0.972,0.067,almanach/xlmr-chatgptdetect-noisy
+100,SUCCESS,False,"It eliminates the need for a mechanical transmission , which...",False,1.0,0.111,almanach/xlmr-chatgptdetect-noisy
+101,SUCCESS,False,"To be fair , English speakers drop Spanish words into their ...",False,1.0,0.155,almanach/xlmr-chatgptdetect-noisy
+102,SUCCESS,True,Pimples are caused by a buildup of oil and dead skin cells i...,True,1.0,0.185,almanach/xlmr-chatgptdetect-noisy
+103,SUCCESS,True,"I'm sorry, but I'm not able to provide information about the...",True,1.0,0.246,almanach/xlmr-chatgptdetect-noisy
+104,SUCCESS,False,The ETF price quoted on the stock exchange is in principle n...,False,1.0,0.136,almanach/xlmr-chatgptdetect-noisy
+105,SUCCESS,True,"I'm sorry, but I don't have any information about a subreddi...",True,1.0,0.117,almanach/xlmr-chatgptdetect-noisy
+106,SUCCESS,True,Procrastination is when we put off doing something that we k...,True,1.0,0.232,almanach/xlmr-chatgptdetect-noisy
+107,SUCCESS,True,Grover's algorithm is a quantum algorithm that can search th...,True,1.0,0.232,almanach/xlmr-chatgptdetect-noisy
+108,SUCCESS,True,Mark Zuckerberg is the CEO of Facebook. He co-founded the so...,True,1.0,0.12,almanach/xlmr-chatgptdetect-noisy
+109,SUCCESS,True,It's not necessarily a crime for a news organization to inte...,True,1.0,0.175,almanach/xlmr-chatgptdetect-noisy
+110,SUCCESS,False,It is a terrible book to read if your desire it to learn abo...,False,1.0,0.077,almanach/xlmr-chatgptdetect-noisy
+111,SUCCESS,True,"When you feel the wind, you are actually feeling the movemen...",True,1.0,0.178,almanach/xlmr-chatgptdetect-noisy
+112,SUCCESS,False,DirectX is a collection of multimedia APIs for programmers ....,False,1.0,0.186,almanach/xlmr-chatgptdetect-noisy
+113,SUCCESS,True,"I'm sorry, but I don't have any information about a current ...",True,1.0,0.218,almanach/xlmr-chatgptdetect-noisy
+114,SUCCESS,False,They are used to add a word that the author have added that ...,False,1.0,0.138,almanach/xlmr-chatgptdetect-noisy
+115,SUCCESS,True,Traceroute (also known as tracert on Windows systems) is a t...,True,1.0,0.247,almanach/xlmr-chatgptdetect-noisy
+116,SUCCESS,True,chat.openai.comChecking if the site connection is securechat...,True,1.0,0.12,almanach/xlmr-chatgptdetect-noisy
+117,SUCCESS,True,"I'm sorry, but I am not able to access information about spe...",True,1.0,0.104,almanach/xlmr-chatgptdetect-noisy
+118,SUCCESS,False,You could try giving this a try : URL_0 From what I can gath...,False,1.0,0.165,almanach/xlmr-chatgptdetect-noisy
+119,SUCCESS,False,Scientists and good wannabee scientists hate it because it '...,False,1.0,0.217,almanach/xlmr-chatgptdetect-noisy
+120,SUCCESS,True,You are not obligated to file your taxes with HR Block or an...,True,1.0,0.153,almanach/xlmr-chatgptdetect-noisy
+121,SUCCESS,False,"He wears a metal suit , and causes magnetic fields to attrac...",False,1.0,0.111,almanach/xlmr-chatgptdetect-noisy
+122,SUCCESS,False,"Shem ( ; Sēm; Arabic : Sām; Ge'ez : ሴም, Sēm; ""renown; prospe...",False,1.0,0.131,almanach/xlmr-chatgptdetect-noisy
+123,SUCCESS,True,Men and women have different chess tournaments because chess...,True,1.0,0.192,almanach/xlmr-chatgptdetect-noisy
+124,SUCCESS,True,Photographs can sometimes look different from what we see in...,True,1.0,0.252,almanach/xlmr-chatgptdetect-noisy
+125,SUCCESS,False,Hi!welcome to healthcaremagic.com.Since you are not able to ...,False,1.0,0.158,almanach/xlmr-chatgptdetect-noisy
+126,SUCCESS,True,"Water conservation is about using water efficiently, which m...",True,1.0,0.283,almanach/xlmr-chatgptdetect-noisy
+127,SUCCESS,True,"In 2017, a passenger named Dr. David Dao was violently remov...",True,1.0,0.263,almanach/xlmr-chatgptdetect-noisy
+128,SUCCESS,False,I 'm not sure people think in any language at all . It 's al...,False,1.0,0.184,almanach/xlmr-chatgptdetect-noisy
+129,SUCCESS,False,Computer programmers write the error message into their soft...,False,1.0,0.185,almanach/xlmr-chatgptdetect-noisy
+130,SUCCESS,True,"In the past, some actors and actresses in black and white mo...",True,1.0,0.169,almanach/xlmr-chatgptdetect-noisy
+131,SUCCESS,True,"No, the baby will not look exactly like either of the twins ...",True,1.0,0.167,almanach/xlmr-chatgptdetect-noisy
+132,SUCCESS,False,Some parts of the Earth 's surface are hotter than others . ...,False,1.0,0.207,almanach/xlmr-chatgptdetect-noisy
+133,SUCCESS,True,It is generally not necessary to write the date on the back ...,True,1.0,0.362,almanach/xlmr-chatgptdetect-noisy
+134,SUCCESS,False,They started out as a way to keep hair from getting into foo...,False,1.0,0.126,almanach/xlmr-chatgptdetect-noisy
+135,SUCCESS,True,Unicorns are mythical creatures that have been depicted in s...,True,1.0,0.298,almanach/xlmr-chatgptdetect-noisy
+136,SUCCESS,True,Wireless keyboards and mice use different types of technolog...,True,1.0,0.306,almanach/xlmr-chatgptdetect-noisy
+137,SUCCESS,True,r/circlejerk is a subreddit where people post jokes and humo...,True,1.0,0.292,almanach/xlmr-chatgptdetect-noisy
+138,SUCCESS,False,Ignore useful . How a discovery is used is of zero concern ....,False,1.0,0.292,almanach/xlmr-chatgptdetect-noisy
+139,SUCCESS,False,"If they 're still plugged in , yes , they 're continuing to ...",False,1.0,0.251,almanach/xlmr-chatgptdetect-noisy
+140,SUCCESS,True,The polar ice caps are made of freshwater because they are f...,True,1.0,0.267,almanach/xlmr-chatgptdetect-noisy
+141,SUCCESS,True,The original True Grit film was released in 1969 and starred...,True,1.0,0.177,almanach/xlmr-chatgptdetect-noisy
+142,SUCCESS,True,"Executing prisoners by gunshot to the back of the head, also...",True,1.0,0.275,almanach/xlmr-chatgptdetect-noisy
+143,SUCCESS,True,There is no mini version of Google stock. Google is a public...,True,1.0,0.141,almanach/xlmr-chatgptdetect-noisy
+144,SUCCESS,True,"Switchblades, also known as automatic knives, are illegal in...",True,1.0,0.23,almanach/xlmr-chatgptdetect-noisy
+145,SUCCESS,False,"When they 're close to the ground , they 're still accelerat...",False,1.0,0.136,almanach/xlmr-chatgptdetect-noisy
+146,SUCCESS,True,"In financial markets, the terms ""bid"" and ""ask"" refer to the...",True,1.0,0.251,almanach/xlmr-chatgptdetect-noisy
+147,SUCCESS,True,"A league is a unit of distance, usually used to measure the ...",True,1.0,0.141,almanach/xlmr-chatgptdetect-noisy
+148,SUCCESS,True,Water is not commonly sold in cans because cans are usually ...,True,1.0,0.182,almanach/xlmr-chatgptdetect-noisy
+149,SUCCESS,False,They were meant to attack bombers that were themselves carry...,False,1.0,0.172,almanach/xlmr-chatgptdetect-noisy
+150,SUCCESS,False,"When you work your muscles , it costs your body energy . The...",False,1.0,0.214,almanach/xlmr-chatgptdetect-noisy
+151,SUCCESS,True,"In a hotel with central heating and cooling (HVAC), each roo...",True,1.0,0.247,almanach/xlmr-chatgptdetect-noisy
+152,SUCCESS,True,"When you feel nervous or scared, your body goes into ""fight ...",True,1.0,0.208,almanach/xlmr-chatgptdetect-noisy
+153,SUCCESS,False,Sufficiently advanced technology is indistinguishable from m...,False,1.0,0.094,almanach/xlmr-chatgptdetect-noisy
+154,SUCCESS,False,In larger cities there are numerous traffic sensors that are...,False,1.0,0.193,almanach/xlmr-chatgptdetect-noisy
+155,SUCCESS,False,It really depends on the quality of the dollar store glasses...,False,1.0,0.28,almanach/xlmr-chatgptdetect-noisy
+156,SUCCESS,False,“ Based means being yourself . Not being scared of what peop...,False,1.0,0.237,almanach/xlmr-chatgptdetect-noisy
+157,SUCCESS,False,Place yourself in the sentenced person shoes . Would you lik...,False,1.0,0.174,almanach/xlmr-chatgptdetect-noisy
+158,SUCCESS,True,"Westboro Baptist Church is a small, extremist group that has...",True,1.0,0.237,almanach/xlmr-chatgptdetect-noisy
+159,SUCCESS,True,Off-brand batteries are cheaper than name-brand batteries be...,True,1.0,0.212,almanach/xlmr-chatgptdetect-noisy
+160,SUCCESS,False,yes it can be a reaction to pain and also anxiety of meeting...,False,1.0,0.121,almanach/xlmr-chatgptdetect-noisy
+161,SUCCESS,False,"They ca nt , but they can be given a [ table of symbols ] ( ...",False,1.0,0.126,almanach/xlmr-chatgptdetect-noisy
+162,SUCCESS,False,Or they could go the parks and rec route and use alta vista...,False,1.0,0.085,almanach/xlmr-chatgptdetect-noisy
+163,SUCCESS,False,It 's from cheaper dog foods that are full of ash and crushe...,False,1.0,0.133,almanach/xlmr-chatgptdetect-noisy
+164,SUCCESS,True,Most animals have two eyes because two eyes give them the ab...,True,1.0,0.261,almanach/xlmr-chatgptdetect-noisy
+165,SUCCESS,False,it could be MS. it could also not be MS and be many more dis...,False,1.0,0.134,almanach/xlmr-chatgptdetect-noisy
+166,SUCCESS,False,"She was n't recording herself , she was recording others . A...",False,1.0,0.101,almanach/xlmr-chatgptdetect-noisy
+167,SUCCESS,False,Dontforgetpants ' response seems to hit the nail on the head...,False,1.0,0.157,almanach/xlmr-chatgptdetect-noisy
+168,SUCCESS,True,The sun looks yellow in some videos because the atmosphere o...,True,1.0,0.217,almanach/xlmr-chatgptdetect-noisy
+169,SUCCESS,False,"The CIA is a foreign intelligence service , which is tasked ...",False,1.0,0.171,almanach/xlmr-chatgptdetect-noisy
+170,SUCCESS,True,If a parking ticket is lost or destroyed before the owner is...,True,1.0,0.242,almanach/xlmr-chatgptdetect-noisy
+171,SUCCESS,False,Sure you can . The Stuxnet virus was software intended to da...,False,1.0,0.114,almanach/xlmr-chatgptdetect-noisy
+172,SUCCESS,False,I am a huge fan of [ this chart ] ( URL_0 ) for all of the i...,False,1.0,0.173,almanach/xlmr-chatgptdetect-noisy
+173,SUCCESS,False,[ This is a really good explanation ] ( URL_0 ) . For a long...,False,1.0,0.124,almanach/xlmr-chatgptdetect-noisy
+174,SUCCESS,False,God punished Egypt for not releasing God 's people when inst...,False,1.0,0.218,almanach/xlmr-chatgptdetect-noisy
+175,SUCCESS,True,"​   ··· ChatGPT Dec 15 Version. Free Research Preview. O...",True,1.0,0.316,almanach/xlmr-chatgptdetect-noisy
+176,SUCCESS,True,"No, collecting and recycling your own pee and sweat will not...",True,1.0,0.178,almanach/xlmr-chatgptdetect-noisy
+177,SUCCESS,True,"Yes, drinking 3 glasses of beer will make you urinate more t...",True,1.0,0.222,almanach/xlmr-chatgptdetect-noisy
+178,SUCCESS,False,The only reason why Texas is commonly considered is because ...,False,1.0,0.118,almanach/xlmr-chatgptdetect-noisy
+179,SUCCESS,False,You have fluid in your inner ear that helps your brain figur...,False,1.0,0.064,almanach/xlmr-chatgptdetect-noisy
+180,SUCCESS,True,"When you exercise options early, the tax implications will d...",True,1.0,0.192,almanach/xlmr-chatgptdetect-noisy
+181,SUCCESS,True,"As of September 2021, the two senators representing Louisian...",True,1.0,0.149,almanach/xlmr-chatgptdetect-noisy
+182,SUCCESS,False,It was called the ' goddamned particle ' first and then it w...,False,1.0,0.062,almanach/xlmr-chatgptdetect-noisy
+183,SUCCESS,True,The hundred dollar bill features a portrait of Benjamin Fran...,True,1.0,0.116,almanach/xlmr-chatgptdetect-noisy
+184,SUCCESS,False,"Hello Prabash,Please consult with a psychiatrist as your mam...",False,1.0,0.069,almanach/xlmr-chatgptdetect-noisy
+185,SUCCESS,True,"Albany is a city located in Linn County, Oregon, United Stat...",True,1.0,0.07,almanach/xlmr-chatgptdetect-noisy
+186,SUCCESS,False,Mostly because the vast majority of the surface of this plan...,False,1.0,0.063,almanach/xlmr-chatgptdetect-noisy
+187,SUCCESS,False,Viruses are n't actually organisms by the strict definition ...,False,1.0,0.086,almanach/xlmr-chatgptdetect-noisy
+188,SUCCESS,True,"A surveyor's wheel, also known as a measuring wheel or a dis...",True,1.0,0.151,almanach/xlmr-chatgptdetect-noisy
+189,SUCCESS,True,Coffee is often served at a high temperature because it is b...,True,1.0,0.164,almanach/xlmr-chatgptdetect-noisy
+190,SUCCESS,True,"When people are feeling anxious or stressed, they may feel s...",True,1.0,0.213,almanach/xlmr-chatgptdetect-noisy
+191,SUCCESS,True,It sounds like you may be experiencing a phenomenon called a...,True,1.0,0.222,almanach/xlmr-chatgptdetect-noisy
+192,SUCCESS,True,The Fibonacci sequence is a series of numbers in which each ...,True,1.0,0.119,almanach/xlmr-chatgptdetect-noisy
+193,SUCCESS,False,"When you drink alcohol , it passes through your liver where ...",False,1.0,0.177,almanach/xlmr-chatgptdetect-noisy
+194,SUCCESS,True,Making a movie is expensive for a lot of reasons. One reason...,True,1.0,0.133,almanach/xlmr-chatgptdetect-noisy
+195,SUCCESS,True,"When you install a program, you are adding new files to your...",True,1.0,0.149,almanach/xlmr-chatgptdetect-noisy
+196,SUCCESS,False,"It is n't . Much better to use vinegar , and simply because ...",False,1.0,0.08,almanach/xlmr-chatgptdetect-noisy
+197,SUCCESS,False,"if they are truly A - list , they do n't file , they pay som...",False,1.0,0.056,almanach/xlmr-chatgptdetect-noisy
+198,SUCCESS,False,"It 's a blurry line , and stout is derived from porter . I u...",False,1.0,0.115,almanach/xlmr-chatgptdetect-noisy
+199,SUCCESS,False,"well it 's been around for decades , and is linked to homose...",False,1.0,0.083,almanach/xlmr-chatgptdetect-noisy
+200,SUCCESS,False,Lots of the byproducts of combustion have phenolic structure...,False,1.0,0.184,almanach/xlmr-chatgptdetect-noisy
+201,SUCCESS,False,Easy first example : Oarsman : Regatta::jockey : _ _ _ _ _ _...,False,1.0,0.09,almanach/xlmr-chatgptdetect-noisy
+202,SUCCESS,False,A modern torpedo like the Mk 48 ADCAP has a 50 km range so t...,False,1.0,0.078,almanach/xlmr-chatgptdetect-noisy
+203,SUCCESS,False,This whole new attack against Amazon to make them pay a sale...,False,1.0,0.104,almanach/xlmr-chatgptdetect-noisy
+204,SUCCESS,True,There are a few reasons why the closing price of a stock mig...,True,1.0,0.175,almanach/xlmr-chatgptdetect-noisy
+205,SUCCESS,False,"Basically , a business plan is a document that describes wha...",False,1.0,0.134,almanach/xlmr-chatgptdetect-noisy
+206,SUCCESS,True,The scientific name of the eastern tiger salamander is Ambys...,True,1.0,0.151,almanach/xlmr-chatgptdetect-noisy
+207,SUCCESS,False,The seasonal nature of the flu has not been established by r...,False,1.0,0.187,almanach/xlmr-chatgptdetect-noisy
+208,SUCCESS,False,This is Swolehate . Please cease and disist your discriminat...,False,1.0,0.291,almanach/xlmr-chatgptdetect-noisy
+209,SUCCESS,False,It 's a lot cheaper to put window AC in than central AC . Pl...,False,1.0,0.162,almanach/xlmr-chatgptdetect-noisy
+210,SUCCESS,True,Sure! People have always needed a way to distinguish one per...,True,1.0,0.248,almanach/xlmr-chatgptdetect-noisy
+211,SUCCESS,True,An inner monologue is the internal voice in our head that we...,True,1.0,0.25,almanach/xlmr-chatgptdetect-noisy
+212,SUCCESS,False,This is a better explaination : Lottery bonds are a type of ...,False,1.0,0.209,almanach/xlmr-chatgptdetect-noisy
+213,SUCCESS,True,"Shaving certain parts of the body, such as the face or legs,...",True,1.0,0.313,almanach/xlmr-chatgptdetect-noisy
+214,SUCCESS,True,Sure! A turtle is a type of animal that has a hard shell on ...,True,1.0,0.265,almanach/xlmr-chatgptdetect-noisy
+215,SUCCESS,True,A filibuster is a tactic used in the United States Senate to...,True,1.0,0.217,almanach/xlmr-chatgptdetect-noisy
+216,SUCCESS,False,"Living beings , including humans , are mostly water . When w...",False,1.0,0.119,almanach/xlmr-chatgptdetect-noisy
+217,SUCCESS,True,The muzzle energy of a bullet is a measure of how much energ...,True,1.0,0.223,almanach/xlmr-chatgptdetect-noisy
+218,SUCCESS,False,Because most meetings are run and/or structured badly and ar...,False,1.0,0.072,almanach/xlmr-chatgptdetect-noisy
+219,SUCCESS,False,* brief horrified daydream of being belted to a 500 - pound ...,False,1.0,0.132,almanach/xlmr-chatgptdetect-noisy
+220,SUCCESS,True,Sure! Sympathy and empathy are similar in that they both inv...,True,1.0,0.226,almanach/xlmr-chatgptdetect-noisy
+221,SUCCESS,False,Starts with the same template . Would n't say this to a 5 ye...,False,1.0,0.079,almanach/xlmr-chatgptdetect-noisy
+222,SUCCESS,True,Brett Favre started 297 consecutive games over the course of...,True,1.0,0.144,almanach/xlmr-chatgptdetect-noisy
+223,SUCCESS,False,"A digital image is an image composed of picture elements, al...",False,1.0,0.144,almanach/xlmr-chatgptdetect-noisy
+224,SUCCESS,True,The University of Western Australia (UWA) is a public resear...,True,1.0,0.119,almanach/xlmr-chatgptdetect-noisy
+225,SUCCESS,False,It does n't . The NDAA contains two sections ( 1031 and 1032...,False,1.0,0.175,almanach/xlmr-chatgptdetect-noisy
+226,SUCCESS,False,"You likely have tinnitus , possibly an industrial hearing lo...",False,1.0,0.116,almanach/xlmr-chatgptdetect-noisy
+227,SUCCESS,True,There are a few reasons why British actors might get cast in...,True,1.0,0.193,almanach/xlmr-chatgptdetect-noisy
+228,SUCCESS,False,"Take an egg from your fridge , and try to hold it from the t...",False,1.0,0.086,almanach/xlmr-chatgptdetect-noisy
+229,SUCCESS,True,It is generally the case that an individual will be liable f...,True,1.0,0.184,almanach/xlmr-chatgptdetect-noisy
+230,SUCCESS,False,There is definitely such thing as eating too much fish in te...,False,1.0,0.091,almanach/xlmr-chatgptdetect-noisy
+231,SUCCESS,False,There are two things to note in addition to what /u / UlmusI...,False,1.0,0.247,almanach/xlmr-chatgptdetect-noisy
+232,SUCCESS,True,Cloning is a scientific process that involves creating a gen...,True,1.0,0.214,almanach/xlmr-chatgptdetect-noisy
+233,SUCCESS,True,A meteor is a big rock that falls from space and lands on Ea...,True,1.0,0.185,almanach/xlmr-chatgptdetect-noisy
+234,SUCCESS,True,"In dreams, your body is actually paralyzed and unable to mov...",True,1.0,0.167,almanach/xlmr-chatgptdetect-noisy
+235,SUCCESS,False,"[ It is n't . ] ( URL_0 ) * "" But "" hot "" water for hand was...",False,1.0,0.128,almanach/xlmr-chatgptdetect-noisy
+236,SUCCESS,False,Their truest peers would be . But at the same time those wou...,False,1.0,0.1,almanach/xlmr-chatgptdetect-noisy
+237,SUCCESS,False,"The question has no meaning , because ' expansion ' is n't e...",False,1.0,0.101,almanach/xlmr-chatgptdetect-noisy
+238,SUCCESS,True,SeaWorld gets their killer whales (also known as orcas) thro...,True,1.0,0.269,almanach/xlmr-chatgptdetect-noisy
+239,SUCCESS,True,"When you listen to loud music, you can damage the tiny hair ...",True,1.0,0.323,almanach/xlmr-chatgptdetect-noisy
+240,SUCCESS,False,"When you 're that tired , part of your brain goes on vacatio...",False,1.0,0.102,almanach/xlmr-chatgptdetect-noisy
+241,SUCCESS,False,The ointment keeps the wound moist which promotes healing . ...,False,1.0,0.085,almanach/xlmr-chatgptdetect-noisy
+242,SUCCESS,False,A lot of our sense of taste is actually our sense of smell ....,False,1.0,0.074,almanach/xlmr-chatgptdetect-noisy
+243,SUCCESS,True,"When people are pointing guns at each other, it is usually b...",True,1.0,0.148,almanach/xlmr-chatgptdetect-noisy
+244,SUCCESS,False,"Technically , that apple seed will stay alive until it rots ...",False,1.0,0.054,almanach/xlmr-chatgptdetect-noisy
+245,SUCCESS,False,A Nazi lives in 1930s-40s Germany . A Neo - Nazi lives now ....,False,1.0,0.057,almanach/xlmr-chatgptdetect-noisy
+246,SUCCESS,False,"Well , just downloading a torrent is n't illegal - it 's the...",False,1.0,0.106,almanach/xlmr-chatgptdetect-noisy
+247,SUCCESS,True,David Ortiz is a retired professional baseball player from t...,True,1.0,0.128,almanach/xlmr-chatgptdetect-noisy
+248,SUCCESS,True,"In ice hockey, ""high sticking"" refers to the act of hitting ...",True,1.0,0.202,almanach/xlmr-chatgptdetect-noisy
+249,SUCCESS,True,"The green color on the Mexican flag represents hope, joy, an...",True,1.0,0.195,almanach/xlmr-chatgptdetect-noisy
+250,SUCCESS,False,"They can completely decay . However , you ca n't determine a...",False,1.0,0.119,almanach/xlmr-chatgptdetect-noisy
+251,SUCCESS,False,Pretty much the same reason Star Wars does . The game was qu...,False,1.0,0.111,almanach/xlmr-chatgptdetect-noisy
+252,SUCCESS,True,There are a few reasons why some people might not like Dane ...,True,1.0,0.175,almanach/xlmr-chatgptdetect-noisy
+253,SUCCESS,True,Being scared can be exciting because it gives us a rush of a...,True,1.0,0.191,almanach/xlmr-chatgptdetect-noisy
+254,SUCCESS,True,"When something is made from concentrate, it means that it wa...",True,1.0,0.112,almanach/xlmr-chatgptdetect-noisy
+255,SUCCESS,True,Season 2 of Project Runway was won by Chloe Dao. The show ai...,True,1.0,0.132,almanach/xlmr-chatgptdetect-noisy
+256,SUCCESS,True,Optical fibers are made of very thin strands of glass or pla...,True,1.0,0.2,almanach/xlmr-chatgptdetect-noisy
+257,SUCCESS,False,Ozone is too reactive to exist in quantity near the ground ....,False,1.0,0.099,almanach/xlmr-chatgptdetect-noisy
+258,SUCCESS,False,"He is worse than a little creepy / crap photographer , he is...",False,1.0,0.125,almanach/xlmr-chatgptdetect-noisy
+259,SUCCESS,True,"Dr. J.B. Danquah was a Ghanaian lawyer, politician, and inde...",True,1.0,0.196,almanach/xlmr-chatgptdetect-noisy
+260,SUCCESS,True,Water doesn't have any calories because it doesn't contain a...,True,1.0,0.23,almanach/xlmr-chatgptdetect-noisy
+261,SUCCESS,True,Eating and drinking certain foods can definitely impact your...,True,1.0,0.217,almanach/xlmr-chatgptdetect-noisy
+262,SUCCESS,True,The Big Bang is the name scientists give to the event that h...,True,1.0,0.195,almanach/xlmr-chatgptdetect-noisy
+263,SUCCESS,False,"Working in the industry , I can tell you that the engineers ...",False,1.0,0.17,almanach/xlmr-chatgptdetect-noisy
+264,SUCCESS,False,"I don't know if those machines work this way in the UK too, ...",False,1.0,0.155,almanach/xlmr-chatgptdetect-noisy
+265,SUCCESS,False,"There are technical differences between the 2 , but the core...",False,1.0,0.179,almanach/xlmr-chatgptdetect-noisy
+266,SUCCESS,False,All points in the universe are growing further apart from ea...,False,1.0,0.185,almanach/xlmr-chatgptdetect-noisy
+267,SUCCESS,False,Welcome to Healthcare MagicYou could be having irritable bow...,False,1.0,0.138,almanach/xlmr-chatgptdetect-noisy
+268,SUCCESS,True,Game shows can make money in a few different ways. One way i...,True,1.0,0.191,almanach/xlmr-chatgptdetect-noisy
+269,SUCCESS,False,"Well , you need references and first and last months rent , ...",False,1.0,0.11,almanach/xlmr-chatgptdetect-noisy
+270,SUCCESS,False,"You do n't get to 10,000 subscribers without making a few tr...",False,1.0,0.063,almanach/xlmr-chatgptdetect-noisy
+271,SUCCESS,True,Those black cables that you see running across the road are ...,True,1.0,0.152,almanach/xlmr-chatgptdetect-noisy
+272,SUCCESS,False,Light spectra have what are called absorption lines in them ...,False,1.0,0.215,almanach/xlmr-chatgptdetect-noisy
+273,SUCCESS,False,"Existing shareholders do have a say , usually . Most corpora...",False,1.0,0.07,almanach/xlmr-chatgptdetect-noisy
+274,SUCCESS,True,"In a single driver audio system, multiple frequencies can be...",True,1.0,0.209,almanach/xlmr-chatgptdetect-noisy
+275,SUCCESS,False,"If you were to look at a cross section of a hair , like the ...",True,0.995,0.089,almanach/xlmr-chatgptdetect-noisy
+276,SUCCESS,True,Small talk is a way for people to have a friendly conversati...,True,1.0,0.128,almanach/xlmr-chatgptdetect-noisy
+277,SUCCESS,True,! Only one message at a time. Please allow any other respons...,True,1.0,0.062,almanach/xlmr-chatgptdetect-noisy
+278,SUCCESS,True,"As an AI, I don't have personal preferences or opinions. My ...",True,1.0,0.175,almanach/xlmr-chatgptdetect-noisy
+279,SUCCESS,True,The Renaissance was a time period in European history that l...,True,1.0,0.212,almanach/xlmr-chatgptdetect-noisy
+280,SUCCESS,True,Time is a measure of how long events take to happen. It's wh...,True,1.0,0.214,almanach/xlmr-chatgptdetect-noisy
+281,SUCCESS,True,Lung effusion is the accumulation of fluid in the space arou...,True,1.0,0.149,almanach/xlmr-chatgptdetect-noisy
+282,SUCCESS,False,"That 's the Balducci levitation , and he did n't invent it ....",False,1.0,0.106,almanach/xlmr-chatgptdetect-noisy
+283,SUCCESS,True,"When you snort water, it can go up into your nose and then d...",True,1.0,0.166,almanach/xlmr-chatgptdetect-noisy
+284,SUCCESS,True,It is theoretically possible for one person with an unlimite...,True,1.0,0.171,almanach/xlmr-chatgptdetect-noisy
+285,SUCCESS,True,Aereo was a company that allowed users to watch television c...,True,1.0,0.187,almanach/xlmr-chatgptdetect-noisy
+286,SUCCESS,False,"hi,thank you for providing the brief history of you.A thorou...",False,1.0,0.125,almanach/xlmr-chatgptdetect-noisy
+287,SUCCESS,True,There are a lot of personal injury lawyers because people ge...,True,1.0,0.174,almanach/xlmr-chatgptdetect-noisy
+288,SUCCESS,False,"I 've seen an article on how they filmed that scene , FooHen...",False,1.0,0.116,almanach/xlmr-chatgptdetect-noisy
+289,SUCCESS,False,It is . Hot water strips your body 's natural oils a lot fas...,False,1.0,0.071,almanach/xlmr-chatgptdetect-noisy
+290,SUCCESS,False,Let 's say the earth is cold and there is no wind resistance...,False,1.0,0.153,almanach/xlmr-chatgptdetect-noisy
+291,SUCCESS,False,ORACLE is involved . That accounts for $ 250 million of the ...,False,1.0,0.074,almanach/xlmr-chatgptdetect-noisy
+292,SUCCESS,True,It's not accurate to say that all mass murderers and terrori...,True,1.0,0.219,almanach/xlmr-chatgptdetect-noisy
+293,SUCCESS,False,That 's probably a MIG-35 . It has a thrust / weight ratio g...,False,1.0,0.138,almanach/xlmr-chatgptdetect-noisy
+294,SUCCESS,False,French is spelled phonetically with very few exceptions . So...,False,1.0,0.121,almanach/xlmr-chatgptdetect-noisy
+295,SUCCESS,True,"The United States supported the Contras, who were a group of...",True,1.0,0.192,almanach/xlmr-chatgptdetect-noisy
+296,SUCCESS,False,> People with obsessive compulsive disorder are often aware ...,False,1.0,0.163,almanach/xlmr-chatgptdetect-noisy
+297,SUCCESS,False,"I BELIEVE : Usually , there are sensors in the road under th...",False,1.0,0.079,almanach/xlmr-chatgptdetect-noisy
+298,SUCCESS,True,"It is not uncommon for tax software, such as H&R Block, to i...",True,1.0,0.173,almanach/xlmr-chatgptdetect-noisy
+299,SUCCESS,True,"When you download a game, you are usually just downloading t...",True,1.0,0.142,almanach/xlmr-chatgptdetect-noisy
+300,SUCCESS,True,One tablespoon of water is equal to approximately 15 millili...,True,1.0,0.095,almanach/xlmr-chatgptdetect-noisy
+301,SUCCESS,True,Heaters work by converting electricity into heat. They do th...,True,1.0,0.21,almanach/xlmr-chatgptdetect-noisy
+302,SUCCESS,False,"A picture paints a thousand words , so [ here 's a diagram o...",False,1.0,0.088,almanach/xlmr-chatgptdetect-noisy
+303,SUCCESS,True,"Sometimes people might not know how to use Google, or they m...",True,1.0,0.131,almanach/xlmr-chatgptdetect-noisy
+304,SUCCESS,False,i can tell you i joined the army at 18 and got deployed righ...,False,1.0,0.196,almanach/xlmr-chatgptdetect-noisy
+305,SUCCESS,True,"There are many possible causes of headache, neck pain, and b...",True,1.0,0.213,almanach/xlmr-chatgptdetect-noisy
+306,SUCCESS,False,Burlesque originally developed as a racy satire show in resp...,False,1.0,0.285,almanach/xlmr-chatgptdetect-noisy
+307,SUCCESS,True,Sound mass is a compositional technique that involves the us...,True,1.0,0.129,almanach/xlmr-chatgptdetect-noisy
+308,SUCCESS,False,Jet engines operate using the [ Brayton Cycle ] ( URL_0 ) wh...,False,1.0,0.116,almanach/xlmr-chatgptdetect-noisy
+309,SUCCESS,False,AMD is doing more than just laying off staff. Their earnings...,False,1.0,0.189,almanach/xlmr-chatgptdetect-noisy
+310,SUCCESS,False,Hi thank you for posting your query in HCM.SGOT AND SGPT are...,False,1.0,0.201,almanach/xlmr-chatgptdetect-noisy
+311,SUCCESS,False,"I think there is a HUGE distinction between "" lazy "" and con...",False,1.0,0.236,almanach/xlmr-chatgptdetect-noisy
+312,SUCCESS,True,Lips serve many important functions. One of their main funct...,True,1.0,0.297,almanach/xlmr-chatgptdetect-noisy
+313,SUCCESS,False,"Fish is a very broad group of animals ; lions , wolves , and...",False,1.0,0.122,almanach/xlmr-chatgptdetect-noisy
+314,SUCCESS,True,It is not surprising that people did not realize the negativ...,True,1.0,0.173,almanach/xlmr-chatgptdetect-noisy
+315,SUCCESS,False,Streaming is something you watch that you do n't have a copy...,False,1.0,0.153,almanach/xlmr-chatgptdetect-noisy
+316,SUCCESS,True,Muscles get bigger when we lift weights because lifting weig...,True,1.0,0.222,almanach/xlmr-chatgptdetect-noisy
+317,SUCCESS,True,"At night, when it's quiet and there are fewer distractions, ...",True,1.0,0.187,almanach/xlmr-chatgptdetect-noisy
+318,SUCCESS,False,In Italy (even with taxes that are more than 50% on income) ...,False,1.0,0.188,almanach/xlmr-chatgptdetect-noisy
+319,SUCCESS,False,It has a lot to do with diet and lifestyle as well ... Short...,False,1.0,0.063,almanach/xlmr-chatgptdetect-noisy
+320,SUCCESS,False,If you 're travelling on the beaten path in Italy you 'll fi...,False,1.0,0.203,almanach/xlmr-chatgptdetect-noisy
+321,SUCCESS,False,As the sun sets various light wavelengths are absorbed diffe...,False,1.0,0.098,almanach/xlmr-chatgptdetect-noisy
+322,SUCCESS,True,Popcorn is a type of corn that has a hard outer shell called...,True,1.0,0.232,almanach/xlmr-chatgptdetect-noisy
+323,SUCCESS,False,It usually sends a signal to the phone to see if it is compa...,False,1.0,0.083,almanach/xlmr-chatgptdetect-noisy
+324,SUCCESS,True,"Non-nicotine electronic cigarettes, also known as e-cigarett...",True,1.0,0.177,almanach/xlmr-chatgptdetect-noisy
+325,SUCCESS,False,"A lot of mammals have a uterus shaped more like a V , or mor...",False,1.0,0.169,almanach/xlmr-chatgptdetect-noisy
+326,SUCCESS,False,"For me , I pirate content I would n't purchase in the first ...",False,1.0,0.106,almanach/xlmr-chatgptdetect-noisy
+327,SUCCESS,False,A file server is a server which main purpose is to store fil...,False,1.0,0.132,almanach/xlmr-chatgptdetect-noisy
+328,SUCCESS,False,The Puritans were various groups who advocated from serious ...,False,1.0,0.198,almanach/xlmr-chatgptdetect-noisy
+329,SUCCESS,True,It is not always possible to simply cut away cancerous tissu...,True,1.0,0.227,almanach/xlmr-chatgptdetect-noisy
+330,SUCCESS,False,I do n't remember the time I successfully managed to watch a...,False,1.0,0.131,almanach/xlmr-chatgptdetect-noisy
+331,SUCCESS,False,"Ignoring the problem of the pool holding the water , since w...",False,1.0,0.074,almanach/xlmr-chatgptdetect-noisy
+332,SUCCESS,True,Reddit moderators are volunteers who help manage the content...,True,1.0,0.158,almanach/xlmr-chatgptdetect-noisy
+333,SUCCESS,False,I can think of a few reasons . One that no one seems to have...,False,1.0,0.188,almanach/xlmr-chatgptdetect-noisy
+334,SUCCESS,True,There are a few options for someone who is intelligent but i...,True,1.0,0.203,almanach/xlmr-chatgptdetect-noisy
+335,SUCCESS,True,"When you save a Word document to a USB stick, the informatio...",True,1.0,0.204,almanach/xlmr-chatgptdetect-noisy
+336,SUCCESS,True,A turbocharger is a device that is used to boost the power o...,True,1.0,0.226,almanach/xlmr-chatgptdetect-noisy
+337,SUCCESS,False,I 've never seen anyone tilt it up . Every car I 've been in...,False,1.0,0.09,almanach/xlmr-chatgptdetect-noisy
+338,SUCCESS,True,Online videos and GIFs are two different types of media that...,True,1.0,0.198,almanach/xlmr-chatgptdetect-noisy
+339,SUCCESS,True,It is unfortunate that some people who called themselves Chr...,True,1.0,0.201,almanach/xlmr-chatgptdetect-noisy
+340,SUCCESS,True,"""Black Velvet"" is a song written by David Tyson, Christopher...",True,1.0,0.092,almanach/xlmr-chatgptdetect-noisy
+341,SUCCESS,True,Predicting how long a task will take can be difficult for a ...,True,1.0,0.152,almanach/xlmr-chatgptdetect-noisy
+342,SUCCESS,False,Good question . I 'm fed up with people saying ' u look tire...,False,1.0,0.067,almanach/xlmr-chatgptdetect-noisy
+343,SUCCESS,True,"The Beatles released ""I Want to Hold Your Hand"" in 1964. It ...",True,1.0,0.106,almanach/xlmr-chatgptdetect-noisy
+344,SUCCESS,False,"Why does anyone major in anything ? I think at its core , pe...",False,1.0,0.116,almanach/xlmr-chatgptdetect-noisy
+345,SUCCESS,False,That transaction probably cost the merchant $0.50 + 3% or cl...,False,1.0,0.164,almanach/xlmr-chatgptdetect-noisy
+346,SUCCESS,True,It is not always necessary to undergo surgery for a bicuspid...,True,1.0,0.298,almanach/xlmr-chatgptdetect-noisy
+347,SUCCESS,False,""" Alcohol "" refers to a class of compounds that contain a hy...",False,1.0,0.136,almanach/xlmr-chatgptdetect-noisy
+348,SUCCESS,False,"In addition to what Get_a_GOB and da1 m adequately wrote , h...",False,1.0,0.113,almanach/xlmr-chatgptdetect-noisy
+349,SUCCESS,True,"When you read something, the words you see on the page or sc...",True,1.0,0.287,almanach/xlmr-chatgptdetect-noisy
+350,SUCCESS,False,Mostly so that a 24 week long season occupies more than half...,False,1.0,0.114,almanach/xlmr-chatgptdetect-noisy
+351,SUCCESS,False,"As a guitarist , here is how I see it : it does n't work tha...",False,1.0,0.322,almanach/xlmr-chatgptdetect-noisy
+352,SUCCESS,False,Because there are a LOT of people who get their account hack...,False,1.0,0.096,almanach/xlmr-chatgptdetect-noisy
+353,SUCCESS,False,Hopefully they would n't get charged-- prosecutors got ta ge...,False,1.0,0.189,almanach/xlmr-chatgptdetect-noisy
+354,SUCCESS,False,This is known as [ Olber 's Paradox ] ( URL_0 ) . Because th...,False,1.0,0.201,almanach/xlmr-chatgptdetect-noisy
+355,SUCCESS,True,"Sure! Decriminalization means that a certain activity, such ...",True,1.0,0.192,almanach/xlmr-chatgptdetect-noisy
+356,SUCCESS,True,A full-time job typically refers to a job that requires a pe...,True,1.0,0.127,almanach/xlmr-chatgptdetect-noisy
+357,SUCCESS,True,Bob Seger is an American singer-songwriter who was born on M...,True,1.0,0.121,almanach/xlmr-chatgptdetect-noisy
+358,SUCCESS,False,"I completely agree with Whazzits definition of a melody , bu...",False,1.0,0.114,almanach/xlmr-chatgptdetect-noisy
+359,SUCCESS,True,Sure! Catchers in baseball give pitchers hand signals to let...,True,1.0,0.177,almanach/xlmr-chatgptdetect-noisy
+360,SUCCESS,True,It is not currently possible to keep a person alive forever ...,True,1.0,0.21,almanach/xlmr-chatgptdetect-noisy
+361,SUCCESS,False,When brass instruments first came out they did n't have valv...,False,1.0,0.12,almanach/xlmr-chatgptdetect-noisy
+362,SUCCESS,True,Sodium hypochlorite is a chemical compound with the formula ...,True,1.0,0.189,almanach/xlmr-chatgptdetect-noisy
+363,SUCCESS,False,"In artificial intelligence, an expert system is a computer s...",False,0.999,0.162,almanach/xlmr-chatgptdetect-noisy
+364,SUCCESS,True,Chuck Norris is a famous actor and martial artist who has ap...,True,1.0,0.154,almanach/xlmr-chatgptdetect-noisy
+365,SUCCESS,True,"Most new cars have a feature called ""daytime running lights""...",True,1.0,0.201,almanach/xlmr-chatgptdetect-noisy
+366,SUCCESS,False,They are very nearly synonymous ; the only difference is in ...,False,1.0,0.062,almanach/xlmr-chatgptdetect-noisy
+367,SUCCESS,False,"It depends whether you hear an actual high - pitched noise ,...",False,1.0,0.188,almanach/xlmr-chatgptdetect-noisy
+368,SUCCESS,False,The cost - benefit ratio is too high . Anything you want to ...,False,1.0,0.098,almanach/xlmr-chatgptdetect-noisy
+369,SUCCESS,True,There are a few reasons why there might be more trained dogs...,True,1.0,0.167,almanach/xlmr-chatgptdetect-noisy
+370,SUCCESS,False,"poker is a very complicated game , full of subtleties and nu...",False,1.0,0.171,almanach/xlmr-chatgptdetect-noisy
+371,SUCCESS,False,"The biggest difference is that the Start menu is gone , repl...",False,1.0,0.121,almanach/xlmr-chatgptdetect-noisy
+372,SUCCESS,False,"Well , the nazis were members of Hitler 's political party N...",False,1.0,0.071,almanach/xlmr-chatgptdetect-noisy
+373,SUCCESS,True,It is important to be cautious when considering investing in...,True,1.0,0.187,almanach/xlmr-chatgptdetect-noisy
+374,SUCCESS,False,same reason a spoon of soup cools quicker than a large bowl ...,False,1.0,0.065,almanach/xlmr-chatgptdetect-noisy
+375,SUCCESS,False,"We do n't know for sure ! The best answer ( ELI5 answer , no...",False,1.0,0.122,almanach/xlmr-chatgptdetect-noisy
+376,SUCCESS,False,"When your body senses fear , your testicles reflexively rais...",False,1.0,0.085,almanach/xlmr-chatgptdetect-noisy
+377,SUCCESS,True,Sound is a type of energy that travels through vibrations. T...,True,1.0,0.201,almanach/xlmr-chatgptdetect-noisy
+378,SUCCESS,True,Sports teams are usually funded by the owners of the team an...,True,1.0,0.219,almanach/xlmr-chatgptdetect-noisy
+379,SUCCESS,False,I think it has to do with the stigma associated with users o...,False,1.0,0.086,almanach/xlmr-chatgptdetect-noisy
+380,SUCCESS,False,""" Running out "" is a bit misleading . Most people will get m...",False,1.0,0.314,almanach/xlmr-chatgptdetect-noisy
+381,SUCCESS,False,"You can fall asleep standing up I think for a moment , but t...",False,1.0,0.093,almanach/xlmr-chatgptdetect-noisy
+382,SUCCESS,True,"In movies, actors and actresses often pretend to have sex, b...",True,1.0,0.16,almanach/xlmr-chatgptdetect-noisy
+383,SUCCESS,True,Social Darwinism is a belief that some groups of people are ...,True,1.0,0.148,almanach/xlmr-chatgptdetect-noisy
+384,SUCCESS,True,"""The NeverEnding Story"" is a song by German band Limahl (Kie...",True,1.0,0.121,almanach/xlmr-chatgptdetect-noisy
+385,SUCCESS,True,Sure! NASCAR is a type of racing where people drive really f...,True,1.0,0.124,almanach/xlmr-chatgptdetect-noisy
+386,SUCCESS,False,"When a group , usually prisoners are made to travel long dis...",False,1.0,0.109,almanach/xlmr-chatgptdetect-noisy
+387,SUCCESS,False,"In music theory , frequencies that are a simple ratios sound...",False,1.0,0.189,almanach/xlmr-chatgptdetect-noisy
+388,SUCCESS,True,"Great question! Just like humans, animals that live in the w...",True,1.0,0.204,almanach/xlmr-chatgptdetect-noisy
+389,SUCCESS,False,"Most people say the fibonacci sequence is important , becaus...",False,1.0,0.149,almanach/xlmr-chatgptdetect-noisy
+390,SUCCESS,True,"\nWhen you see something with your eyes, it means that light...",True,1.0,0.175,almanach/xlmr-chatgptdetect-noisy
+391,SUCCESS,False,"In their quest for civil rights and equality , many blacks i...",False,1.0,0.092,almanach/xlmr-chatgptdetect-noisy
+392,SUCCESS,True,The telephone was invented by Alexander Graham Bell in 1876....,True,1.0,0.212,almanach/xlmr-chatgptdetect-noisy
+393,SUCCESS,False,Andy Whitfield (died 11 September 2011) was a Welsh Australi...,False,1.0,0.064,almanach/xlmr-chatgptdetect-noisy
+394,SUCCESS,True,Shin A Lam is a Korean fencer who competed in the 2012 Olymp...,True,1.0,0.205,almanach/xlmr-chatgptdetect-noisy
+395,SUCCESS,True,"Jamestown is a town located in Guilford County, North Caroli...",True,1.0,0.117,almanach/xlmr-chatgptdetect-noisy
+396,SUCCESS,False,""" The first thing you need to know about the Internet , "" He...",False,1.0,0.145,almanach/xlmr-chatgptdetect-noisy
+397,SUCCESS,False,Sometimes an established company may already have that name ...,False,0.957,0.093,almanach/xlmr-chatgptdetect-noisy
+398,SUCCESS,False,"Ever seen Toy Story ? To boil it down to it 's simplest , it...",False,1.0,0.07,almanach/xlmr-chatgptdetect-noisy
+399,SUCCESS,True,"In war, there are rules that are meant to protect civilians ...",True,1.0,0.162,almanach/xlmr-chatgptdetect-noisy
+400,SUCCESS,True,A mortgage gift exchange is a financial arrangement in which...,True,1.0,0.188,almanach/xlmr-chatgptdetect-noisy
+401,SUCCESS,True,"In the context of business asset transfer, tax allocation re...",True,1.0,0.168,almanach/xlmr-chatgptdetect-noisy
+402,SUCCESS,True,Dogs don't live as long as people because they have a faster...,True,1.0,0.193,almanach/xlmr-chatgptdetect-noisy
+403,SUCCESS,False,Driving in cities with traffic jams daily will quickly cure ...,False,1.0,0.057,almanach/xlmr-chatgptdetect-noisy
+404,SUCCESS,False,I would imagine it 's a combination of factors here . The sn...,False,1.0,0.177,almanach/xlmr-chatgptdetect-noisy
+405,SUCCESS,False,The licenses for the mobile and browser version are differen...,False,1.0,0.058,almanach/xlmr-chatgptdetect-noisy
+406,SUCCESS,True,The use of 60 as a base for measuring time can be traced bac...,True,1.0,0.223,almanach/xlmr-chatgptdetect-noisy
+407,SUCCESS,True,It's hard to say exactly why some people might hate feminist...,True,1.0,0.19,almanach/xlmr-chatgptdetect-noisy
+408,SUCCESS,False,I 'm not sure why I get morning wood but I think it has some...,False,1.0,0.116,almanach/xlmr-chatgptdetect-noisy
+409,SUCCESS,False,The universe is not expanding into anything . The current ac...,False,1.0,0.103,almanach/xlmr-chatgptdetect-noisy
+410,SUCCESS,True,Gym class parachutes are large pieces of fabric that are use...,True,1.0,0.159,almanach/xlmr-chatgptdetect-noisy
+411,SUCCESS,True,Revenge is when someone does something bad to someone else o...,True,1.0,0.152,almanach/xlmr-chatgptdetect-noisy
+412,SUCCESS,False,I am not a mathematician but I will present my theory anyway...,False,1.0,0.145,almanach/xlmr-chatgptdetect-noisy
+413,SUCCESS,True,It's considered dangerous to use your cell phone near an ope...,True,1.0,0.122,almanach/xlmr-chatgptdetect-noisy
+414,SUCCESS,True,It is common for car dealers to offer lower prices on used c...,True,1.0,0.19,almanach/xlmr-chatgptdetect-noisy
+415,SUCCESS,False,Tesla cars are made in the U.S. and therefore have to be exp...,False,1.0,0.082,almanach/xlmr-chatgptdetect-noisy
+416,SUCCESS,True,Black Friday is a shopping holiday that traditionally takes ...,True,1.0,0.144,almanach/xlmr-chatgptdetect-noisy
+417,SUCCESS,False,"It creates some minor difficulties , but not as much as if y...",False,1.0,0.126,almanach/xlmr-chatgptdetect-noisy
+418,SUCCESS,True,Gravity is what makes things fall down to the ground instead...,True,1.0,0.135,almanach/xlmr-chatgptdetect-noisy
+419,SUCCESS,False,We do n't . It 's as simple as that : nobody has any idea wh...,False,1.0,0.084,almanach/xlmr-chatgptdetect-noisy
+420,SUCCESS,True,A free radical is a type of molecule that has an unpaired el...,True,1.0,0.173,almanach/xlmr-chatgptdetect-noisy
+421,SUCCESS,False,I think it 's because of the different roles the writers & d...,False,1.0,0.138,almanach/xlmr-chatgptdetect-noisy
+422,SUCCESS,True,Scary things can seem scarier at night because our brains ar...,True,1.0,0.164,almanach/xlmr-chatgptdetect-noisy
+423,SUCCESS,False,"A fire needs three things to keep burning : fuel , oxygen , ...",False,1.0,0.081,almanach/xlmr-chatgptdetect-noisy
+424,SUCCESS,False,Welfare requires you to jump through administrative hoops in...,False,1.0,0.144,almanach/xlmr-chatgptdetect-noisy
+425,SUCCESS,False,It 's useful because it tells you how you 're doing financia...,False,1.0,0.129,almanach/xlmr-chatgptdetect-noisy
+426,SUCCESS,True,Derealization is a feeling of detachment or disconnection fr...,True,1.0,0.212,almanach/xlmr-chatgptdetect-noisy
+427,SUCCESS,False,"Sometimes , tech support people ask this * * just to make su...",False,1.0,0.067,almanach/xlmr-chatgptdetect-noisy
+428,SUCCESS,True,It depends on the specific terms of your internet service ag...,True,1.0,0.119,almanach/xlmr-chatgptdetect-noisy
+429,SUCCESS,False,I suppose you can print them and hand them down . My wife pr...,False,1.0,0.096,almanach/xlmr-chatgptdetect-noisy
+430,SUCCESS,True,"I'm sorry, but I don't have any information about Walmart em...",True,1.0,0.184,almanach/xlmr-chatgptdetect-noisy
+431,SUCCESS,False,Basically it 's overused and in most cases also misused . Th...,False,1.0,0.172,almanach/xlmr-chatgptdetect-noisy
+432,SUCCESS,True,"The four-digit extension on ZIP codes, also known as the ZIP...",True,1.0,0.189,almanach/xlmr-chatgptdetect-noisy
+433,SUCCESS,True,"During takeoff and landing, the airplane is going through a ...",True,1.0,0.131,almanach/xlmr-chatgptdetect-noisy
+434,SUCCESS,True,It's illegal to drive without a seat belt in a car because s...,True,1.0,0.146,almanach/xlmr-chatgptdetect-noisy
+435,SUCCESS,True,Corporate personhood is the legal concept that a corporation...,True,1.0,0.184,almanach/xlmr-chatgptdetect-noisy
+436,SUCCESS,True,Penny bid sites are online auctions where you can bid on ite...,True,1.0,0.139,almanach/xlmr-chatgptdetect-noisy
+437,SUCCESS,True,"As we grow and develop, our bodies and tastes change. This c...",True,1.0,0.19,almanach/xlmr-chatgptdetect-noisy
+438,SUCCESS,False,My theory . If you have 200 or so friends and you look at mo...,False,1.0,0.18,almanach/xlmr-chatgptdetect-noisy
+439,SUCCESS,False,1 . Buy Patents 2 . Claim that someone is infringing on your...,False,1.0,0.085,almanach/xlmr-chatgptdetect-noisy
+440,SUCCESS,False,"Suction , per my husband , who used to work on ATM machines ...",False,1.0,0.054,almanach/xlmr-chatgptdetect-noisy
+441,SUCCESS,True,"Yes, cars have sensors that can measure their own speed. The...",True,1.0,0.14,almanach/xlmr-chatgptdetect-noisy
+442,SUCCESS,True,Giving money as a gift is often considered impersonal becaus...,True,1.0,0.19,almanach/xlmr-chatgptdetect-noisy
+443,SUCCESS,True,"When you make a phone call or send a text message, your phon...",True,1.0,0.184,almanach/xlmr-chatgptdetect-noisy
+444,SUCCESS,True,Gabapentin (brand name Neurontin) is a medication that is pr...,True,1.0,0.192,almanach/xlmr-chatgptdetect-noisy
+445,SUCCESS,True,"Iron is attracted to magnets, but the amount of iron in your...",True,1.0,0.176,almanach/xlmr-chatgptdetect-noisy
+446,SUCCESS,True,Amputations are surgeries that involve removing a part of th...,True,1.0,0.187,almanach/xlmr-chatgptdetect-noisy
+447,SUCCESS,True,It is not legal or safe to buy or sell marijuana in many pla...,True,1.0,0.124,almanach/xlmr-chatgptdetect-noisy
+448,SUCCESS,True,The hypothesis is an important part of the scientific method...,True,1.0,0.186,almanach/xlmr-chatgptdetect-noisy
+449,SUCCESS,False,Well everyone here is n't wrong to say things like it 's ref...,False,1.0,0.102,almanach/xlmr-chatgptdetect-noisy
+450,SUCCESS,True,"""O level"" refers to the General Certificate of Education (GC...",True,1.0,0.126,almanach/xlmr-chatgptdetect-noisy
+451,SUCCESS,True,Wikipedia is not a complete mess because it has a large comm...,True,1.0,0.158,almanach/xlmr-chatgptdetect-noisy
+452,SUCCESS,False,The WWW is a service that runs on the Internet . There are m...,False,1.0,0.128,almanach/xlmr-chatgptdetect-noisy
+453,SUCCESS,False,It would wash away from the rain since salt is water soluble...,False,1.0,0.088,almanach/xlmr-chatgptdetect-noisy
+454,SUCCESS,False,If you put something in water it will move the water aside t...,False,1.0,0.164,almanach/xlmr-chatgptdetect-noisy
+455,SUCCESS,True,"HTTP stands for ""Hypertext Transfer Protocol"" and it is the ...",True,1.0,0.19,almanach/xlmr-chatgptdetect-noisy
+456,SUCCESS,False,The dogs are trained to be alerted by the smell of their own...,False,1.0,0.082,almanach/xlmr-chatgptdetect-noisy
+457,SUCCESS,True,Trader Joe's is a grocery store chain that is known for its ...,True,1.0,0.156,almanach/xlmr-chatgptdetect-noisy
+458,SUCCESS,True,It is difficult to determine the average American income bec...,True,1.0,0.199,almanach/xlmr-chatgptdetect-noisy
+459,SUCCESS,True,Psych is an American comedy-drama television series that air...,True,1.0,0.095,almanach/xlmr-chatgptdetect-noisy
+460,SUCCESS,False,""" Why do italian tanks have multiple reverse gears and only ...",False,1.0,0.055,almanach/xlmr-chatgptdetect-noisy
+461,SUCCESS,False,They work when the elevator is in fireman control mode ....,False,1.0,0.057,almanach/xlmr-chatgptdetect-noisy
+462,SUCCESS,True,Sure! A gigabyte is a unit of measurement for data. It's use...,True,1.0,0.166,almanach/xlmr-chatgptdetect-noisy
+463,SUCCESS,True,"In the classic children's novel ""The Wizard of Oz,"" written ...",True,1.0,0.096,almanach/xlmr-chatgptdetect-noisy
+464,SUCCESS,False,Why is it being linked with real time communication . Are we...,False,1.0,0.055,almanach/xlmr-chatgptdetect-noisy
+465,SUCCESS,False,they may be willing to issue mortgages with smaller deposits...,False,1.0,0.207,almanach/xlmr-chatgptdetect-noisy
+466,SUCCESS,True,"Yes, a finger injury can cause an infection if it is not pro...",True,1.0,0.143,almanach/xlmr-chatgptdetect-noisy
+467,SUCCESS,False,"First of all , a regular computer * is n't * good at generat...",False,1.0,0.138,almanach/xlmr-chatgptdetect-noisy
+468,SUCCESS,False,Cats are pretty much self - domesticated ( the ones that wou...,False,1.0,0.112,almanach/xlmr-chatgptdetect-noisy
+469,SUCCESS,False,"Imagine a hollow sphere , made of glass , with a vacuum insi...",False,1.0,0.116,almanach/xlmr-chatgptdetect-noisy
+470,SUCCESS,True,"I'm sorry, but I don't have any information about a dish cal...",True,1.0,0.119,almanach/xlmr-chatgptdetect-noisy
+471,SUCCESS,False,Military strength is measured by various factors . How big i...,False,1.0,0.118,almanach/xlmr-chatgptdetect-noisy
+472,SUCCESS,False,It 's called type - casting . Elijah Wood will always be Fro...,False,1.0,0.1,almanach/xlmr-chatgptdetect-noisy
+473,SUCCESS,True,The Flat Earth Society is a group of people who believe that...,True,1.0,0.137,almanach/xlmr-chatgptdetect-noisy
+474,SUCCESS,False,Because you ca n't see the lego bricks on the carpet...,False,1.0,0.052,almanach/xlmr-chatgptdetect-noisy
+475,SUCCESS,False,"In major studio films , the studio keeps most of the money ....",False,1.0,0.097,almanach/xlmr-chatgptdetect-noisy
+476,SUCCESS,False,Complex numbers revolve around the number * i * . * i * is a...,False,1.0,0.148,almanach/xlmr-chatgptdetect-noisy
+477,SUCCESS,True,The West (including countries like the United States and Eur...,True,1.0,0.187,almanach/xlmr-chatgptdetect-noisy
+478,SUCCESS,True,There are a few reasons why you might not see news about Mon...,True,1.0,0.192,almanach/xlmr-chatgptdetect-noisy
+479,SUCCESS,True,"When you have a cold, your body is trying to get rid of a vi...",True,1.0,0.178,almanach/xlmr-chatgptdetect-noisy
+480,SUCCESS,True,"Piers Morgan is a British television presenter, journalist, ...",True,1.0,0.146,almanach/xlmr-chatgptdetect-noisy
+481,SUCCESS,True,The value of tokens that you have purchased at an older pric...,True,1.0,0.168,almanach/xlmr-chatgptdetect-noisy
+482,SUCCESS,True,"I'm sorry, but it is not possible for a vaccine to cause neu...",True,1.0,0.129,almanach/xlmr-chatgptdetect-noisy
+483,SUCCESS,False,If foxtel is a cable provider then the reason is that the ne...,False,1.0,0.117,almanach/xlmr-chatgptdetect-noisy
+484,SUCCESS,True,"I'm sorry, but I don't understand what you're asking. Could ...",True,1.0,0.06,almanach/xlmr-chatgptdetect-noisy
+485,SUCCESS,True,"​   ··· ChatGPT Dec 15 Version. Free Research Preview. O...",True,1.0,0.177,almanach/xlmr-chatgptdetect-noisy
+486,SUCCESS,False,NYSE and Nasdaq are secondary markets where stocks are bough...,False,1.0,0.069,almanach/xlmr-chatgptdetect-noisy
+487,SUCCESS,True,Credit unions are not-for-profit financial cooperatives that...,True,1.0,0.178,almanach/xlmr-chatgptdetect-noisy
+488,SUCCESS,False,"In the maintenance of file systems , defragmentation is a pr...",False,1.0,0.06,almanach/xlmr-chatgptdetect-noisy
+489,SUCCESS,False,"No other countries want to pay for bases in the US , largely...",False,1.0,0.148,almanach/xlmr-chatgptdetect-noisy
+490,SUCCESS,False,"Water does n't have a taste , or I guess I should say , we c...",False,1.0,0.086,almanach/xlmr-chatgptdetect-noisy
+491,SUCCESS,False,"What makes you think they are "" more common than ever before...",False,1.0,0.057,almanach/xlmr-chatgptdetect-noisy
+492,SUCCESS,True,"There are actually seat belts on some buses, but not all of ...",True,1.0,0.137,almanach/xlmr-chatgptdetect-noisy
+493,SUCCESS,False,"Ok , let say that the doors are marked A , B and C. Suppose ...",False,1.0,0.174,almanach/xlmr-chatgptdetect-noisy
+494,SUCCESS,False,A multivitamin is like a safety net . It assures you gets en...,False,1.0,0.129,almanach/xlmr-chatgptdetect-noisy
+495,SUCCESS,False,The [ Maillard Reaction ] ( URL_0 ) is a chemical reaction w...,False,1.0,0.156,almanach/xlmr-chatgptdetect-noisy
+496,SUCCESS,True,"When you inject a liquid into your body, the extra liquid go...",True,1.0,0.194,almanach/xlmr-chatgptdetect-noisy
+497,SUCCESS,True,"The term ""gringo"" is a Spanish word that is often used to re...",True,1.0,0.154,almanach/xlmr-chatgptdetect-noisy
+498,SUCCESS,True,There are many reasons why some Republicans opposed Hillary ...,True,1.0,0.123,almanach/xlmr-chatgptdetect-noisy
+499,SUCCESS,False,Market cap is the current value of a company's equity and is...,False,1.0,0.116,almanach/xlmr-chatgptdetect-noisy
