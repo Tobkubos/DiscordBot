@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from app import verify_api_key
+from app.dependencies import verify_api_key
 from app.models.factcheck_schemas import FactCheckRequest, FactCheckResponse, FactCheckSource
 from app.services.factcheck_service import analyze_with_gemini_grounding
 

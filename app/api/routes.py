@@ -2,7 +2,7 @@ import asyncio
 from collections import defaultdict
 import logging
 from fastapi import APIRouter, Depends, HTTPException, Request, status
-from app import verify_api_key
+from app.dependencies import verify_api_key
 from app.services.queue import get_queue_service
 from slowapi.errors import RateLimitExceeded
 from limits import parse
