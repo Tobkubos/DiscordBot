@@ -1,12 +1,11 @@
+---
 title: DetectMeBotBackend
 emoji: 🤖
 colorFrom: blue
 colorTo: green
 sdk: docker
 app_port: 7860
-python_version: "3.11"
-app_file: app.py
-pinned: false
+---
 
 # Deepfake Detection Service Backend
 
