@@ -1,7 +1,8 @@
 import asyncio
 from collections import defaultdict
 import logging
-from fastapi import APIRouter, HTTPException, Request, status
+from fastapi import APIRouter, Depends, HTTPException, Request, status
+from app import verify_api_key
 from app.services.queue import get_queue_service
 from slowapi.errors import RateLimitExceeded
 from limits import parse
@@ -68,8 +69,7 @@ async def health_check() -> HealthResponse:
         models_status=models_status,
     )
 
-# Endpoint do zapisywania konfiguracji (wywoływany przez bota)
-@router.post("/guilds/{guild_id}/setup", tags=["Setup"])
+@router.post("/guilds/{guild_id}/setup", tags=["Setup"], dependencies=[Depends(verify_api_key)])
 async def save_discord_guild_setup(guild_id: str, payload: GuildConfigSchema):
     # Walidacja modeli z pliku ustawień
     settings = get_settings()
@@ -102,7 +102,7 @@ async def save_discord_guild_setup(guild_id: str, payload: GuildConfigSchema):
         "config": config_dict,
     }
 
-@router.get("/guilds/{guild_id}/config", tags=["Setup"])
+@router.get("/guilds/{guild_id}/config", tags=["Setup"], dependencies=[Depends(verify_api_key)])
 async def get_discord_guild_config(guild_id: str):
     """Zwraca zapisaną konfigurację dla konkretnego serwera Discord."""
     configs = _load_all_configs()
@@ -170,6 +170,7 @@ async def _execute_analysis(payload: AnalysisRequest, guild_id: str, settings) -
     },
     tags=["Analysis"],
     summary="Analyze content for deepfake detection",
+    dependencies=[Depends(verify_api_key)]
 )
 async def analyze(request: Request, payload: AnalysisRequest) -> AnalysisResponse:
     guild_id = payload.guild_id

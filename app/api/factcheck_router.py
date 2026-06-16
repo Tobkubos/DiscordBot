@@ -1,4 +1,5 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
+from app import verify_api_key
 from app.models.factcheck_schemas import FactCheckRequest, FactCheckResponse, FactCheckSource
 from app.services.factcheck_service import analyze_with_gemini_grounding
 
@@ -8,7 +9,8 @@ router = APIRouter()
     "/factcheck", 
     response_model=FactCheckResponse, 
     tags=["Fact-checking"],
-    summary="Zweryfikuj prawdziwość stwierdzenia"
+    summary="Zweryfikuj prawdziwość stwierdzenia",
+    dependencies=[Depends(verify_api_key)]
 )
 async def fact_check_endpoint(payload: FactCheckRequest):
     statement = payload.statement.strip()
