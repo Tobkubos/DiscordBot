@@ -85,7 +85,11 @@ async function fetchAvailableModels() {
 
 async function fetchGuildConfig(guildId) {
 	try {
-		const response = await fetch(`${API_URL}/guilds/${guildId}/config`);
+		const response = await fetch("${API_URL}/guilds/${guildId}/config", {
+			headers: {
+				"X-API-Key": process.env.BACKEND_API_KEY,
+			},
+		});
 		if (response.ok) {
 			const data = await response.json();
 			return {
@@ -106,7 +110,7 @@ async function fetchGuildConfig(guildId) {
 	return {
 		logChannelId: null,
 		multiModelWorkflow: false,
-		models: {}
+		models: {},
 	};
 }
 
@@ -184,16 +188,16 @@ function generateSetupView(tempConfig, availableModels) {
 
 	embed.addFields({
 		name: "🔗 Tryb wielomodelowy (Multi-Model Workflow)",
-		value: tempConfig.multiModelWorkflow 
-			? "🟢 **Włączony** (zostaną użyte wszystkie dostępne modele, indywidualny wybór jest zablokowany)" 
+		value: tempConfig.multiModelWorkflow
+			? "🟢 **Włączony** (zostaną użyte wszystkie dostępne modele, indywidualny wybór jest zablokowany)"
 			: "🔴 **Wyłączony** (będzie używany tylko model wybrany poniżej)",
-		inline: false
+		inline: false,
 	});
 
 	for (const [contentType, models] of Object.entries(availableModels)) {
-		const currentSelected = tempConfig.multiModelWorkflow 
-			? "Wszystkie (Multi-Model Workflow)" 
-			: (tempConfig.models[contentType] || models[0] || "Brak");
+		const currentSelected = tempConfig.multiModelWorkflow
+			? "Wszystkie (Multi-Model Workflow)"
+			: tempConfig.models[contentType] || models[0] || "Brak";
 
 		embed.addFields({
 			name: `⚙️ Model dla formatu: ${contentType.toUpperCase()}`,
@@ -232,8 +236,16 @@ function generateSetupView(tempConfig, availableModels) {
 	const buttonsRow = new ActionRowBuilder().addComponents(
 		new ButtonBuilder()
 			.setCustomId("setup_toggle_multimodel")
-			.setLabel(tempConfig.multiModelWorkflow ? "Tryb Wielomodelowy: WŁ" : "Tryb Wielomodelowy: WYŁ")
-			.setStyle(tempConfig.multiModelWorkflow ? ButtonStyle.Primary : ButtonStyle.Secondary)
+			.setLabel(
+				tempConfig.multiModelWorkflow
+					? "Tryb Wielomodelowy: WŁ"
+					: "Tryb Wielomodelowy: WYŁ",
+			)
+			.setStyle(
+				tempConfig.multiModelWorkflow
+					? ButtonStyle.Primary
+					: ButtonStyle.Secondary,
+			)
 			.setEmoji(tempConfig.multiModelWorkflow ? "🟢" : "⚫"),
 		new ButtonBuilder()
 			.setCustomId("setup_save")
@@ -276,11 +288,14 @@ async function handleFactCheck(interaction, statement) {
 	await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
 
 	try {
-		console.log(`Wysyłanie zapytania do weryfikacji faktów: "${statement.slice(0, 30)}..."`);
+		console.log(
+			`Wysyłanie zapytania do weryfikacji faktów: "${statement.slice(0, 30)}..."`,
+		);
 
 		const response = await fetch(`${API_URL}/factcheck`, {
 			method: "POST",
 			headers: {
+				"X-API-Key": process.env.BACKEND_API_KEY,
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({ statement: statement }),
@@ -288,32 +303,43 @@ async function handleFactCheck(interaction, statement) {
 
 		if (!response.ok) {
 			const errorData = await response.json().catch(() => ({}));
-			throw new Error(errorData.detail || `Błąd API (Status ${response.status})`);
+			throw new Error(
+				errorData.detail || `Błąd API (Status ${response.status})`,
+			);
 		}
 
 		const data = await response.json();
 
-		let embedColor = 0xFFAA00; 
+		let embedColor = 0xffaa00;
 		let verdictEmoji = "⚖️";
 
 		if (data.verdict === "PRAWDA") {
-			embedColor = 0x00FF00;
+			embedColor = 0x00ff00;
 			verdictEmoji = "✅";
 		} else if (data.verdict === "FAŁSZ") {
-			embedColor = 0xFF0000;
+			embedColor = 0xff0000;
 			verdictEmoji = "❌";
 		}
 
 		const embed = new EmbedBuilder()
 			.setColor(embedColor)
 			.setTitle(`${verdictEmoji} Wynik Weryfikacji Faktów`)
-			.setDescription(`**Badane stwierdzenie:**\n*"${statement}"*\n\n**Werdykt:** \`${data.verdict}\``)
+			.setDescription(
+				`**Badane stwierdzenie:**\n*"${statement}"*\n\n**Werdykt:** \`${data.verdict}\``,
+			)
 			.addFields(
 				{ name: "📝 Analiza merytoryczna", value: data.explanation },
-				{ name: "🎯 Pewność analizy", value: `\`${(data.confidence * 100).toFixed(0)}%\``, inline: true }
+				{
+					name: "🎯 Pewność analizy",
+					value: `\`${(data.confidence * 100).toFixed(0)}%\``,
+					inline: true,
+				},
 			)
 			.setTimestamp()
-			.setFooter({ text: "System Fact-checkingowy", iconURL: client.user.displayAvatarURL() });
+			.setFooter({
+				text: "System Fact-checkingowy",
+				iconURL: client.user.displayAvatarURL(),
+			});
 
 		// Formatowanie źródeł
 		/*
@@ -331,9 +357,8 @@ async function handleFactCheck(interaction, statement) {
 		}
 		*/
 		await interaction.editReply({
-			embeds: [embed]
+			embeds: [embed],
 		});
-
 	} catch (error) {
 		console.error("Błąd podczas weryfikacji faktów:", error);
 		await interaction.editReply({
@@ -341,7 +366,6 @@ async function handleFactCheck(interaction, statement) {
 		});
 	}
 }
-
 
 async function handleAnalysis(
 	interaction,
@@ -363,6 +387,7 @@ async function handleAnalysis(
 		const response = await fetch(`${API_URL}/analyze`, {
 			method: "POST",
 			headers: {
+				"X-API-Key": process.env.BACKEND_API_KEY,
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify(payload),
@@ -405,8 +430,10 @@ async function handleAnalysis(
 			}
 		}
 
-		const embedColor = data.is_deepfake ? 0xFF0000 : 0x00FF00;
-		const verdictText = data.is_deepfake ? "⚠️ Wykryto potencjalny Deepfake!" : "✅ Zawartość wydaje się oryginalna";
+		const embedColor = data.is_deepfake ? 0xff0000 : 0x00ff00;
+		const verdictText = data.is_deepfake
+			? "⚠️ Wykryto potencjalny Deepfake!"
+			: "✅ Zawartość wydaje się oryginalna";
 		const confidencePercent = (data.confidence * 100).toFixed(2);
 
 		const embed = new EmbedBuilder()
@@ -420,30 +447,45 @@ async function handleAnalysis(
 			});
 
 		if (data.details && data.details.length > 0) {
-			embed.addFields({ name: "📊 Średnia pewność systemu", value: `\`${confidencePercent}%\``, inline: false });
-			
+			embed.addFields({
+				name: "📊 Średnia pewność systemu",
+				value: `\`${confidencePercent}%\``,
+				inline: false,
+			});
+
 			for (const detail of data.details) {
 				const detailBar = getProgressBar(detail.confidence, detail.is_deepfake);
 				const statusText = detail.is_deepfake ? "🟥 FAKE" : "🟩 REAL";
 				const pct = (detail.confidence * 100).toFixed(1);
-				
+
 				embed.addFields({
 					name: `🤖 Model: ${detail.model.split("/").pop()}`, // skracamy ścieżkę modelu
 					value: `Werdykt: **${statusText}** (Pewność: \`${pct}%\`)\n${detailBar}`,
-					inline: false
+					inline: false,
 				});
 			}
 		} else {
 			const progressBar = getProgressBar(data.confidence, data.is_deepfake);
 			embed.addFields(
-				{ name: "Pewność modelu", value: `\`${confidencePercent}%\` \n${progressBar}` },
-				{ name: "Użyty model", value: `\`${data.used_model}\``, inline: true }
+				{
+					name: "Pewność modelu",
+					value: `\`${confidencePercent}%\` \n${progressBar}`,
+				},
+				{ name: "Użyty model", value: `\`${data.used_model}\``, inline: true },
 			);
 		}
 
 		embed.addFields(
-			{ name: "Czas przetwarzania", value: `\`${data.analysis_time.toFixed(3)}s\``, inline: true },
-			{ name: "Format danych", value: `\`${data.content_type.toUpperCase()}\``, inline: true }
+			{
+				name: "Czas przetwarzania",
+				value: `\`${data.analysis_time.toFixed(3)}s\``,
+				inline: true,
+			},
+			{
+				name: "Format danych",
+				value: `\`${data.content_type.toUpperCase()}\``,
+				inline: true,
+			},
 		);
 
 		const buttonRow = new ActionRowBuilder().addComponents(
@@ -470,7 +512,6 @@ async function handleAnalysis(
 		});
 	}
 }
-
 
 client.on(Events.InteractionCreate, async (interaction) => {
 	if (interaction.isChatInputCommand()) {
@@ -617,14 +658,16 @@ client.on(Events.InteractionCreate, async (interaction) => {
 					const response = await fetch(`${API_URL}/guilds/${guildId}/setup`, {
 						method: "POST",
 						headers: {
+							"X-API-Key": process.env.BACKEND_API_KEY,
 							"Content-Type": "application/json",
 						},
 						body: JSON.stringify({
 							active_text_model: tempSession.config.models?.text || "none",
 							active_image_model: tempSession.config.models?.image || "none",
 							log_channel_id: tempSession.config.logChannelId || null,
-							multi_model_workflow: tempSession.config.multiModelWorkflow || false
-						})
+							multi_model_workflow:
+								tempSession.config.multiModelWorkflow || false,
+						}),
 					});
 
 					if (!response.ok) {
@@ -755,8 +798,11 @@ client.on(Events.InteractionCreate, async (interaction) => {
 		if (interaction.customId === "setup_toggle_multimodel") {
 			const tempSession = activeSetupSessions.get(guildId);
 			if (tempSession) {
-				tempSession.config.multiModelWorkflow = !tempSession.config.multiModelWorkflow;
-				await interaction.update(generateSetupView(tempSession.config, tempSession.availableModels));
+				tempSession.config.multiModelWorkflow =
+					!tempSession.config.multiModelWorkflow;
+				await interaction.update(
+					generateSetupView(tempSession.config, tempSession.availableModels),
+				);
 			}
 		}
 	}
