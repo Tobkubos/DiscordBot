@@ -16,8 +16,7 @@ def load_env_fallback():
         return
 
     possible_paths = [
-        Path(".env"),                                      # Bieżący folder roboczy
-        Path("backend/.env"),                              # Folder backend
+        Path(".env"),                                      # Bieżący folder roboczy                            # Folder backend
         Path(__file__).resolve().parent.parent.parent / ".env"  # Ścieżka relatywna do serwisu
     ]
 

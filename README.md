@@ -1,3 +1,10 @@
+title: DetectMeBotBackend
+emoji: 🤖
+colorFrom: blue
+colorTo: green
+sdk: docker
+app_port: 7860
+
 # Deepfake Detection Service Backend
 
 ### Prerequisites
